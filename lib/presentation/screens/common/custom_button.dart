@@ -1,4 +1,4 @@
-import 'package:dcs_app/utils/color_util.dart';
+import 'package:dcs_app/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
     Key? key,
     required this.child,
     required this.onPressed,
-    this.backgroundColor = ColorUtil.blue,
+    this.backgroundColor = ColorUtils.blue,
     this.borderColor,
     this.width,
     this.height,
@@ -41,7 +41,8 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         minimumSize: MaterialStateProperty.all<Size>(
-            Size(width ?? 40.w, height ?? 70.h)),
+          Size(width ?? 40.w, height ?? 60.h),
+        ),
       ),
       child: child,
     );

@@ -1,5 +1,5 @@
-import 'package:dcs_app/utils/color_util.dart';
-import 'package:dcs_app/utils/text_style_util.dart';
+import 'package:dcs_app/utils/color_utils.dart';
+import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextButton extends StatelessWidget {
@@ -16,12 +16,12 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
-      icon: Text(
-        textButton,
-        style: TextStyleUtil.medium(13).copyWith(
-          color: ColorUtil.blue,
-        ),
-      ),
+      padding: EdgeInsets.zero,
+      icon: Text(textButton,
+          style: TextStyleUtils.medium(13).copyWith(
+            color: ColorUtils.blue,
+          ),
+          textAlign: TextAlign.center),
     );
   }
 }

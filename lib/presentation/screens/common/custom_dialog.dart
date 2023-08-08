@@ -1,10 +1,10 @@
 import 'package:dcs_app/utils/enum.dart';
-import 'package:dcs_app/utils/text_style_util.dart';
+import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../utils/color_util.dart';
+import '../../../utils/color_utils.dart';
 import 'custom_button.dart';
 
 class CustomDialogActionButton {
@@ -15,7 +15,7 @@ class CustomDialogActionButton {
 
   CustomDialogActionButton({
     this.onPressed,
-    this.btnColor = ColorUtil.blue,
+    this.btnColor = ColorUtils.blue,
     this.textColor = Colors.white,
     this.text = '',
   });
@@ -47,7 +47,7 @@ class CustomDialog extends StatelessWidget {
             backgroundColor: actionButton.btnColor,
             child: Text(
               actionButton.text,
-              style: TextStyleUtil.regular(14)
+              style: TextStyleUtils.regular(14)
                   .copyWith(color: actionButton.textColor),
             ),
           ),
@@ -68,13 +68,15 @@ class CustomDialog extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(type == DialogType.error
-                ? 'assets/images/alert_icon.svg'
-                : 'assets/images/sucess_icon.svg'),
+            SvgPicture.asset(
+              type == DialogType.error
+                  ? 'assets/images/alert_icon.svg'
+                  : 'assets/images/sucess_icon.svg',
+            ),
             SizedBox(height: 10.h),
             Text(
               titleText,
-              style: TextStyleUtil.medium(16).copyWith(
+              style: TextStyleUtils.medium(16).copyWith(
                 color: type == DialogType.error ? Colors.red : Colors.green,
               ),
             ),
@@ -114,7 +116,7 @@ class CustomDialogSimple extends StatelessWidget {
       type: type,
       content: Text(
         bodyText,
-        style: TextStyleUtil.regular(14),
+        style: TextStyleUtils.regular(14),
         textAlign: TextAlign.center,
       ),
       actionButtons: actionButtons,

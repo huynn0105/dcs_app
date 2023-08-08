@@ -1,5 +1,5 @@
-import 'package:dcs_app/utils/color_util.dart';
-import 'package:dcs_app/utils/text_style_util.dart';
+import 'package:dcs_app/utils/color_utils.dart';
+import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,6 +13,9 @@ class CustomTextField extends StatefulWidget {
     this.textInputAction,
     this.textInputType,
     this.autofillHints,
+    this.onFieldSubmitted,
+    this.onChanged,
+    this.readOnly = false,
   });
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
@@ -21,6 +24,9 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final FormFieldValidator<String>? validator;
   final Iterable<String>? autofillHints;
+  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
+  final bool readOnly;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -42,18 +48,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
       children: [
         Text(
           widget.title,
-          style: TextStyleUtil.bold(13),
+          style: TextStyleUtils.bold(13),
         ),
         SizedBox(height: 6.w),
         TextFormField(
+          readOnly: widget.readOnly,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           autofillHints: widget.autofillHints,
+          onChanged: widget.onChanged,
           controller: widget.controller,
           obscureText: _obscureText,
           textInputAction: widget.textInputAction,
           keyboardType: widget.textInputType,
-          style: TextStyleUtil.regular(13),
+          style: TextStyleUtils.regular(13),
           validator: widget.validator,
+          onFieldSubmitted: widget.onFieldSubmitted,
           decoration: InputDecoration(
             suffixIcon: widget.isPassword
                 ? GestureDetector(
@@ -70,11 +79,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
             isDense: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.r),
-              borderSide: BorderSide(
-                color: ColorUtil.grey,
+              borderSide: const BorderSide(
+                color: ColorUtils.grey,
               ),
             ),
-            errorStyle: TextStyleUtil.regular(10),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: const BorderSide(
+                color: ColorUtils.blue,
+              ),
+            ),
+            errorStyle: TextStyleUtils.regular(10),
           ),
         ),
       ],
