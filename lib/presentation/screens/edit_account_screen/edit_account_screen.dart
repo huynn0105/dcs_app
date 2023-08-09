@@ -1,3 +1,4 @@
+import 'package:dcs_app/global/router.dart';
 import 'package:dcs_app/presentation/blocs/create_account_bloc/create_account_bloc.dart';
 import 'package:dcs_app/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:dcs_app/utils/dialog_utils.dart';
 import 'package:dcs_app/utils/enum.dart';
 import 'package:dcs_app/utils/loading_utils.dart';
 import 'package:dcs_app/utils/text_style_utils.dart';
+import 'package:get/get.dart';
 
 import '../common/text_button.dart';
 
@@ -112,7 +114,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 ),
               ),
             );
-            Navigator.pop(context);
+            Get.offAndToNamed(MyRouter.home);
           }
         } else if (state is CreateAccountFailed) {
           DialogUtils.showContinueDialog(

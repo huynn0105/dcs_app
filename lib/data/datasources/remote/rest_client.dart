@@ -1,7 +1,6 @@
 import 'package:dcs_app/data/datasources/dtos/account/account_dto.dart';
 import 'package:dcs_app/data/datasources/dtos/account_response/account_response_dto.dart';
 import 'package:dcs_app/data/datasources/dtos/auth/auth_dto.dart';
-import 'package:dcs_app/data/datasources/dtos/create_account_response/create_account_response.dart';
 import 'package:dcs_app/data/datasources/dtos/crg_response/crg_response.dart';
 import 'package:dcs_app/data/datasources/dtos/login/login_dto.dart';
 import 'package:dio/dio.dart';
@@ -22,7 +21,7 @@ abstract class RestClient {
   });
 
   @POST('/accounts')
-  Future<HttpResponse<CreateAccountReponse>> createAccount({
+  Future<HttpResponse<void>> createAccount({
     @Body() AccountDto? accountDto,
   });
 

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:dcs_app/data/datasources/dtos/account/account_dto.dart';
-import 'package:dcs_app/data/datasources/dtos/crg_response/crg_response.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
 import 'package:dcs_app/domain/repositories/auth_repository.dart';
 import 'package:dcs_app/global/locator.dart';
@@ -14,36 +13,6 @@ part 'create_account_state.dart';
 class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
   CreateAccountBloc() : super(CreateAccountInitial()) {
     final accountRepository = locator<AccountRepository>();
-    on<CreateAccountInitEvent>((event, emit) async {
-      if (await InternetConnectionUtils.checkConnection()) {
-        emit(CreateAccountLoading());
-        final response = await accountRepository
-            .getListCRGs(locator<AuthRepository>().token);
-        if (response is DataSuccess) {
-          emit(CreateAccountLoaded(listCRGs: response.data!));
-        } else if (response is DataFailed) {
-          emit(CreateAccountFailed(message: response.error!.message!));
-        }
-      } else {
-        emit(
-          CreateAccountFailed(
-            message: AppText.noInternetMsg,
-          ),
-        );
-      }
-    });
-
-    on<CreateAccountSearchEvent>((event, emit) {
-      final state = this.state;
-      if (state is CreateAccountLoaded) {
-        if (event.searchQuery.isEmpty) {
-          emit(state.copyWith(listCRGsSearched: []));
-          return;
-        }
-        List<CRGResponse> listCRGsSearched = searchCRG(event.searchQuery);
-        emit(state.copyWith(listCRGsSearched: listCRGsSearched));
-      }
-    });
 
     on<CreateAccountButtonPressedEvent>((event, emit) async {
       emit(CreateAccountLoading());
@@ -77,7 +46,7 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
           client: locator<AuthRepository>().email,
           token: locator<AuthRepository>().token,
         );
-        final response = await accountRepository.editAccount(1,account);
+        final response = await accountRepository.editAccount(1, account);
 
         if (response is DataSuccess) {
           emit(CreateAccountSucceeded());
@@ -90,18 +59,5 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
         ));
       }
     });
-  }
-
-  List<CRGResponse> searchCRG(String searchQuery) {
-    if (state is CreateAccountLoaded) {
-      final listCRGsSearched = (state as CreateAccountLoaded)
-          .listCRGs
-          .where(
-              (x) => x.name.toLowerCase().contains(searchQuery.toLowerCase()))
-          .toList();
-      return listCRGsSearched;
-    } else {
-      return [];
-    }
   }
 }

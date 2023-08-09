@@ -51,16 +51,15 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<HttpResponse<CreateAccountReponse>> createAccount(
-      {AccountDto? accountDto}) async {
+  Future<HttpResponse<void>> createAccount({AccountDto? accountDto}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(accountDto?.toMap() ?? <String, dynamic>{});
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<CreateAccountReponse>>(Options(
+    final _result =
+        await _dio.fetch<void>(_setStreamType<HttpResponse<void>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -76,8 +75,7 @@ class _RestClient implements RestClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CreateAccountReponse.fromMap(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final httpResponse = HttpResponse(null, _result);
     return httpResponse;
   }
 
@@ -151,6 +149,7 @@ class _RestClient implements RestClient {
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(accountDto?.toMap() ?? <String, dynamic>{});

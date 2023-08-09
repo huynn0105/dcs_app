@@ -16,9 +16,9 @@ class _RequestNewAccountDialog extends StatelessWidget {
       insetPadding: EdgeInsets.all(16.r),
       actionsPadding: EdgeInsets.all(16.r),
       title: const Text(AppText.requestNewAccount),
-      content: BlocBuilder<CreateAccountBloc, CreateAccountState>(
+      content: BlocBuilder<SelectCRGBloc, SelectCRGState>(
         builder: (context, state) {
-          if (state is CreateAccountLoaded) {
+          if (state is SelectCRGLoaded) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -49,7 +49,7 @@ class _RequestNewAccountDialog extends StatelessWidget {
           onPressed: () {
             if (controller.text.isNotEmpty) {
               final result =
-                  context.read<CreateAccountBloc>().searchCRG(controller.text);
+                  context.read<SelectCRGBloc>().searchCRG(controller.text);
               Navigator.pop(context);
               if (result.isNotEmpty) {
                 showDialog(

@@ -1,7 +1,8 @@
 import 'package:dcs_app/data/datasources/dtos/crg_response/crg_response.dart';
 import 'package:dcs_app/global/router.dart';
-import 'package:dcs_app/presentation/blocs/create_account_bloc/create_account_bloc.dart';
+import 'package:dcs_app/presentation/blocs/select_crg_bloc/select_crg_bloc.dart';
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
+import 'package:dcs_app/presentation/screens/common/custom_button.dart';
 import 'package:dcs_app/presentation/screens/common/custom_text_field.dart';
 import 'package:dcs_app/presentation/screens/common/text_button.dart';
 import 'package:dcs_app/utils/color_utils.dart';
@@ -33,7 +34,7 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
   @override
   void initState() {
     controller = TextEditingController();
-    context.read<CreateAccountBloc>().add(CreateAccountInitEvent());
+    context.read<SelectCRGBloc>().add(SelectCRGInitEvent());
     super.initState();
   }
 
@@ -51,21 +52,22 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
         title: _AppBar(
           onPressed: () {
             showDialog(
-                context: context,
-                builder: (context) {
-                  final TextEditingController controller =
-                      TextEditingController();
-                  return _RequestNewAccountDialog(controller: controller);
-                });
+              context: context,
+              builder: (context) {
+                final TextEditingController controller =
+                    TextEditingController();
+                return _RequestNewAccountDialog(controller: controller);
+              },
+            );
           },
         ),
         automaticallyImplyLeading: false,
         surfaceTintColor: Colors.transparent,
       ),
-      body: BlocBuilder<CreateAccountBloc, CreateAccountState>(
-          builder: (context, state) {
+      body:
+          BlocBuilder<SelectCRGBloc, SelectCRGState>(builder: (context, state) {
         return switch (state) {
-          CreateAccountLoaded() => ListView(
+          SelectCRGLoaded() => ListView(
               padding: EdgeInsets.all(16.w),
               children: [
                 _Search(
@@ -74,8 +76,8 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
                     _debouncer.debounce(
                       const Duration(milliseconds: 500),
                       () => context
-                          .read<CreateAccountBloc>()
-                          .add(CreateAccountSearchEvent(searchQuery: value)),
+                          .read<SelectCRGBloc>()
+                          .add(SelectCRGSearchEvent(searchQuery: value)),
                     );
                   },
                 ),
@@ -131,14 +133,41 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
                 )
               ],
             ),
-          CreateAccountFailed(message: var message) => Text(
-              message,
-              style: TextStyleUtils.regular(14),
+          SelectCRGFailed(message: var message) => Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    AppText.anUnexpectedError,
+                    style:
+                        TextStyleUtils.medium(14).copyWith(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 26.w),
+                    child: Text(
+                      message,
+                      style: TextStyleUtils.regular(12)
+                          .copyWith(color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  CustomButton(
+                    child: Text(
+                      AppText.tryAgain,
+                      style: TextStyleUtils.medium(13)
+                          .copyWith(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      context.read<SelectCRGBloc>().add(SelectCRGInitEvent());
+                    },
+                  ),
+                ],
+              ),
             ),
-          CreateAccountInitial() ||
-          CreateAccountLoading() ||
-          CreateAccountSucceeded() =>
-            Center(
+          SelectCRGInitial() || SelectCRGLoading() => Center(
               child: LoadingAnimationWidget.fourRotatingDots(
                 color: ColorUtils.blue,
                 size: 60.r,

@@ -28,14 +28,14 @@ class _Search extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
-        suffixIcon: BlocBuilder<CreateAccountBloc, CreateAccountState>(
+        suffixIcon: BlocBuilder<SelectCRGBloc, SelectCRGState>(
           builder: (context, state) {
             return controller.text.isNotEmpty == true
                 ? IconButton(
                     icon: const Icon(Icons.clear_outlined),
                     onPressed: () {
-                      context.read<CreateAccountBloc>().add(
-                            CreateAccountSearchEvent(searchQuery: ''),
+                      context.read<SelectCRGBloc>().add(
+                            SelectCRGSearchEvent(searchQuery: ''),
                           );
                       controller.clear();
                     },
