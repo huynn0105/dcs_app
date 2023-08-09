@@ -36,7 +36,7 @@ class NoInternetConnectionScreen extends StatelessWidget {
                 child: Text(
                   AppText.tryAgain,
                   style:
-                      TextStyleUtils.regular(13).copyWith(color: Colors.white),
+                      TextStyleUtils.medium(13).copyWith(color: Colors.white),
                 ),
                 onPressed: () {
                   context.read<AuthBloc>().add(AppLoaded());

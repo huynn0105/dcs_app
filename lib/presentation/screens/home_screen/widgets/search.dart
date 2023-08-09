@@ -3,16 +3,16 @@ part of '../home_screen.dart';
 class _Search extends StatelessWidget {
   const _Search({
     required this.controller,
+    this.onChanged,
   });
   final TextEditingController controller;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      onChanged: (value) => context.read<HomeBloc>().add(
-            SearchEvent(textSearch: value),
-          ),
+      onChanged: onChanged,
       style: TextStyleUtils.regular(13),
       decoration: InputDecoration(
         prefixIcon: const Icon(CupertinoIcons.search),

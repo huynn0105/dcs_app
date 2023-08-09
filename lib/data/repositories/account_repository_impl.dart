@@ -19,8 +19,9 @@ class AccountRepositoryImpl extends BaseApiRepository
   }
 
   @override
-  Future<DataState<void>> editAccount(String id) async {
-    return getStateOf(request: () => _client.editAccount(id: id));
+  Future<DataState<void>> editAccount(int id, AccountDto accountDto) async {
+    return getStateOf(
+        request: () => _client.editAccount(id: id, accountDto: accountDto));
   }
 
   @override
@@ -30,9 +31,13 @@ class AccountRepositoryImpl extends BaseApiRepository
 
   @override
   Future<DataState<List<CRGResponse>>> getListCRGs(String token) {
-     //return getStateOf(request: () => _client.getListCRGs(token: token));
-     return Future.value(DataSuccess<List<CRGResponse>>(crgMockData));
+    //return getStateOf(request: () => _client.getListCRGs(token: token));
+    return Future.value(DataSuccess<List<CRGResponse>>(crgMockData));
   }
 
-  
+  @override
+  Future<DataState<void>> deleteAccounts(String token, List<int> ids) {
+    //return getStateOf(request: ()=> _client.deleteAccount(ids: ids, token: token));
+    return Future.value(const DataSuccess<void>(null));
+  }
 }

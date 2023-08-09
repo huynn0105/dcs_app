@@ -15,7 +15,7 @@ final class CreateAccountLoaded extends CreateAccountState {
   CreateAccountLoaded copyWith({
     List<CRGResponse>? listCRGs,
     List<CRGResponse>? listCRGsSearched,
-  }){
+  }) {
     return CreateAccountLoaded(
       listCRGs: listCRGs ?? this.listCRGs,
       listCRGsSearched: listCRGsSearched ?? this.listCRGsSearched,
@@ -23,7 +23,7 @@ final class CreateAccountLoaded extends CreateAccountState {
   }
 }
 
-
+final class CreateAccountSucceeded extends CreateAccountState {}
 
 final class CreateAccountFailed extends CreateAccountState {
   final String message;

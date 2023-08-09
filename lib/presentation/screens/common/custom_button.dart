@@ -41,7 +41,7 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         minimumSize: MaterialStateProperty.all<Size>(
-          Size(width ?? 40.w, height ?? 60.h),
+          Size(width ?? 40.w, height ?? 56.h),
         ),
       ),
       child: child,

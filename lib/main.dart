@@ -1,6 +1,6 @@
 import 'package:dcs_app/data/datasources/local/database_manager.dart';
 import 'package:dcs_app/presentation/blocs/auth_bloc/auth_bloc.dart';
-import 'package:dcs_app/presentation/blocs/bloc/create_account_bloc.dart';
+import 'package:dcs_app/presentation/blocs/create_account_bloc/create_account_bloc.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/presentation/blocs/login_bloc/login_bloc.dart';
 import 'package:dcs_app/presentation/screens/home_screen/home_screen.dart';
@@ -53,20 +53,20 @@ class MyApp extends StatelessWidget {
             builder: EasyLoading.init(),
             onGenerateRoute: (settings) => MyRouter.generateRoute(settings),
             home: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-              if (state is AuthAuthenticated) {
-                return const HomeScreen();
-              } else if (state is AuthNotAuthenticated ||
-                  state is AuthFailure) {
-                return const LoginScreen();
-              } else if (state is AuthNoInternetConnection) {
-                return const NoInternetConnectionScreen();
-              } else {
-                return const SplashScreen();
-              }
+              return switch (state) {
+                AuthAuthenticated() => const HomeScreen(),
+                AuthNotAuthenticated() || AuthFailure() => const LoginScreen(),
+                AuthNoInternetConnection() =>
+                  const NoInternetConnectionScreen(),
+                AuthInitial() || AuthLoading() => const SplashScreen(),
+              };
             }),
             title: 'DCS APP',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: ColorUtils.blue),
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: ColorUtils.blue,
+                surfaceTint: Colors.transparent,
+              ),
               useMaterial3: true,
             ),
           ),

@@ -1,25 +1,27 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState {
+sealed class AuthState {
   const AuthState();
 }
 
-class AuthInitial extends AuthState {}
+final class AuthInitial extends AuthState {
+  const AuthInitial();
+}
 
-class AuthLoading extends AuthState {}
+final class AuthLoading extends AuthState {}
 
-class AuthNotAuthenticated extends AuthState {}
+final class AuthNotAuthenticated extends AuthState {}
 
-class AuthAuthenticated extends AuthState {
+final class AuthAuthenticated extends AuthState {
   final User user;
   const AuthAuthenticated({
     required this.user,
   });
 }
 
-class AuthFailure extends AuthState {
+final class AuthFailure extends AuthState {
   final String? message;
   const AuthFailure({required this.message});
 }
 
-class AuthNoInternetConnection extends AuthState {}
+final class AuthNoInternetConnection extends AuthState {}

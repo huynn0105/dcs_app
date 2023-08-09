@@ -4,6 +4,7 @@ import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
+import 'package:dcs_app/presentation/screens/common/custom_button.dart';
 import 'package:dcs_app/presentation/screens/edit_account_screen/edit_account_screen.dart';
 import 'package:dcs_app/utils/color_utils.dart';
 import 'package:dcs_app/utils/constants.dart';
@@ -15,6 +16,7 @@ import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_debouncer/flutter_debouncer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -33,6 +35,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController searchController;
+  final Debouncer debouncer = Debouncer();
   @override
   void initState() {
     super.initState();
@@ -43,23 +46,29 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     searchController.dispose();
+    debouncer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<HomeBloc, HomeState>(
-      listener: (context, state) {
-        if (state.success == true) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                state.isEdit == true
-                    ? AppText.editSuccessfully
-                    : AppText.addSuccessfully,
+      listener: (context, state) async {
+        if (state.loading && state.isDelete) {
+          await LoadingUtils.show();
+        } else if(state.loading == false && state.isDelete) {
+          await LoadingUtils.dismiss();
+        }
+        if (state.success == true && state.isDelete) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  AppText.deleteSuccessfully,
+                ),
               ),
-            ),
-          );
+            );
+          }
         }
         if (state.success == false) {
           DialogUtils.showContinueDialog(
@@ -94,6 +103,43 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     );
+                  } else if (state.success == false &&
+                      state.isDelete == false) {
+                    return Padding(
+                      padding: EdgeInsets.only(top: 1.sh / 3),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              AppText.anUnexpectedError,
+                              style: TextStyleUtils.medium(14)
+                                  .copyWith(color: Colors.red),
+                            ),
+                            SizedBox(height: 10.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 26.w),
+                              child: Text(
+                                state.message ?? '',
+                                style: TextStyleUtils.regular(12)
+                                    .copyWith(color: Colors.red),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(height: 10.h),
+                            CustomButton(
+                              child: Text(
+                                AppText.tryAgain,
+                                style: TextStyleUtils.medium(13)
+                                    .copyWith(color: Colors.white),
+                              ),
+                              onPressed: () {
+                                context.read<HomeBloc>().add(HomeInitEvent());
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   } else {
                     final accounts = searchController.text.isNotEmpty
                         ? state.accountsSearched
@@ -106,6 +152,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 _Search(
                                   controller: searchController,
+                                  onChanged: (value) {
+                                    debouncer.debounce(
+                                        const Duration(milliseconds: 500),
+                                        () => context.read<HomeBloc>().add(
+                                              SearchEvent(textSearch: value),
+                                            ));
+                                  },
                                 ),
                                 SizedBox(height: 20.h),
                                 ...accounts
@@ -116,11 +169,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           )
-                        : Padding(
-                            padding: EdgeInsets.only(top: 30.h),
-                            child: Text(
-                              AppText.noData,
-                              style: TextStyleUtils.regular(14),
+                        : Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 1.sh / 3),
+                              child: Text(
+                                AppText.noData,
+                                style: TextStyleUtils.regular(14),
+                              ),
                             ),
                           );
                   }

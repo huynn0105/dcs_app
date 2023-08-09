@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'home_bloc.dart';
 
+
 class HomeState {
   final List<Account> accounts;
   final List<Account> accountsSelected;
@@ -11,7 +12,7 @@ class HomeState {
   final List<Account> accountSyncs;
   final String? textSearch;
   final String? message;
-  final bool? isEdit;
+  final bool isDelete;
 
   HomeState({
     this.accounts = const [],
@@ -23,7 +24,7 @@ class HomeState {
     this.accountSyncs = const [],
     this.textSearch,
     this.message,
-    this.isEdit,
+    this.isDelete = false,
   });
 
   HomeState copyWith({
@@ -34,9 +35,9 @@ class HomeState {
     bool? showChecked,
     bool? loading,
     bool? success,
+    bool? isDelete,
     String? textSearch,
     String? message,
-    bool? isEdit,
   }) {
     return HomeState(
       accounts: accounts ?? this.accounts,
@@ -48,7 +49,7 @@ class HomeState {
       success: success,
       textSearch: textSearch ?? this.textSearch,
       message: message ?? this.message,
-      isEdit: isEdit,
+      isDelete: isDelete ?? false,
     );
   }
 }

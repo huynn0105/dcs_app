@@ -15,19 +15,19 @@ class AccountDeletedEvent extends HomeEvent {}
 
 class ClearSelectedAccountsEvent extends HomeEvent {}
 
-class CreateAccountEvent extends HomeEvent {
-  final String accountName;
-  final String? accountNumber;
-  final String? username;
-  final String? email;
+// class CreateAccountEvent extends HomeEvent {
+//   final String accountName;
+//   final String? accountNumber;
+//   final String? username;
+//   final String? email;
 
-  const CreateAccountEvent({
-    required this.accountName,
-    this.accountNumber,
-    this.username,
-    this.email,
-  });
-}
+//   const CreateAccountEvent({
+//     required this.accountName,
+//     this.accountNumber,
+//     this.username,
+//     this.email,
+//   });
+// }
 
 class AddAccountSyncToAccountsEvent extends HomeEvent {}
 

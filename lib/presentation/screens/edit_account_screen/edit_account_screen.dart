@@ -1,3 +1,4 @@
+import 'package:dcs_app/presentation/blocs/create_account_bloc/create_account_bloc.dart';
 import 'package:dcs_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,15 +40,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   late TextEditingController _accountNameController;
   late TextEditingController _accountNumberController;
   late TextEditingController _usernameController;
-  late TextEditingController _emailController;
   final GlobalKey<FormState> _formKeyAccountName = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyAccountNumber = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyUsername = GlobalKey<FormState>();
-  final GlobalKey<FormState> _formKeyEmail = GlobalKey<FormState>();
   final FocusNode _focusAccountName = FocusNode();
   final FocusNode _focusAccountNumber = FocusNode();
   final FocusNode _focusUsername = FocusNode();
-  final FocusNode _focusEmail = FocusNode();
 
   @override
   void initState() {
@@ -57,12 +55,9 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
         TextEditingController(text: widget.argument.account.username);
     _usernameController =
         TextEditingController(text: widget.argument.account.username);
-    _emailController =
-        TextEditingController(text: widget.argument.account.email);
     _focusAccountName.addListener(_onFocusAccountName);
     _focusAccountNumber.addListener(_onFocusAccountNumber);
     _focusUsername.addListener(_onFocusUsername);
-    _focusEmail.addListener(_onFocusEmail);
 
     super.initState();
   }
@@ -83,41 +78,43 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     if (!_focusUsername.hasFocus) _formKeyUsername.currentState?.validate();
   }
 
-  void _onFocusEmail() {
-    if (!_focusEmail.hasFocus) _formKeyEmail.currentState?.validate();
-  }
-
   @override
   void dispose() {
     _accountNameController.dispose();
     _accountNumberController.dispose();
     _usernameController.dispose();
-    _emailController.dispose();
     _focusAccountName.removeListener(_onFocusAccountName);
     _focusAccountNumber.removeListener(_onFocusAccountNumber);
     _focusUsername.removeListener(_onFocusUsername);
-    _focusEmail.removeListener(_onFocusUsername);
     _focusAccountName.dispose();
     _focusAccountNumber.dispose();
     _focusUsername.dispose();
-    _focusEmail.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeBloc, HomeState>(
+    return BlocListener<CreateAccountBloc, CreateAccountState>(
       listener: (context, state) async {
-        if (state.loading == true) {
+        if (state is CreateAccountLoading) {
           await LoadingUtils.show();
-        } else if (state.loading == false) {
+        } else {
           await LoadingUtils.dismiss();
         }
-        if (state.success == true) {
+
+        if (state is CreateAccountSucceeded) {
           if (mounted) {
+            context.read<HomeBloc>().add(HomeInitEvent());
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  AppText.editSuccessfully,
+                ),
+              ),
+            );
             Navigator.pop(context);
           }
-        } else if (state.success == false) {
+        } else if (state is CreateAccountFailed) {
           DialogUtils.showContinueDialog(
             type: DialogType.error,
             title: AppText.error,
@@ -131,14 +128,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           title: _AppBar(
             onPressed: () {
               if (_formKeyAccountName.currentState?.validate() == true &&
-                  _formKeyEmail.currentState?.validate() == true) {
-                context.read<HomeBloc>().add(
-                      EditAccountEvent(
-                        id: widget.argument.account.id,
+                  _formKeyUsername.currentState?.validate() == true) {
+                context.read<CreateAccountBloc>().add(
+                      EditAccountButtonPressedEvent(
                         accountName: _accountNameController.text,
                         accountNumber: _accountNumberController.text,
-                        email: _emailController.text,
-                        username: _usernameController.text,
+                        usernameOrEmail: _usernameController.text,
                       ),
                     );
               }
@@ -171,6 +166,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                           child: CustomTextField(
                             title: AppText.accountName,
                             textInputAction: TextInputAction.next,
+                            readOnly: true,
                             controller: _accountNameController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {

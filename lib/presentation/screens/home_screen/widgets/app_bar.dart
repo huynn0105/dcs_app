@@ -11,28 +11,30 @@ class _AppBar extends StatelessWidget {
         SizedBox(
           width: 80.w,
           child: BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
-            return state.showChecked
-                ? CustomTextButton(
-                    onPressed: () {
-                      context.read<HomeBloc>().add(ToggleShowCheckEvent());
-                      context
-                          .read<HomeBloc>()
-                          .add(ClearSelectedAccountsEvent());
-                    },
-                    textButton: 'Cancel',
-                  )
-                : Platform.isAndroid
+            return state.success == true
+                ? state.showChecked
                     ? CustomTextButton(
-                        onPressed: () async {
-                          if (Platform.isAndroid) {
-                            await _syncAllAccounts(context);
-
-                            //await _selectAccount(context);
-                          }
+                        onPressed: () {
+                          context.read<HomeBloc>().add(ToggleShowCheckEvent());
+                          context
+                              .read<HomeBloc>()
+                              .add(ClearSelectedAccountsEvent());
                         },
-                        textButton: AppText.sync,
+                        textButton: AppText.cancel,
                       )
-                    : const SizedBox.shrink();
+                    : Platform.isAndroid
+                        ? CustomTextButton(
+                            onPressed: () async {
+                              if (Platform.isAndroid) {
+                                await _syncAllAccounts(context);
+
+                                //await _selectAccount(context);
+                              }
+                            },
+                            textButton: AppText.sync,
+                          )
+                        : const SizedBox.shrink()
+                : const SizedBox.shrink();
           }),
         ),
         Text(
@@ -42,31 +44,35 @@ class _AppBar extends StatelessWidget {
         SizedBox(
           width: 80.w,
           child: BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
-            return state.showChecked
-                ? CustomTextButton(
-                    onPressed: () {
-                      if (state.accountsSelected.isEmpty) {
-                        context.read<HomeBloc>().add(ToggleShowCheckEvent());
-                      } else {
-                        DialogUtils.showOkCancelDialog(
-                            title: AppText.confirm,
-                            body: AppText.confirmMsg,
-                            onOK: () {
-                              context
-                                  .read<HomeBloc>()
-                                  .add(AccountDeletedEvent());
-                              Navigator.pop(context);
-                            });
-                      }
-                    },
-                    textButton: AppText.delete,
-                  )
-                : CustomTextButton(
-                    onPressed: () {
-                      context.read<HomeBloc>().add(ToggleShowCheckEvent());
-                    },
-                    textButton: AppText.select,
-                  );
+            return state.success == true
+                ? state.showChecked
+                    ? CustomTextButton(
+                        onPressed: () {
+                          if (state.accountsSelected.isEmpty) {
+                            context
+                                .read<HomeBloc>()
+                                .add(ToggleShowCheckEvent());
+                          } else {
+                            DialogUtils.showOkCancelDialog(
+                                title: AppText.confirm,
+                                body: AppText.confirmMsg,
+                                onOK: () {
+                                  context
+                                      .read<HomeBloc>()
+                                      .add(AccountDeletedEvent());
+                                  Navigator.pop(context);
+                                });
+                          }
+                        },
+                        textButton: AppText.delete,
+                      )
+                    : CustomTextButton(
+                        onPressed: () {
+                          context.read<HomeBloc>().add(ToggleShowCheckEvent());
+                        },
+                        textButton: AppText.select,
+                      )
+                : const SizedBox.shrink();
           }),
         ),
       ],
@@ -111,14 +117,15 @@ class _AppBar extends StatelessWidget {
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                       return ElevatedButton(
-                          onPressed: state.accountsSelected.isEmpty
-                              ? null
-                              : () {
-                                  context
-                                      .read<HomeBloc>()
-                                      .add(AddAccountSyncToAccountsEvent());
-                                },
-                          child: const Text('OK'));
+                        onPressed: state.accountsSelected.isEmpty
+                            ? null
+                            : () {
+                                context.read<HomeBloc>().add(
+                                      AddAccountSyncToAccountsEvent(),
+                                    );
+                              },
+                        child: const Text(AppText.ok),
+                      );
                     },
                   ),
                   ElevatedButton(

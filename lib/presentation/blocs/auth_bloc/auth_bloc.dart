@@ -11,7 +11,7 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository = locator<AuthRepository>();
 
-  AuthBloc() : super(AuthInitial()) {
+  AuthBloc() : super(const AuthInitial()) {
     on<AppLoaded>((event, emit) async {
       emit(AuthLoading());
       if (await InternetConnectionUtils.checkConnection()) {
@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<UserLoggedOut>((event, emit)async{
+    on<UserLoggedOut>((event, emit) async {
       await _authRepository.clearData();
       emit(AuthNotAuthenticated());
     });

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
-import 'package:dcs_app/data/datasources/dtos/account/account_dto.dart';
 import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
 import 'package:dcs_app/domain/repositories/auth_repository.dart';
@@ -28,10 +27,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               accountResponse.data!.map((e) => Account.fromDto(e)).toList();
           emit(state.copyWith(accounts: accounts));
         } else if (accountResponse is DataFailed) {
-          emit(state.copyWith(
-            message: accountResponse.error!.message,
-            success: false,
-          ));
+          emit(
+            state.copyWith(
+              message: accountResponse.error!.message,
+              success: false,
+            ),
+          );
         }
       } else {
         emit(state.copyWith(
@@ -50,46 +51,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(accountsSelected: accountsSelected));
     });
 
-    on<AccountDeletedEvent>((event, emit) {
-      final accounts = [...state.accounts];
-      for (var accountToDelete in state.accountsSelected) {
-        accounts.remove(accountToDelete);
-      }
-      emit(
-        state.copyWith(
-          accounts: accounts,
-          accountsSelected: [],
-          showChecked: false,
-        ),
-      );
-    });
-
-    on<ClearSelectedAccountsEvent>((event, emit) {
-      emit(state.copyWith(accountsSelected: []));
-    });
-
-    on<CreateAccountEvent>((event, emit) async {
-      emit(state.copyWith(loading: true));
+    on<AccountDeletedEvent>((event, emit) async {
       if (await InternetConnectionUtils.checkConnection()) {
-        final AccountDto account = AccountDto(
-          url: event.accountName,
-          username: event.username ?? '',
-          client: locator<AuthRepository>().email,
-          token: locator<AuthRepository>().token,
-        );
-        final response = await _accountRepository.createAccount(account);
-
+        emit(state.copyWith(loading: true,isDelete: true));
+        final accounts = [...state.accounts];
+        for (var accountToDelete in state.accountsSelected) {
+          accounts.remove(accountToDelete);
+        }
+        final response = await _accountRepository.deleteAccounts(
+            locator<AuthRepository>().token,
+            state.accountsSelected.map((e) => e.id).toList());
         if (response is DataSuccess) {
-          final account = Account(
-            id: response.data!.id,
-            username: event.username ?? '',
-            email: event.email ?? '',
-            accountName: event.accountName,
-          );
           emit(
             state.copyWith(
-              success: true,
-              accounts: [account, ...state.accounts],
+              isDelete: true,
+              accounts: accounts,
+              accountsSelected: [],
+              showChecked: false,
             ),
           );
         } else if (response is DataFailed) {
@@ -105,6 +83,49 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       }
     });
+
+    on<ClearSelectedAccountsEvent>((event, emit) {
+      emit(state.copyWith(accountsSelected: []));
+    });
+
+    // on<CreateAccountEvent>((event, emit) async {
+    //   emit(state.copyWith(loading: true));
+    //   if (await InternetConnectionUtils.checkConnection()) {
+    //     final AccountDto account = AccountDto(
+    //       url: event.accountName,
+    //       username: event.username ?? '',
+    //       client: locator<AuthRepository>().email,
+    //       token: locator<AuthRepository>().token,
+    //     );
+    //     final response = await _accountRepository.createAccount(account);
+
+    //     if (response is DataSuccess) {
+    //       final account = Account(
+    //         id: response.data!.id,
+    //         username: event.username ?? '',
+    //         email: event.email ?? '',
+    //         accountName: event.accountName,
+    //       );
+    //       emit(
+    //         state.copyWith(
+    //           success: true,
+    //           status: Status.create,
+    //           accounts: [account, ...state.accounts],
+    //         ),
+    //       );
+    //     } else if (response is DataFailed) {
+    //       emit(state.copyWith(
+    //         success: false,
+    //         message: response.error!.message,
+    //       ));
+    //     }
+    //   } else {
+    //     emit(state.copyWith(
+    //       success: false,
+    //       message: AppText.noInternetMsg,
+    //     ));
+    //   }
+    // });
 
     on<ToggleShowCheckEvent>((event, emit) {
       emit(state.copyWith(showChecked: !state.showChecked));
@@ -144,7 +165,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(
           state.copyWith(
             success: true,
-            isEdit: true,
             accounts: [account, ...accounts],
           ),
         );
@@ -155,6 +175,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       }
     });
+    on<AddAccountSyncToAccountsEvent>((event, emit) {});
   }
 
   Future<List<Account>> syncAccounts() async {
@@ -184,13 +205,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (await Permission.contacts.request().isGranted) {
       if (await channel.invokeMethod("pickAccount")) {
         channel.setMethodCallHandler(handleMethodCall);
-        // channel.setMethodCallHandler((call) {
-        //   if (call.method == 'account') {
-        //     accountName = call.arguments['account_name'];
-        //     accountType = call.arguments['account_type'];
-        //   }
-        //   return Future.value(null);
-        // });
       }
     }
   }

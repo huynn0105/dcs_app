@@ -38,6 +38,13 @@ abstract class RestClient {
 
   @GET('/top-headlines')
   Future<HttpResponse<void>> editAccount({
-    @Query("id") required String id,
+    @Query("id") required int id,
+    @Body() AccountDto? accountDto,
+  });
+
+  @GET('/top-headlines')
+  Future<HttpResponse<void>> deleteAccount({
+    @Query("ids") required List<int> ids,
+    @Query("token") required String token,
   });
 }

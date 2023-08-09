@@ -51,7 +51,10 @@ class AppText {
       'Your account has been created successfully';
   static const String editSuccessfully =
       'Your account has been edit successfully';
+  static const String deleteSuccessfully =
+      'Your account has been delete successfully';
   static const String allSync = 'All accounts have been synchronized';
+  static const String anUnexpectedError = 'An unexpected error has occurred';
   static const String confirmMsg =
       "Are you sure? All information will be delete. That can't be undone";
 }

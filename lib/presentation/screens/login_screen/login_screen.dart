@@ -9,6 +9,7 @@ import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:dcs_app/utils/validate_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_debouncer/flutter_debouncer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../common/custom_text_field.dart';
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKeyEmail = GlobalKey<FormState>();
   final FocusNode _focusPwd = FocusNode();
   final FocusNode _focusEmail = FocusNode();
-
+  final Debouncer debouncer = Debouncer();
   @override
   void initState() {
     _passwordController = TextEditingController();
@@ -59,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _focusEmail.removeListener(_onFocusEmail);
     _focusPwd.dispose();
     _focusEmail.dispose();
+    debouncer.cancel();
     super.dispose();
   }
 
@@ -114,27 +116,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Form(
                         key: _formKeyEmail,
                         child: CustomTextField(
-                          autofillHints: const [AutofillHints.email],
-                          title: AppText.email,
-                          controller: _emailController,
-                          onFieldSubmitted: (value) {
-                            _focusEmail.nextFocus();
-                          },
-                          textInputAction: TextInputAction.next,
-                          validator: (value) {
-                            if (value?.isNotEmpty == true) {
-                              return ValidateUtils.isValidEmail(value!);
-                            } else {
-                              return AppText.plsEnterEmail;
-                            }
-                          },
-                          onChanged: (_) =>
-                              context.read<LoginBloc>().add(LoginValidateEvent(
-                                    username: _formKeyEmail.currentState
-                                            ?.validate() ==
-                                        true,
-                                  )),
-                        ),
+                            autofillHints: const [AutofillHints.email],
+                            title: AppText.email,
+                            controller: _emailController,
+                            onFieldSubmitted: (value) {
+                              _focusEmail.nextFocus();
+                            },
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              if (value?.isNotEmpty == true) {
+                                return ValidateUtils.isValidEmail(value!);
+                              } else {
+                                return AppText.plsEnterEmail;
+                              }
+                            },
+                            onChanged: (_) {
+                              debouncer.debounce(
+                                  const Duration(milliseconds: 500), () {
+                                context
+                                    .read<LoginBloc>()
+                                    .add(LoginValidateEvent(
+                                      username: _formKeyEmail.currentState
+                                              ?.validate() ==
+                                          true,
+                                    ));
+                              });
+                            }),
                       ),
                     ),
                     SizedBox(height: 10.w),
@@ -150,16 +157,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           onFieldSubmitted: (_) {
                             _focusPwd.nextFocus();
                           },
-                          onChanged: (_) =>
-                              context.read<LoginBloc>().add(LoginValidateEvent(
-                                    password:
-                                        _formKeyPwd.currentState?.validate() ==
-                                            true,
-                                  )),
+                          onChanged: (_) {
+                            debouncer.debounce(
+                                const Duration(milliseconds: 500), () {
+                              context.read<LoginBloc>().add(
+                                    LoginValidateEvent(
+                                      password: _formKeyPwd.currentState
+                                              ?.validate() ==
+                                          true,
+                                    ),
+                                  );
+                            });
+                          },
                           textInputAction: TextInputAction.done,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return  AppText.plsEnterPassword;
+                              return AppText.plsEnterPassword;
                             }
                             return null;
                           },
@@ -169,21 +182,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 20.w),
                     BlocBuilder<LoginBloc, LoginState>(builder: (_, state) {
                       return OutlinedButton(
-                        onPressed: state.validate
-                            ? () {
-                                if (_formKeyEmail.currentState?.validate() ==
-                                        true &&
-                                    _formKeyPwd.currentState?.validate() ==
-                                        true) {
-                                  context.read<LoginBloc>().add(
-                                        LoginWithButtonPressed(
-                                          email: _emailController.text,
-                                          password: _passwordController.text,
-                                        ),
-                                      );
-                                }
-                              }
-                            : null,
+                        onPressed:
+                            state.validate ? () => _onLogin(context) : null,
                         style: OutlinedButton.styleFrom(
                           backgroundColor: state.validate
                               ? ColorUtils.blue
@@ -207,5 +207,17 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void _onLogin(BuildContext context) {
+    if (_formKeyEmail.currentState?.validate() == true &&
+        _formKeyPwd.currentState?.validate() == true) {
+      context.read<LoginBloc>().add(
+            LoginWithButtonPressed(
+              email: _emailController.text,
+              password: _passwordController.text,
+            ),
+          );
+    }
   }
 }

@@ -7,7 +7,8 @@ import '../../data/datasources/dtos/create_account_response/create_account_respo
 
 abstract class AccountRepository {
   Future<DataState<CreateAccountReponse>> createAccount(AccountDto accountDto);
-  Future<DataState<void>> editAccount(String id);
+  Future<DataState<void>> editAccount(int id, AccountDto accountDto);
   Future<DataState<List<AccountResponseDto>>> getListAccounts(String token);
   Future<DataState<List<CRGResponse>>> getListCRGs(String token);
+  Future<DataState<void>> deleteAccounts(String token, List<int> ids);
 }
