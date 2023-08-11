@@ -18,24 +18,20 @@ class _RequestNewAccountDialog extends StatelessWidget {
       title: const Text(AppText.requestNewAccount),
       content: BlocBuilder<SelectCRGBloc, SelectCRGState>(
         builder: (context, state) {
-          if (state is SelectCRGLoaded) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  AppText.dscIsContinually,
-                ),
-                const SizedBox(height: 20),
-                CustomTextField(
-                  title: AppText.accountName,
-                  controller: controller,
-                ),
-                const SizedBox(height: 20),
-              ],
-            );
-          } else {
-            return const Text(AppText.error);
-          }
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                AppText.dscIsContinually,
+              ),
+              const SizedBox(height: 20),
+              CustomTextField(
+                title: AppText.accountName,
+                controller: controller,
+              ),
+              const SizedBox(height: 20),
+            ],
+          );
         },
       ),
       actions: [
@@ -56,13 +52,17 @@ class _RequestNewAccountDialog extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return _RequestNewAccountSelect(
-                          controller: controller, result: result);
+                        controller: controller,
+                        result: result,
+                      );
                     });
               } else {
                 Get.toNamed(
                   MyRouter.addAccount,
                   arguments: AddAccountScreenArgument(
-                      accountName: controller.text.trim()),
+                    isRequestAccount: true,
+                    accountName: controller.text.trim(),
+                  ),
                 );
               }
             }
@@ -124,8 +124,11 @@ class _RequestNewAccountSelect extends StatelessWidget {
           onPressed: () {
             Get.toNamed(
               MyRouter.addAccount,
-              arguments:
-                  AddAccountScreenArgument(accountName: controller.text.trim()),
+              preventDuplicates: false,
+              arguments: AddAccountScreenArgument(
+                accountName: controller.text.trim(),
+                isRequestAccount: true,
+              ),
             );
           },
           style: ElevatedButton.styleFrom(

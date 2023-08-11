@@ -66,114 +66,130 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
       ),
       body:
           BlocBuilder<SelectCRGBloc, SelectCRGState>(builder: (context, state) {
-        return switch (state) {
-          SelectCRGLoaded() => ListView(
-              padding: EdgeInsets.all(16.w),
-              children: [
-                _Search(
+        if (state is SelectCRGLoaded) {
+          final List<CRGResponse> listCRG = controller.text.isEmpty
+              ? state.listCRGs
+              : state.listCRGsSearched.isNotEmpty
+                  ? state.listCRGsSearched
+                  : [];
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  right: 16.w,
+                  left: 16.w,
+                  bottom: 16.h,
+                ),
+                child: _Search(
                   controller: controller,
                   onChanged: (value) {
                     _debouncer.debounce(
-                      const Duration(milliseconds: 500),
+                      const Duration(milliseconds: 300),
                       () => context
                           .read<SelectCRGBloc>()
                           .add(SelectCRGSearchEvent(searchQuery: value)),
                     );
                   },
                 ),
-                const SizedBox(height: 20),
-                Column(
-                  children: controller.text.isEmpty
-                      ? state.listCRGs.map((e) => _CRGItem(crgItem: e)).toList()
-                      : state.listCRGsSearched.isNotEmpty
-                          ? state.listCRGsSearched
-                              .map((e) => _CRGItem(crgItem: e))
-                              .toList()
-                          : [
-                              const SizedBox(height: 20),
-                              Text(
-                                AppText.thereAreNoAccounts,
-                                style: TextStyleUtils.regular(13)
-                                    .copyWith(color: Colors.red),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                AppText.toAddAnUnlisted,
-                                style: TextStyleUtils.regular(13)
-                                    .copyWith(color: Colors.red),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 30),
-                              TextButton(
-                                onPressed: () {
-                                  Get.toNamed(
-                                    MyRouter.addAccount,
-                                    arguments: AddAccountScreenArgument(
-                                      accountName: controller.text.trim(),
-                                      isRequestAccount: true,
-                                    ),
-                                  );
-                                },
-                                style: TextButton.styleFrom(
-                                  backgroundColor: ColorUtils.blue,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 20.w,
-                                    vertical: 12.h,
-                                  ),
+              ),
+              Expanded(
+                child: listCRG.isNotEmpty
+                    ? ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        itemCount: listCRG.length,
+                        itemBuilder: (context, index) {
+                          return _CRGItem(crgItem: listCRG[index]);
+                        },
+                      )
+                    : Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Text(
+                            AppText.thereAreNoAccounts,
+                            style: TextStyleUtils.regular(13)
+                                .copyWith(color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            AppText.toAddAnUnlisted,
+                            style: TextStyleUtils.regular(13)
+                                .copyWith(color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 30),
+                          TextButton(
+                            onPressed: () {
+                              Get.toNamed(
+                                MyRouter.addAccount,
+                                arguments: AddAccountScreenArgument(
+                                  accountName: controller.text.trim(),
+                                  id: 0,
+                                  isRequestAccount: true,
                                 ),
-                                child: Text(
-                                  AppText.requestNewAccount,
-                                  style: TextStyleUtils.medium(13).copyWith(
-                                    color: Colors.white,
-                                  ),
-                                ),
+                              );
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: ColorUtils.blue,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
+                                vertical: 12.h,
                               ),
-                            ],
-                )
-              ],
-            ),
-          SelectCRGFailed(message: var message) => Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    AppText.anUnexpectedError,
+                            ),
+                            child: Text(
+                              AppText.requestNewAccount,
+                              style: TextStyleUtils.medium(13).copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+              )
+            ],
+          );
+        } else if (state is SelectCRGFailed) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  AppText.anUnexpectedError,
+                  style: TextStyleUtils.medium(14).copyWith(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 26.w),
+                  child: Text(
+                    state.message,
                     style:
-                        TextStyleUtils.medium(14).copyWith(color: Colors.red),
+                        TextStyleUtils.regular(12).copyWith(color: Colors.red),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 26.w),
-                    child: Text(
-                      message,
-                      style: TextStyleUtils.regular(12)
-                          .copyWith(color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ),
+                ),
+                SizedBox(height: 10.h),
+                CustomButton(
+                  child: Text(
+                    AppText.tryAgain,
+                    style:
+                        TextStyleUtils.medium(13).copyWith(color: Colors.white),
                   ),
-                  SizedBox(height: 10.h),
-                  CustomButton(
-                    child: Text(
-                      AppText.tryAgain,
-                      style: TextStyleUtils.medium(13)
-                          .copyWith(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      context.read<SelectCRGBloc>().add(SelectCRGInitEvent());
-                    },
-                  ),
-                ],
-              ),
+                  onPressed: () {
+                    context.read<SelectCRGBloc>().add(SelectCRGInitEvent());
+                  },
+                ),
+              ],
             ),
-          SelectCRGInitial() || SelectCRGLoading() => Center(
-              child: LoadingAnimationWidget.fourRotatingDots(
-                color: ColorUtils.blue,
-                size: 60.r,
-              ),
+          );
+        } else {
+          return Center(
+            child: LoadingAnimationWidget.fourRotatingDots(
+              color: ColorUtils.blue,
+              size: 60.r,
             ),
-        };
+          );
+        }
       }),
     );
   }

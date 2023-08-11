@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             onChanged: (_) {
                               debouncer.debounce(
-                                  const Duration(milliseconds: 500), () {
+                                  const Duration(milliseconds: 300), () {
                                 context
                                     .read<LoginBloc>()
                                     .add(LoginValidateEvent(
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           onChanged: (_) {
                             debouncer.debounce(
-                                const Duration(milliseconds: 500), () {
+                                const Duration(milliseconds: 300), () {
                               context.read<LoginBloc>().add(
                                     LoginValidateEvent(
                                       password: _formKeyPwd.currentState

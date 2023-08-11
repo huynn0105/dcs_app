@@ -18,7 +18,9 @@ class _CRGItem extends StatelessWidget {
               onTap: () {
                 Get.toNamed(
                   MyRouter.addAccount,
+                  preventDuplicates: false,
                   arguments: AddAccountScreenArgument(
+                    id: crgItem.id,
                     accountName: crgItem.name,
                     isRequestAccount: false,
                   ),

@@ -1,6 +1,7 @@
 import 'package:dcs_app/data/datasources/dtos/account/account_dto.dart';
 import 'package:dcs_app/data/datasources/dtos/account_response/account_response_dto.dart';
 import 'package:dcs_app/data/datasources/dtos/crg_response/crg_response.dart';
+import 'package:dcs_app/data/datasources/dtos/required_account/required_account_dto.dart';
 import 'package:dcs_app/data/datasources/remote/rest_client.dart';
 import 'package:dcs_app/data/repositories/base/api_base_repository.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
@@ -30,13 +31,18 @@ class AccountRepositoryImpl extends BaseApiRepository
 
   @override
   Future<DataState<List<CRGResponse>>> getListCRGs(String token) {
-    //return getStateOf(request: () => _client.getListCRGs(token: token));
-    return Future.value(DataSuccess<List<CRGResponse>>(crgMockData));
+    return getStateOf(request: () => _client.getListCRGs(token: token));
+    //return Future.value(DataSuccess<List<CRGResponse>>(crgMockData));
   }
 
   @override
   Future<DataState<void>> deleteAccounts(String token, List<int> ids) {
     //return getStateOf(request: ()=> _client.deleteAccount(ids: ids, token: token));
     return Future.value(const DataSuccess<void>(null));
+  }
+
+  @override
+  Future<DataState<List<RequirementAccountDto>>> getRequirementByAccount(String token, int id) {
+    return getStateOf(request: ()=> _client.getRequirementByAccount(token: token, id: id));
   }
 }

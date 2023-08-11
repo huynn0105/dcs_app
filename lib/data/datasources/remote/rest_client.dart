@@ -3,6 +3,7 @@ import 'package:dcs_app/data/datasources/dtos/account_response/account_response_
 import 'package:dcs_app/data/datasources/dtos/auth/auth_dto.dart';
 import 'package:dcs_app/data/datasources/dtos/crg_response/crg_response.dart';
 import 'package:dcs_app/data/datasources/dtos/login/login_dto.dart';
+import 'package:dcs_app/data/datasources/dtos/required_account/required_account_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -30,9 +31,15 @@ abstract class RestClient {
     @Query("token") required String token,
   });
 
-  @GET('/accounts/client_account_listing')
+  @GET('/accounts/get_list_accounts')
   Future<HttpResponse<List<CRGResponse>>> getListCRGs({
     @Query("token") required String token,
+  });
+
+  @GET('/accounts/get_requirement_account')
+  Future<HttpResponse<List<RequirementAccountDto>>> getRequirementByAccount({
+    @Query("token") required String token,
+    @Query("account_id") required int id,
   });
 
   @GET('/top-headlines')

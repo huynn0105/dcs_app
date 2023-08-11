@@ -52,25 +52,26 @@ class _AccountItem extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 13.h),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          account.accountName,
-                          style: TextStyleUtils.bold(13),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          account.email,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyleUtils.regular(12),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            account.accountName,
+                            style: TextStyleUtils.bold(13),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            account.email,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyleUtils.regular(12),
+                          ),
+                        ],
+                      ),
                     ),
                     const Icon(Icons.arrow_forward_ios),
                   ],

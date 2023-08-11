@@ -16,6 +16,8 @@ class CustomTextField extends StatefulWidget {
     this.onFieldSubmitted,
     this.onChanged,
     this.readOnly = false,
+    this.focusNode,
+    this.isRequired = false,
   });
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
@@ -27,7 +29,8 @@ class CustomTextField extends StatefulWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final ValueChanged<String>? onChanged;
   final bool readOnly;
-
+  final FocusNode? focusNode;
+  final bool isRequired;
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -47,11 +50,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.title,
+          (widget.isRequired ? '* ' : '') + widget.title,
           style: TextStyleUtils.bold(13),
         ),
         SizedBox(height: 6.w),
         TextFormField(
+          focusNode: widget.focusNode,
           readOnly: widget.readOnly,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           autofillHints: widget.autofillHints,
@@ -83,6 +87,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 color: ColorUtils.grey,
               ),
             ),
+            fillColor: widget.isRequired ? Colors.yellow.shade50 : null,
+            filled: widget.isRequired ? true : null,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.r),
               borderSide: const BorderSide(

@@ -6,7 +6,6 @@ import 'package:dcs_app/global/locator.dart';
 import 'package:dcs_app/utils/constants.dart';
 import 'package:dcs_app/utils/internet_connection_utils.dart';
 import 'package:dcs_app/utils/resouces/data_state.dart';
-import 'package:meta/meta.dart';
 
 part 'select_crg_event.dart';
 part 'select_crg_state.dart';

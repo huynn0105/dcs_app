@@ -79,6 +79,7 @@ class _AppBar extends StatelessWidget {
     );
   }
 
+  // ignore: unused_element
   Future<void> _selectAccount(BuildContext context) async {
     await LoadingUtils.show();
     if (context.mounted) {
@@ -89,6 +90,7 @@ class _AppBar extends StatelessWidget {
               Get.toNamed(
                 MyRouter.addAccount,
                 arguments: AddAccountScreenArgument(
+                  id: 0,
                   accountName: call.arguments['account_name'],
                   accountType: call.arguments['account_type'],
                 ),

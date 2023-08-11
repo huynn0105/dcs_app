@@ -15,6 +15,10 @@ final class CreateAccountButtonPressedEvent extends CreateAccountEvent {
 }
 
 
+final class GetRequirementByAccountEvent extends CreateAccountEvent{
+  final int id;
+  GetRequirementByAccountEvent({required this.id});
+}
 
 final class EditAccountButtonPressedEvent extends CreateAccountEvent {
   final String accountName;

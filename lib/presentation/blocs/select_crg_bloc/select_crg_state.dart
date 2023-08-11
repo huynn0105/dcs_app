@@ -1,6 +1,5 @@
 part of 'select_crg_bloc.dart';
 
-@immutable
 sealed class SelectCRGState {}
 
 final class SelectCRGInitial extends SelectCRGState {}

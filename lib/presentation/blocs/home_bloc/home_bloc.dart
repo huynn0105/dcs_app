@@ -25,7 +25,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (accountResponse is DataSuccess) {
           final accounts =
               accountResponse.data!.map((e) => Account.fromDto(e)).toList();
-          emit(state.copyWith(accounts: accounts));
+          emit(state.copyWith(
+            accounts: accounts,
+            success: true,
+          ));
         } else if (accountResponse is DataFailed) {
           emit(
             state.copyWith(
@@ -48,12 +51,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else {
         accountsSelected.add(event.account);
       }
-      emit(state.copyWith(accountsSelected: accountsSelected));
+      emit(state.copyWith(accountsSelected: accountsSelected, success: true));
     });
 
     on<AccountDeletedEvent>((event, emit) async {
       if (await InternetConnectionUtils.checkConnection()) {
-        emit(state.copyWith(loading: true,isDelete: true));
+        emit(state.copyWith(loading: true, isDelete: true));
         final accounts = [...state.accounts];
         for (var accountToDelete in state.accountsSelected) {
           accounts.remove(accountToDelete);
@@ -68,6 +71,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               accounts: accounts,
               accountsSelected: [],
               showChecked: false,
+              success: true,
             ),
           );
         } else if (response is DataFailed) {
@@ -85,7 +89,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<ClearSelectedAccountsEvent>((event, emit) {
-      emit(state.copyWith(accountsSelected: []));
+      emit(state.copyWith(
+        accountsSelected: [],
+        success: true,
+      ));
     });
 
     // on<CreateAccountEvent>((event, emit) async {
@@ -128,7 +135,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     // });
 
     on<ToggleShowCheckEvent>((event, emit) {
-      emit(state.copyWith(showChecked: !state.showChecked));
+      emit(state.copyWith(
+        showChecked: !state.showChecked,
+        success: true,
+      ));
     });
 
     on<SearchEvent>((event, emit) {
@@ -136,6 +146,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(
           accountsSearched: [],
           textSearch: '',
+          success: true,
         ));
       }
       final textSearch = event.textSearch.toLowerCase();
@@ -148,6 +159,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(state.copyWith(
         accountsSearched: result,
         textSearch: event.textSearch,
+        success: true,
       ));
     });
 
