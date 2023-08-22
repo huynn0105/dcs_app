@@ -1,4 +1,4 @@
-part of '../select_crg_screen.dart';
+part of '../select_account_screen.dart';
 
 class _RequestNewAccountDialog extends StatelessWidget {
   const _RequestNewAccountDialog({
@@ -16,7 +16,7 @@ class _RequestNewAccountDialog extends StatelessWidget {
       insetPadding: EdgeInsets.all(16.r),
       actionsPadding: EdgeInsets.all(16.r),
       title: const Text(AppText.requestNewAccount),
-      content: BlocBuilder<SelectCRGBloc, SelectCRGState>(
+      content: BlocBuilder<SelectAccountBloc, SelectAccountState>(
         builder: (context, state) {
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -44,8 +44,9 @@ class _RequestNewAccountDialog extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             if (controller.text.isNotEmpty) {
-              final result =
-                  context.read<SelectCRGBloc>().searchCRG(controller.text);
+              final result = context
+                  .read<SelectAccountBloc>()
+                  .searchAccount(controller.text);
               Navigator.pop(context);
               if (result.isNotEmpty) {
                 showDialog(
@@ -87,7 +88,7 @@ class _RequestNewAccountSelect extends StatelessWidget {
   });
 
   final TextEditingController controller;
-  final List<CRGResponse> result;
+  final List<AccountResponse> result;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class _RequestNewAccountSelect extends StatelessWidget {
             style: TextStyle(color: Colors.red),
           ),
           const SizedBox(height: 20),
-          ...result.map((e) => _CRGItem(crgItem: e)).toList()
+          ...result.map((e) => _AccountItem(accountItem: e)).toList()
         ],
       ),
       actions: [

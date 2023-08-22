@@ -1,11 +1,11 @@
-part of '../select_crg_screen.dart';
+part of '../select_account_screen.dart';
 
-class _CRGItem extends StatelessWidget {
-  const _CRGItem({
-    required this.crgItem,
+class _AccountItem extends StatelessWidget {
+  const _AccountItem({
+    required this.accountItem,
   });
 
-  final CRGResponse crgItem;
+  final AccountResponse accountItem;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,8 @@ class _CRGItem extends StatelessWidget {
                   MyRouter.addAccount,
                   preventDuplicates: false,
                   arguments: AddAccountScreenArgument(
-                    id: crgItem.id,
-                    accountName: crgItem.name,
+                    id: accountItem.id,
+                    accountName: accountItem.name,
                     isRequestAccount: false,
                   ),
                 );
@@ -40,7 +40,7 @@ class _CRGItem extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        crgItem.name,
+                        accountItem.name,
                         style: TextStyleUtils.bold(12),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

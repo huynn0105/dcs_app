@@ -1,4 +1,4 @@
-part of '../select_crg_screen.dart';
+part of '../select_account_screen.dart';
 
 class _Search extends StatelessWidget {
   const _Search({
@@ -28,14 +28,14 @@ class _Search extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
-        suffixIcon: BlocBuilder<SelectCRGBloc, SelectCRGState>(
+        suffixIcon: BlocBuilder<SelectAccountBloc, SelectAccountState>(
           builder: (context, state) {
             return controller.text.isNotEmpty == true
                 ? IconButton(
                     icon: const Icon(Icons.clear_outlined),
                     onPressed: () {
-                      context.read<SelectCRGBloc>().add(
-                            SelectCRGSearchEvent(searchQuery: ''),
+                      context.read<SelectAccountBloc>().add(
+                            SelectAccountSearchEvent(searchQuery: ''),
                           );
                       controller.clear();
                     },

@@ -122,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onFieldSubmitted: (value) {
                               _focusEmail.nextFocus();
                             },
+                            focusNode: _focusEmail,
                             textInputAction: TextInputAction.next,
                             validator: (value) {
                               if (value?.isNotEmpty == true) {
@@ -150,12 +151,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Form(
                         key: _formKeyPwd,
                         child: CustomTextField(
+                          focusNode: _focusPwd,
                           title: AppText.password,
                           autofillHints: const [AutofillHints.password],
                           controller: _passwordController,
                           isPassword: true,
                           onFieldSubmitted: (_) {
-                            _focusPwd.nextFocus();
+                            _onLogin(context);
                           },
                           onChanged: (_) {
                             debouncer.debounce(

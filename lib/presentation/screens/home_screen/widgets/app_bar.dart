@@ -219,7 +219,7 @@ class _Item extends StatelessWidget {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    account.email,
+                    account.username,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyleUtils.regular(12),

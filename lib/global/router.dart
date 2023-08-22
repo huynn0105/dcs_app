@@ -1,6 +1,6 @@
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/edit_account_screen/edit_account_screen.dart';
-import 'package:dcs_app/presentation/screens/select_crg_screen/select_crg_screen.dart';
+import 'package:dcs_app/presentation/screens/select_account_screen/select_account_screen.dart';
 import 'package:dcs_app/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,7 @@ class MyRouter {
         return _buildRouteNavigationWithoutEffect(
           settings,
           AddAccountScreen(
-            argument: settings.arguments as AddAccountScreenArgument?,
+            argument: settings.arguments as AddAccountScreenArgument,
           ),
         );
       case editAccount:
@@ -57,7 +57,7 @@ class MyRouter {
       case selectCRG:
         return _buildRouteNavigationWithoutEffect(
           settings,
-          const SelectCRGScreen(),
+          const SelectAccountScreen(),
         );
 
       default:

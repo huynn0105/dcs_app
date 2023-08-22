@@ -22,6 +22,7 @@ class AppText {
   static const String accounts = 'Accounts';
   static const String search = 'Search';
   static const String login = 'Login';
+  static const String nickname = 'Nickname';
   static const String password = 'Password';
   static const String email = 'Email';
   static const String username = 'Username';

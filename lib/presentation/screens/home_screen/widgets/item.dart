@@ -1,7 +1,7 @@
 part of '../home_screen.dart';
 
-class _AccountItem extends StatelessWidget {
-  const _AccountItem({
+class _ClientAccountItem extends StatelessWidget {
+  const _ClientAccountItem({
     required this.account,
   });
 
@@ -36,6 +36,17 @@ class _AccountItem extends StatelessWidget {
           }),
           Expanded(
             child: InkWell(
+              onLongPress: () {
+                DialogUtils.showOkCancelDialog(
+                    title: AppText.confirm,
+                    body: AppText.confirmMsg,
+                    onOK: () {
+                      context
+                          .read<HomeBloc>()
+                          .add(AccountDeletedEvent(account: account));
+                      Navigator.pop(context);
+                    });
+              },
               onTap: () {
                 Get.toNamed(
                   MyRouter.editAccount,
@@ -65,7 +76,7 @@ class _AccountItem extends StatelessWidget {
                           ),
                           SizedBox(height: 2.h),
                           Text(
-                            account.email,
+                            account.username,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyleUtils.regular(12),

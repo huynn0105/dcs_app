@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: BlocBuilder<HomeBloc, HomeState>(
             builder: (_, state) {
-              if (state.loading == true) {
+              if (state.loading == true && !state.isDelete) {
                 return Center(
                   child: LoadingAnimationWidget.fourRotatingDots(
                     color: ColorUtils.blue,
@@ -161,10 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? Expanded(
                             child: ListView(
                               padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              physics: const BouncingScrollPhysics(),
+                              physics: const AlwaysScrollableScrollPhysics(),
                               children: [
                                 ...accounts
-                                    .map((account) => _AccountItem(
+                                    .map((account) => _ClientAccountItem(
                                           account: account,
                                         ))
                                     .toList()

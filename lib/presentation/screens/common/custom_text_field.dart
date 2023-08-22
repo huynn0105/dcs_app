@@ -87,7 +87,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 color: ColorUtils.grey,
               ),
             ),
-            fillColor: widget.isRequired ? Colors.yellow.shade50 : null,
+            fillColor:
+                widget.isRequired ? Colors.yellow.withOpacity(0.08) : null,
             filled: widget.isRequired ? true : null,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6.r),

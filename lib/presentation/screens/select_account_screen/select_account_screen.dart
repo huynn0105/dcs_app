@@ -1,6 +1,6 @@
-import 'package:dcs_app/data/datasources/dtos/crg_response/crg_response.dart';
+import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/global/router.dart';
-import 'package:dcs_app/presentation/blocs/select_crg_bloc/select_crg_bloc.dart';
+import 'package:dcs_app/presentation/blocs/select_account_bloc/select_account_bloc.dart';
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/common/custom_button.dart';
 import 'package:dcs_app/presentation/screens/common/custom_text_field.dart';
@@ -18,23 +18,23 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 part 'widgets/app_bar.dart';
 part 'widgets/search.dart';
-part 'widgets/cgr_item.dart';
+part 'widgets/account_item.dart';
 part 'widgets/dialog.dart';
 
-class SelectCRGScreen extends StatefulWidget {
-  const SelectCRGScreen({super.key});
+class SelectAccountScreen extends StatefulWidget {
+  const SelectAccountScreen({super.key});
 
   @override
-  State<SelectCRGScreen> createState() => _SelectCRGScreenState();
+  State<SelectAccountScreen> createState() => _SelectAccountScreenState();
 }
 
-class _SelectCRGScreenState extends State<SelectCRGScreen> {
+class _SelectAccountScreenState extends State<SelectAccountScreen> {
   late final TextEditingController controller;
   final Debouncer _debouncer = Debouncer();
   @override
   void initState() {
     controller = TextEditingController();
-    context.read<SelectCRGBloc>().add(SelectCRGInitEvent());
+    context.read<SelectAccountBloc>().add(SelectAccountInitEvent());
     super.initState();
   }
 
@@ -64,13 +64,13 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
         automaticallyImplyLeading: false,
         surfaceTintColor: Colors.transparent,
       ),
-      body:
-          BlocBuilder<SelectCRGBloc, SelectCRGState>(builder: (context, state) {
-        if (state is SelectCRGLoaded) {
-          final List<CRGResponse> listCRG = controller.text.isEmpty
-              ? state.listCRGs
-              : state.listCRGsSearched.isNotEmpty
-                  ? state.listCRGsSearched
+      body: BlocBuilder<SelectAccountBloc, SelectAccountState>(
+          builder: (context, state) {
+        if (state is SelectAccountLoaded) {
+          final List<AccountResponse> listAccount = controller.text.isEmpty
+              ? state.listAccounts
+              : state.listAccountsSearched.isNotEmpty
+                  ? state.listAccountsSearched
                   : [];
           return Column(
             children: [
@@ -86,20 +86,29 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
                     _debouncer.debounce(
                       const Duration(milliseconds: 300),
                       () => context
-                          .read<SelectCRGBloc>()
-                          .add(SelectCRGSearchEvent(searchQuery: value)),
+                          .read<SelectAccountBloc>()
+                          .add(SelectAccountSearchEvent(searchQuery: value)),
                     );
                   },
                 ),
               ),
               Expanded(
-                child: listCRG.isNotEmpty
-                    ? ListView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        itemCount: listCRG.length,
-                        itemBuilder: (context, index) {
-                          return _CRGItem(crgItem: listCRG[index]);
+                child: listAccount.isNotEmpty
+                    ? RefreshIndicator(
+                        onRefresh: () async {
+                          controller.clear();
+                          context
+                              .read<SelectAccountBloc>()
+                              .add(SelectAccountInitEvent());
                         },
+                        child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          itemCount: listAccount.length,
+                          itemBuilder: (context, index) {
+                            return _AccountItem(
+                                accountItem: listAccount[index]);
+                          },
+                        ),
                       )
                     : Column(
                         children: [
@@ -124,7 +133,6 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
                                 MyRouter.addAccount,
                                 arguments: AddAccountScreenArgument(
                                   accountName: controller.text.trim(),
-                                  id: 0,
                                   isRequestAccount: true,
                                 ),
                               );
@@ -148,7 +156,7 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
               )
             ],
           );
-        } else if (state is SelectCRGFailed) {
+        } else if (state is SelectAccountFailed) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -176,7 +184,9 @@ class _SelectCRGScreenState extends State<SelectCRGScreen> {
                         TextStyleUtils.medium(13).copyWith(color: Colors.white),
                   ),
                   onPressed: () {
-                    context.read<SelectCRGBloc>().add(SelectCRGInitEvent());
+                    context
+                        .read<SelectAccountBloc>()
+                        .add(SelectAccountInitEvent());
                   },
                 ),
               ],
