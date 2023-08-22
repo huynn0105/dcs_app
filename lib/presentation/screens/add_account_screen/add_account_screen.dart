@@ -67,11 +67,9 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
     _usernameController = TextEditingController();
     _emailController = TextEditingController();
 
-    if (widget.argument.id != null) {
-      context
-          .read<CreateAccountBloc>()
-          .add(GetRequirementByAccountEvent(id: widget.argument.id!));
-    }
+    context
+        .read<CreateAccountBloc>()
+        .add(GetRequirementByAccountEvent(id: widget.argument.id));
 
     super.initState();
   }
@@ -134,7 +132,8 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                       context.read<CreateAccountBloc>().add(
                             CreateRequestAccountButtonPressedEvent(
                               accountName: _accountNameController.text.trim(),
-                              accountNumber: _accountNumberController.text.trim(),
+                              accountNumber:
+                                  _accountNumberController.text.trim(),
                               usernameOrEmail: _usernameController.text.trim(),
                             ),
                           );
@@ -240,6 +239,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                                 title: AppText.email,
                                 textInputAction: TextInputAction.next,
                                 controller: _emailController,
+                                textInputType: TextInputType.emailAddress,
                                 validator: (value) {
                                   if (value?.isNotEmpty == true) {
                                     return ValidateUtils.isValidEmail(value!);
@@ -273,25 +273,19 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                                 //         ),
                                 //       )
                                 //     : const SizedBox.shrink(),
-                                !state.formTextFields
-                                        .map((e) => e.accountDto.name)
-                                        .contains(
-                                          AppText.username1.toLowerCase(),
-                                        )
-                                    ? Padding(
-                                        padding: EdgeInsets.only(bottom: 16.h),
-                                        child: Form(
-                                          key: _formKeyUsername,
-                                          child: CustomTextField(
-                                            isRequired: true,
-                                            title: AppText.username1,
-                                            textInputAction:
-                                                TextInputAction.next,
-                                            controller: _usernameController,
-                                          ),
-                                        ),
-                                      )
-                                    : const SizedBox.shrink(),
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 16.h),
+                                  child: Form(
+                                    key: _formKeyUsername,
+                                    child: CustomTextField(
+                                      isRequired: true,
+                                      title: AppText.username1,
+                                      textInputAction: TextInputAction.next,
+                                      controller: _usernameController,
+                                    ),
+                                  ),
+                                ),
+
                                 // state.formFieldNames
                                 //         .contains(AppText.email.toLowerCase())
                                 //     ? Padding(
@@ -314,7 +308,11 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                                 //         ),
                                 //       )
                                 //     : const SizedBox.shrink(),
-                                ...state.formTextFields.map((e) {
+                                ...state.formTextFields
+                                    .where((e) =>
+                                        e.accountDto.name.toLowerCase() !=
+                                        AppText.username1.toLowerCase())
+                                    .map((e) {
                                   return Padding(
                                     padding: EdgeInsets.only(bottom: 16.h),
                                     child: Form(

@@ -1,5 +1,6 @@
 import 'dart:io' show HttpStatus;
 
+import 'package:dcs_app/utils/data_convert_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
@@ -30,7 +31,7 @@ abstract class BaseApiRepository {
         );
       }
     } on DioException catch (error) {
-      return DataFailed(error: error);
+      return DataFailed(errorMessage: DataConvertUtils.catchMessage(error));
     }
   }
 }

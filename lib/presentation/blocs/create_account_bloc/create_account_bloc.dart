@@ -16,25 +16,27 @@ part 'create_account_state.dart';
 class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
   final accountRepository = locator<AccountRepository>();
 
-  CreateAccountBloc() : super(const CreateAccountState()) {
+  CreateAccountBloc() : super(CreateAccountState()) {
     on<CreateRequestAccountButtonPressedEvent>((event, emit) async {
       emit(state.copyWith(loading: true));
       if (await InternetConnectionUtils.checkConnection()) {
         final CreateRequestAccountDto account = CreateRequestAccountDto(
-          url: event.accountName,
-          username: event.usernameOrEmail,
-          client: locator<AuthRepository>().email,
-          token: locator<AuthRepository>().token,
-        );
+            url: event.accountName.trim(),
+            username: event.usernameOrEmail.trim(),
+            client: locator<AuthRepository>().email,
+            token: locator<AuthRepository>().token,
+            accountNumber: event.accountNumber.trim());
         final response = await accountRepository.createRequestAccount(account);
 
         if (response is DataSuccess) {
-          emit(state.copyWith(
-            formTextFields: response.data,
-          ));
+          emit(state.copyWith(success: true));
         } else if (response is DataFailed) {
           emit(
-              state.copyWith(message: response.error?.message, success: false));
+            state.copyWith(
+              message: response.errorMessage,
+              success: false,
+            ),
+          );
         }
       } else {
         emit(state.copyWith(
@@ -47,18 +49,18 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
       emit(state.copyWith(loading: true));
       if (await InternetConnectionUtils.checkConnection()) {
         final CreateClientAccountDto account = CreateClientAccountDto(
-            client: locator<AuthRepository>().email,
-            token: locator<AuthRepository>().token,
-            username: event.username,
-            accountId: event.accountId,
-            clientRequirements: event.clientRequirements);
+          client: locator<AuthRepository>().email,
+          token: locator<AuthRepository>().token,
+          username: event.username,
+          accountId: event.accountId,
+          clientRequirements: event.clientRequirements,
+        );
         final response = await accountRepository.createClientAccount(account);
 
         if (response is DataSuccess) {
           emit(state.copyWith(success: true));
         } else if (response is DataFailed) {
-          emit(state.copyWith(
-              message: response.error!.message!, success: false));
+          emit(state.copyWith(message: response.errorMessage, success: false));
         }
       } else {
         emit(state.copyWith(
@@ -70,7 +72,7 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
 
     on<GetRequirementByAccountEvent>((event, emit) async {
       if (event.id == null) {
-        state.formTextFields.clear();
+        state.formTextFields = [];
         return;
       }
       emit(state.copyWith(loading: true));
@@ -85,7 +87,7 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
           ));
         } else {
           emit(state.copyWith(
-            message: response.error?.message,
+            message: response.errorMessage,
             success: false,
           ));
         }

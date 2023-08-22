@@ -14,6 +14,9 @@ class SelectAccountBloc extends Bloc<SelectAccountEvent, SelectAccountState> {
   SelectAccountBloc() : super(SelectAccountInitial()) {
     final accountRepository = locator<AccountRepository>();
     on<SelectAccountInitEvent>((event, emit) async {
+      if (state is SelectAccountLoaded && !event.isRefresh) {
+        return;
+      }
       if (await InternetConnectionUtils.checkConnection()) {
         emit(SelectAccountLoading());
         final response = await accountRepository
@@ -21,7 +24,7 @@ class SelectAccountBloc extends Bloc<SelectAccountEvent, SelectAccountState> {
         if (response is DataSuccess) {
           emit(SelectAccountLoaded(listAccounts: response.data!));
         } else if (response is DataFailed) {
-          emit(SelectAccountFailed(message: response.error!.message!));
+          emit(SelectAccountFailed(message: response.errorMessage!));
         }
       } else {
         emit(
@@ -33,14 +36,14 @@ class SelectAccountBloc extends Bloc<SelectAccountEvent, SelectAccountState> {
     });
 
     on<SelectAccountSearchEvent>((event, emit) {
+      String searchQuery = event.searchQuery.trim();
       final state = this.state;
       if (state is SelectAccountLoaded) {
-        if (event.searchQuery.isEmpty) {
+        if (searchQuery.isEmpty) {
           emit(state.copyWith(listAccountsSearched: []));
           return;
         }
-        List<AccountResponse> listAccountsSearched =
-            searchAccount(event.searchQuery);
+        List<AccountResponse> listAccountsSearched = searchAccount(searchQuery);
         emit(state.copyWith(listAccountsSearched: listAccountsSearched));
       }
     });

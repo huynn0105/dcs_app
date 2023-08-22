@@ -7,6 +7,7 @@ class CreateRequestAccountDto {
   final bool ppApp;
   final String url;
   final String submitType;
+  final String accountNumber;
 
   CreateRequestAccountDto({
     required this.token,
@@ -15,6 +16,7 @@ class CreateRequestAccountDto {
     this.ppApp = true,
     required this.url,
     this.submitType = 'save',
+    this.accountNumber = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +27,7 @@ class CreateRequestAccountDto {
       'pp_app': ppApp,
       'url': url,
       'submit_type': submitType,
+      'account_number': accountNumber,
     };
   }
 }

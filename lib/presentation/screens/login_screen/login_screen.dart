@@ -77,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     return Scaffold(
+      appBar: AppBar(toolbarHeight: 0),
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) async {
           if (state.loading) {
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: MediaQuery.sizeOf(context).height / 4),
+                    SizedBox(height: MediaQuery.sizeOf(context).height / 5),
                     Image.asset('assets/images/dcs_logo.png'),
                     SizedBox(height: 40.w),
                     SizedBox(
@@ -119,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             autofillHints: const [AutofillHints.email],
                             title: AppText.email,
                             controller: _emailController,
+                            textInputType: TextInputType.emailAddress,
                             onFieldSubmitted: (value) {
                               _focusEmail.nextFocus();
                             },
@@ -145,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             }),
                       ),
                     ),
-                    SizedBox(height: 10.w),
                     SizedBox(
                       height: 120.w,
                       child: Form(
@@ -181,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.w),
+                    SizedBox(height: 16.w),
                     BlocBuilder<LoginBloc, LoginState>(builder: (_, state) {
                       return OutlinedButton(
                         onPressed:
@@ -190,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           backgroundColor: state.validate
                               ? ColorUtils.blue
                               : ColorUtils.grey,
-                          fixedSize: Size(180.w, 60.h),
+                          fixedSize: Size(180.w, 55.w),
                         ),
                         child: Text(
                           AppText.login,
