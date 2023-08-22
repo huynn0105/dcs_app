@@ -1,5 +1,6 @@
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/edit_account_screen/edit_account_screen.dart';
+import 'package:dcs_app/presentation/screens/menu_setting_screen/menu_setting_screen.dart';
 import 'package:dcs_app/presentation/screens/select_account_screen/select_account_screen.dart';
 import 'package:dcs_app/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,34 @@ class MyRouter {
   static const String addAccount = '/addAccount';
   static const String editAccount = '/editAccount';
   static const String splash = '/splash';
-  static const String selectCRG = '/selectCRG';
+  static const String selectAccount = '/selectAccount';
+  static const String menuSetting = '/menuSetting';
 
   static PageRouteBuilder _buildRouteNavigationWithoutEffect(
       RouteSettings settings, Widget widget) {
     return PageRouteBuilder(
       pageBuilder: (_, __, ___) => widget,
       settings: settings,
+    );
+  }
+
+  static PageRouteBuilder _buildRouteNavigationWithEffect(
+      RouteSettings settings, Widget widget) {
+    return PageRouteBuilder(
+      pageBuilder: (_, __, ___) => widget,
+      settings: settings,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1.0, 0.0);
+        const end = Offset.zero;
+        final tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.ease));
+        final offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
     );
   }
 
@@ -54,10 +76,15 @@ class MyRouter {
           settings,
           const SplashScreen(),
         );
-      case selectCRG:
+      case selectAccount:
         return _buildRouteNavigationWithoutEffect(
           settings,
           const SelectAccountScreen(),
+        );
+      case menuSetting:
+        return _buildRouteNavigationWithEffect(
+          settings,
+          const MenuSettingScreen(),
         );
 
       default:

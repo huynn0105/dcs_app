@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:dcs_app/domain/models/account.dart';
-import 'package:dcs_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/common/custom_button.dart';
 import 'package:dcs_app/presentation/screens/edit_account_screen/edit_account_screen.dart';
+import 'package:dcs_app/presentation/screens/menu_setting_screen/menu_setting_screen.dart';
 import 'package:dcs_app/utils/color_utils.dart';
 import 'package:dcs_app/utils/constants.dart';
 import 'package:dcs_app/utils/dialog_utils.dart';
@@ -85,6 +85,11 @@ class _HomeScreenState extends State<HomeScreen> {
           automaticallyImplyLeading: false,
           surfaceTintColor: Colors.transparent,
         ),
+        drawer: Drawer(
+          width: MediaQuery.of(context).size.width,
+          shape: const RoundedRectangleBorder(),
+          child: const MenuSettingScreen(),
+        ),
         body: RefreshIndicator(
           onRefresh: () async {
             context.read<HomeBloc>().add(HomeInitEvent());
@@ -152,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           debouncer.debounce(
                               const Duration(milliseconds: 300),
                               () => context.read<HomeBloc>().add(
-                                    SearchEvent(textSearch: value),
+                                    SearchEvent(textSearch: value.trim()),
                                   ));
                         },
                       ),
@@ -186,36 +191,22 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        floatingActionButton: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            FloatingActionButton(
-              heroTag: '1',
-              onPressed: () {
-                context.read<AuthBloc>().add(UserLoggedOut());
-              },
-              child: const Icon(Icons.logout),
-            ),
-            const SizedBox(height: 10),
-            BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
-                return !state.showChecked
-                    ? FloatingActionButton(
-                        heroTag: '2',
-                        onPressed: () {
-                          Get.toNamed(MyRouter.selectCRG);
-                        },
-                        backgroundColor: ColorUtils.blue,
-                        elevation: 0,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100)),
-                        child: const Icon(Icons.add),
-                      )
-                    : const SizedBox.shrink();
-              },
-            ),
-          ],
+        floatingActionButton: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            return !state.showChecked
+                ? FloatingActionButton(
+                    onPressed: () {
+                      Get.toNamed(MyRouter.selectAccount);
+                    },
+                    backgroundColor: ColorUtils.blue,
+                    elevation: 0,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100)),
+                    child: const Icon(Icons.add),
+                  )
+                : const SizedBox.shrink();
+          },
         ),
       ),
     );

@@ -1,12 +1,10 @@
-import 'package:dio/dio.dart';
-
 abstract class DataState<T> {
   final T? data;
-  final DioException? error;
+  final String? errorMessage;
 
   const DataState({
     this.data,
-    this.error,
+    this.errorMessage,
   });
 }
 
@@ -15,7 +13,7 @@ class DataSuccess<T> extends DataState<T> {
 }
 
 class DataFailed<T> extends DataState<T> {
-  const DataFailed({DioException? error}) : super(error: error);
+  const DataFailed({String? errorMessage}) : super(errorMessage: errorMessage);
 }
 
 class DataNotSet<T> extends DataState<T> {

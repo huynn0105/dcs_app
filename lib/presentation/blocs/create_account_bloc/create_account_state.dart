@@ -4,10 +4,10 @@ part of 'create_account_bloc.dart';
 class CreateAccountState {
   final bool loading;
   final bool? success;
-  final List<FormTextField> formTextFields;
+  List<FormTextField> formTextFields;
   final String? message;
 
-  const CreateAccountState({
+  CreateAccountState({
     this.loading = false,
     this.success,
     this.formTextFields = const [],

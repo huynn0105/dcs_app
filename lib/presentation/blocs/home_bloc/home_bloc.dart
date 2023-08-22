@@ -33,7 +33,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         } else if (accountResponse is DataFailed) {
           emit(
             state.copyWith(
-              message: accountResponse.error!.message,
+              message: accountResponse.errorMessage,
               success: false,
             ),
           );
@@ -95,7 +95,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           emit(state.copyWith(
             success: false,
             isDelete: true,
-            message: response.error!.message,
+            message: response.errorMessage,
             showChecked: event.account == null,
           ));
         }
@@ -161,14 +161,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<SearchEvent>((event, emit) {
-      if (event.textSearch.isEmpty) {
+      String searchQuery = event.textSearch.trim();
+      if (searchQuery.isEmpty) {
         emit(state.copyWith(
           accountsSearched: [],
           textSearch: '',
           success: true,
         ));
       }
-      final textSearch = event.textSearch.toLowerCase();
+      final textSearch = searchQuery.toLowerCase();
       final result = state.accounts
           .where((x) =>
               x.username.toLowerCase().contains(textSearch) ||
@@ -176,7 +177,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           .toList();
       emit(state.copyWith(
         accountsSearched: result,
-        textSearch: event.textSearch,
+        textSearch: searchQuery,
         success: true,
       ));
     });

@@ -7,6 +7,7 @@ class AppText {
   static const String addAccount = 'Add Account';
   static const String done = 'Done';
   static const String error = 'Error';
+  static const String logout = 'Log out';
   static const String accountName = 'Account Name';
   static const String plsEnterAccountName = 'Please enter Account name';
   static const String plsEnterOneOrMore =
@@ -60,4 +61,6 @@ class AppText {
   static const String anUnexpectedError = 'An unexpected error has occurred';
   static const String confirmMsg =
       "Are you sure? All information will be delete. That can't be undone";
+  static const String logoutMsg =
+      "You will be returned to the login screen";
 }

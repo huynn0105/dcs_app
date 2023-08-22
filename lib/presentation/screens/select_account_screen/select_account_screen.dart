@@ -87,7 +87,7 @@ class _SelectAccountScreenState extends State<SelectAccountScreen> {
                       const Duration(milliseconds: 300),
                       () => context
                           .read<SelectAccountBloc>()
-                          .add(SelectAccountSearchEvent(searchQuery: value)),
+                          .add(SelectAccountSearchEvent(searchQuery: value.trim())),
                     );
                   },
                 ),
@@ -99,7 +99,7 @@ class _SelectAccountScreenState extends State<SelectAccountScreen> {
                           controller.clear();
                           context
                               .read<SelectAccountBloc>()
-                              .add(SelectAccountInitEvent());
+                              .add(SelectAccountInitEvent(isRefresh: true));
                         },
                         child: ListView.builder(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),

@@ -39,7 +39,7 @@ class AccountDetailBloc extends Bloc<AccountDetailEvent, AccountDetailState> {
         ));
       } else if (response is DataFailed) {
         emit(state.copyWith(
-          message: response.error!.message,
+          message: response.errorMessage,
           success: false,
         ));
       }
@@ -66,7 +66,7 @@ class AccountDetailBloc extends Bloc<AccountDetailEvent, AccountDetailState> {
       } else if (response is DataFailed) {
         emit(state.copyWith(
           success: false,
-          message: response.error?.message,
+          message: response.errorMessage,
         ));
       }
     });
@@ -96,7 +96,7 @@ class AccountDetailBloc extends Bloc<AccountDetailEvent, AccountDetailState> {
       } else if (response is DataFailed) {
         emit(state.copyWith(
           success: false,
-          message: response.error?.message,
+          message: response.errorMessage,
         ));
       }
     });
