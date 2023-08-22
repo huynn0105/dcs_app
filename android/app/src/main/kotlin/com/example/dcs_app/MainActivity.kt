@@ -13,6 +13,7 @@ import com.google.android.gms.common.AccountPicker
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import java.util.Arrays
 
 
 class MainActivity : FlutterActivity() {
@@ -41,7 +42,7 @@ class MainActivity : FlutterActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun pickAccount(): Boolean {
         return try {
-            val intent = AccountManager.newChooseAccountIntent(null, null, null, null, null, null, null)
+            val intent = AccountManager.newChooseAccountIntent(null, null, arrayOf("com.google"), null, null, null, null)
             startActivityForResult(intent, 5001);
             true
         } catch (e: Exception) {

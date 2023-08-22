@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
+import 'package:dcs_app/data/datasources/dtos/delete_client_account/delete_client_account_dto.dart';
 import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
 import 'package:dcs_app/domain/repositories/auth_repository.dart';
@@ -21,11 +22,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (await InternetConnectionUtils.checkConnection()) {
         emit(state.copyWith(loading: true));
         final accountResponse = await _accountRepository
-            .getListAccounts(locator<AuthRepository>().token);
+            .getListClientAccounts(locator<AuthRepository>().token);
         if (accountResponse is DataSuccess) {
           final accounts =
               accountResponse.data!.map((e) => Account.fromDto(e)).toList();
-          emit(state.copyWith(accounts: accounts));
+          emit(state.copyWith(
+            accounts: accounts,
+            success: true,
+          ));
         } else if (accountResponse is DataFailed) {
           emit(
             state.copyWith(
@@ -48,19 +52,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else {
         accountsSelected.add(event.account);
       }
-      emit(state.copyWith(accountsSelected: accountsSelected));
+      emit(state.copyWith(accountsSelected: accountsSelected, success: true));
     });
 
     on<AccountDeletedEvent>((event, emit) async {
       if (await InternetConnectionUtils.checkConnection()) {
-        emit(state.copyWith(loading: true,isDelete: true));
+        emit(state.copyWith(loading: true, isDelete: true));
         final accounts = [...state.accounts];
-        for (var accountToDelete in state.accountsSelected) {
-          accounts.remove(accountToDelete);
+        List<ClientAccountIds> clientIds = [];
+        if (event.account != null) {
+          clientIds.add(ClientAccountIds(
+              id: event.account!.id,
+              isRequestAccount: event.account!.isRequest));
+          accounts.remove(event.account);
+        } else {
+          for (var accountToDelete in state.accountsSelected) {
+            clientIds.add(ClientAccountIds(
+                id: accountToDelete.id,
+                isRequestAccount: accountToDelete.isRequest));
+            accounts.remove(accountToDelete);
+          }
         }
-        final response = await _accountRepository.deleteAccounts(
-            locator<AuthRepository>().token,
-            state.accountsSelected.map((e) => e.id).toList());
+
+        final response = await _accountRepository.deleteClientAccounts(
+          DeleteClientAccountDto(
+            token: locator<AuthRepository>().token,
+            client: locator<AuthRepository>().email,
+            clientAccountIds: clientIds,
+          ),
+        );
         if (response is DataSuccess) {
           emit(
             state.copyWith(
@@ -68,12 +88,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               accounts: accounts,
               accountsSelected: [],
               showChecked: false,
+              success: true,
             ),
           );
         } else if (response is DataFailed) {
           emit(state.copyWith(
             success: false,
+            isDelete: true,
             message: response.error!.message,
+            showChecked: event.account == null,
           ));
         }
       } else {
@@ -85,7 +108,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<ClearSelectedAccountsEvent>((event, emit) {
-      emit(state.copyWith(accountsSelected: []));
+      emit(state.copyWith(
+        accountsSelected: [],
+        success: true,
+      ));
     });
 
     // on<CreateAccountEvent>((event, emit) async {
@@ -128,7 +154,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     // });
 
     on<ToggleShowCheckEvent>((event, emit) {
-      emit(state.copyWith(showChecked: !state.showChecked));
+      emit(state.copyWith(
+        showChecked: !state.showChecked,
+        success: true,
+      ));
     });
 
     on<SearchEvent>((event, emit) {
@@ -136,18 +165,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(
           accountsSearched: [],
           textSearch: '',
+          success: true,
         ));
       }
       final textSearch = event.textSearch.toLowerCase();
       final result = state.accounts
           .where((x) =>
               x.username.toLowerCase().contains(textSearch) ||
-              x.accountName.toLowerCase().contains(textSearch) ||
-              x.email.toLowerCase().contains(textSearch))
+              x.accountName.toLowerCase().contains(textSearch))
           .toList();
       emit(state.copyWith(
         accountsSearched: result,
         textSearch: event.textSearch,
+        success: true,
       ));
     });
 
@@ -159,8 +189,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final Account account = Account(
           id: 1,
           username: event.accountName,
-          email: event.email ?? '',
           accountName: event.accountName,
+          isRequest: true,
         );
         emit(
           state.copyWith(
@@ -186,9 +216,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       for (var item in result) {
         final account = Account(
           username: item['account_name'],
-          email: item['account_name'],
           id: Random(100).nextInt(1),
           accountName: item['account_type'],
+          isRequest: true,
         );
         if (!_isAccountExistent(account, state.accounts)) {
           accounts.add(account);
@@ -210,9 +240,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   bool _isAccountExistent(Account account, List<Account> accounts) {
-    for (var account in accounts) {
-      if (account.accountName == account.accountName &&
-          account.email == account.email) {
+    for (var account1 in accounts) {
+      if (account1.accountName == account.accountName &&
+          account1.username == account.username) {
         return true;
       }
     }

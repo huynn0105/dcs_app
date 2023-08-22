@@ -1,7 +1,9 @@
+import 'package:dcs_app/data/datasources/dtos/create_client_account/create_client_account_dto.dart';
 import 'package:dcs_app/global/router.dart';
 import 'package:dcs_app/presentation/blocs/create_account_bloc/create_account_bloc.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/utils/constants.dart';
+import 'package:dcs_app/utils/validate_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,11 +21,13 @@ import '../common/text_button.dart';
 part 'widgets/app_bar.dart';
 
 class AddAccountScreenArgument {
+  final int? id;
   final String accountName;
   final String? accountType;
   final bool isRequestAccount;
 
   const AddAccountScreenArgument({
+    this.id,
     required this.accountName,
     this.accountType,
     this.isRequestAccount = false,
@@ -31,10 +35,10 @@ class AddAccountScreenArgument {
 }
 
 class AddAccountScreen extends StatefulWidget {
-  final AddAccountScreenArgument? argument;
+  final AddAccountScreenArgument argument;
   const AddAccountScreen({
     super.key,
-    this.argument,
+    required this.argument,
   });
 
   @override
@@ -45,39 +49,31 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
   late TextEditingController _accountNameController;
   late TextEditingController _accountNumberController;
   late TextEditingController _usernameController;
-  final GlobalKey<FormState> _formKeyAccountName = GlobalKey<FormState>();
-  final GlobalKey<FormState> _formKeyAccountNumber = GlobalKey<FormState>();
-  final GlobalKey<FormState> _formKeyUsername = GlobalKey<FormState>();
-  final FocusNode _focusAccountName = FocusNode();
-  final FocusNode _focusAccountNumber = FocusNode();
-  final FocusNode _focusUsername = FocusNode();
+  late TextEditingController _emailController;
+  final GlobalObjectKey<FormState> _formKeyAccountName =
+      const GlobalObjectKey<FormState>(AppText.accountName);
+  final GlobalObjectKey<FormState> _formKeyAccountNumber =
+      const GlobalObjectKey<FormState>(AppText.accountNumber);
+  final GlobalObjectKey<FormState> _formKeyEmail =
+      const GlobalObjectKey<FormState>(AppText.email);
+  final GlobalObjectKey<FormState> _formKeyUsername =
+      const GlobalObjectKey<FormState>(AppText.username);
+
   @override
   void initState() {
     _accountNameController =
-        TextEditingController(text: widget.argument?.accountName);
+        TextEditingController(text: widget.argument.accountName);
     _accountNumberController = TextEditingController();
     _usernameController = TextEditingController();
-    _focusAccountName.addListener(_onFocusAccountName);
-    _focusAccountNumber.addListener(_onFocusAccountNumber);
-    _focusUsername.addListener(_onFocusUsername);
+    _emailController = TextEditingController();
+
+    if (widget.argument.id != null) {
+      context
+          .read<CreateAccountBloc>()
+          .add(GetRequirementByAccountEvent(id: widget.argument.id!));
+    }
 
     super.initState();
-  }
-
-  void _onFocusAccountName() {
-    if (!_focusAccountName.hasFocus) {
-      _formKeyAccountName.currentState?.validate();
-    }
-  }
-
-  void _onFocusAccountNumber() {
-    if (!_focusAccountNumber.hasFocus) {
-      _formKeyAccountNumber.currentState?.validate();
-    }
-  }
-
-  void _onFocusUsername() {
-    if (!_focusUsername.hasFocus) _formKeyUsername.currentState?.validate();
   }
 
   @override
@@ -85,12 +81,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
     _accountNameController.dispose();
     _accountNumberController.dispose();
     _usernameController.dispose();
-    _focusAccountName.removeListener(_onFocusAccountName);
-    _focusAccountNumber.removeListener(_onFocusAccountNumber);
-    _focusUsername.removeListener(_onFocusUsername);
-    _focusAccountName.dispose();
-    _focusAccountNumber.dispose();
-    _focusUsername.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -98,13 +89,13 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
   Widget build(BuildContext context) {
     return BlocListener<CreateAccountBloc, CreateAccountState>(
       listener: (context, state) async {
-        if (state is CreateAccountLoading) {
+        if (state.loading) {
           await LoadingUtils.show();
         } else {
           await LoadingUtils.dismiss();
         }
 
-        if (state is CreateAccountSucceeded) {
+        if (state.success == true) {
           if (mounted) {
             context.read<HomeBloc>().add(HomeInitEvent());
             ScaffoldMessenger.of(context).showSnackBar(
@@ -116,7 +107,8 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
             );
             Get.offAndToNamed(MyRouter.home);
           }
-        } else if (state is CreateAccountFailed) {
+        } else if (state.success == false &&
+            state.message?.isNotEmpty == true) {
           DialogUtils.showContinueDialog(
             type: DialogType.error,
             title: AppText.error,
@@ -127,18 +119,46 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0.0,
-          title: _AppBar(
-            onPressed: () {
-              if (_formKeyAccountName.currentState?.validate() == true &&
-                  _formKeyUsername.currentState?.validate() == true) {
-                context.read<CreateAccountBloc>().add(
-                      CreateAccountButtonPressedEvent(
-                        accountName: _accountNameController.text,
-                        accountNumber: _accountNumberController.text,
-                        usernameOrEmail: _usernameController.text,
-                      ),
-                    );
-              }
+          title: BlocBuilder<CreateAccountBloc, CreateAccountState>(
+            builder: (context, state) {
+              return _AppBar(
+                onCancel: () {
+                  Get.back();
+                  context
+                      .read<CreateAccountBloc>()
+                      .add(GetRequirementByAccountEvent());
+                },
+                onPressed: () {
+                  if (widget.argument.isRequestAccount) {
+                    if (_validateRequestAccount()) {
+                      context.read<CreateAccountBloc>().add(
+                            CreateRequestAccountButtonPressedEvent(
+                              accountName: _accountNameController.text.trim(),
+                              accountNumber: _accountNumberController.text.trim(),
+                              usernameOrEmail: _usernameController.text.trim(),
+                            ),
+                          );
+                    }
+                  } else {
+                    if (_validateClientAccount(state.formTextFields)) {
+                      context.read<CreateAccountBloc>().add(
+                            CreateClientAccountButtonPressedEvent(
+                              accountId: widget.argument.id!,
+                              username: _usernameController.text.trim(),
+                              clientRequirements: state.formTextFields
+                                  .map(
+                                    (e) => ClientRequirementDtos(
+                                      id: e.accountDto.id,
+                                      value: e.controller.text.trim(),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          );
+                    }
+                  }
+                },
+              );
             },
           ),
           automaticallyImplyLeading: false,
@@ -167,7 +187,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                           key: _formKeyAccountName,
                           child: CustomTextField(
                             title: AppText.accountName,
-                            readOnly: widget.argument?.isRequestAccount == true
+                            readOnly: widget.argument.isRequestAccount == true
                                 ? false
                                 : true,
                             textInputAction: TextInputAction.next,
@@ -180,31 +200,154 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                             },
                           ),
                         ),
+
                         SizedBox(height: 10.h),
                         Text(
                           AppText.plsEnterOneOrMore,
                           style: TextStyleUtils.regular(11),
                         ),
                         SizedBox(height: 16.h),
-                        Form(
-                          key: _formKeyAccountNumber,
-                          child: CustomTextField(
-                            title: AppText.accountNumber,
-                            controller: _accountNumberController,
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.number,
+
+                        if (widget.argument.isRequestAccount) ...[
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 16.h),
+                            child: Form(
+                              key: _formKeyAccountNumber,
+                              child: CustomTextField(
+                                title: AppText.accountNumber,
+                                controller: _accountNumberController,
+                                textInputAction: TextInputAction.next,
+                                textInputType: TextInputType.number,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 16.h),
-                        Form(
-                          key: _formKeyUsername,
-                          child: CustomTextField(
-                            title: AppText.usernameOrEmail,
-                            textInputAction: TextInputAction.next,
-                            controller: _usernameController,
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 16.h),
+                            child: Form(
+                              key: _formKeyUsername,
+                              child: CustomTextField(
+                                title: AppText.username1,
+                                textInputAction: TextInputAction.next,
+                                controller: _usernameController,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 16.h),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 16.h),
+                            child: Form(
+                              key: _formKeyEmail,
+                              child: CustomTextField(
+                                title: AppText.email,
+                                textInputAction: TextInputAction.next,
+                                controller: _emailController,
+                                validator: (value) {
+                                  if (value?.isNotEmpty == true) {
+                                    return ValidateUtils.isValidEmail(value!);
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+
+                        BlocBuilder<CreateAccountBloc, CreateAccountState>(
+                            builder: (context, state) {
+                          if (state.formTextFields.isNotEmpty) {
+                            return Column(
+                              children: [
+                                // !state.formFieldNames.contains(
+                                //         AppText.accountNumber.toLowerCase())
+                                //     ? Padding(
+                                //         padding: EdgeInsets.only(bottom: 16.h),
+                                //         child: Form(
+                                //           key: _formKeyAccountNumber,
+                                //           child: CustomTextField(
+                                //             title: AppText.accountNumber,
+                                //             controller:
+                                //                 _accountNumberController,
+                                //             textInputAction:
+                                //                 TextInputAction.next,
+                                //             textInputType: TextInputType.number,
+                                //           ),
+                                //         ),
+                                //       )
+                                //     : const SizedBox.shrink(),
+                                !state.formTextFields
+                                        .map((e) => e.accountDto.name)
+                                        .contains(
+                                          AppText.username1.toLowerCase(),
+                                        )
+                                    ? Padding(
+                                        padding: EdgeInsets.only(bottom: 16.h),
+                                        child: Form(
+                                          key: _formKeyUsername,
+                                          child: CustomTextField(
+                                            isRequired: true,
+                                            title: AppText.username1,
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            controller: _usernameController,
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                                // state.formFieldNames
+                                //         .contains(AppText.email.toLowerCase())
+                                //     ? Padding(
+                                //         padding: EdgeInsets.only(bottom: 16.h),
+                                //         child: Form(
+                                //           key: _formKeyEmail,
+                                //           child: CustomTextField(
+                                //             title: AppText.email,
+                                //             textInputAction:
+                                //                 TextInputAction.next,
+                                //             controller: _emailController,
+                                //             validator: (value) {
+                                //               if (value?.isNotEmpty == true) {
+                                //                 return ValidateUtils
+                                //                     .isValidEmail(value!);
+                                //               }
+                                //               return null;
+                                //             },
+                                //           ),
+                                //         ),
+                                //       )
+                                //     : const SizedBox.shrink(),
+                                ...state.formTextFields.map((e) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 16.h),
+                                    child: Form(
+                                      key: e.formKey,
+                                      child: CustomTextField(
+                                        title: e.accountDto.name,
+                                        isRequired: true,
+                                        textInputAction: TextInputAction.done,
+                                        textInputType:
+                                            TextInputType.emailAddress,
+                                        controller: e.controller,
+                                        validator: (value) {
+                                          if (value?.isNotEmpty != true) {
+                                            return 'Please enter ${e.accountDto.name}';
+                                          }
+                                          if (value?.isNotEmpty == true &&
+                                              e.accountDto.name
+                                                  .contains('mail')) {
+                                            return ValidateUtils.isValidEmail(
+                                                value!);
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }).toList()
+                              ],
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        }),
+
                         // Form(
                         //   key: _formKeyEmail,
                         //   child: CustomTextField(
@@ -230,5 +373,20 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
         ),
       ),
     );
+  }
+
+  bool _validateRequestAccount() {
+    return _formKeyAccountName.currentState?.validate() == true &&
+        _formKeyEmail.currentState?.validate() == true;
+  }
+
+  bool _validateClientAccount(List<FormTextField> requirements) {
+    bool validate = true;
+    for (var requirement in requirements) {
+      if (requirement.formKey.currentState?.validate() == false) {
+        validate = false;
+      }
+    }
+    return validate && _formKeyUsername.currentState?.validate() == true;
   }
 }

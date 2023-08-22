@@ -1,6 +1,9 @@
+import 'package:dcs_app/data/datasources/dtos/create_client_account/create_client_account_dto.dart';
+import 'package:dcs_app/data/datasources/dtos/update_client_account/update_client_account_dto.dart';
 import 'package:dcs_app/global/router.dart';
-import 'package:dcs_app/presentation/blocs/create_account_bloc/create_account_bloc.dart';
+import 'package:dcs_app/presentation/blocs/account_detail_bloc/account_detail_bloc.dart';
 import 'package:dcs_app/utils/constants.dart';
+import 'package:dcs_app/utils/validate_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,28 +42,29 @@ class EditAccountScreen extends StatefulWidget {
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
-  late TextEditingController _accountNameController;
-  late TextEditingController _accountNumberController;
-  late TextEditingController _usernameController;
+  late TextEditingController _accountNameController,
+      _accountNumberController,
+      _usernameController,
+      _nicknameController;
+
   final GlobalKey<FormState> _formKeyAccountName = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKeyAccountNumber = GlobalKey<FormState>();
-  final GlobalKey<FormState> _formKeyUsername = GlobalKey<FormState>();
   final FocusNode _focusAccountName = FocusNode();
   final FocusNode _focusAccountNumber = FocusNode();
   final FocusNode _focusUsername = FocusNode();
-
+  late Account account;
   @override
   void initState() {
-    _accountNameController =
-        TextEditingController(text: widget.argument.account.accountName);
-    _accountNumberController =
-        TextEditingController(text: widget.argument.account.username);
-    _usernameController =
-        TextEditingController(text: widget.argument.account.username);
+    account = widget.argument.account;
+    _accountNameController = TextEditingController(text: account.accountName);
+    _accountNumberController = TextEditingController();
+    _nicknameController = TextEditingController(text: account.username);
+    _usernameController = TextEditingController(text: account.username);
     _focusAccountName.addListener(_onFocusAccountName);
     _focusAccountNumber.addListener(_onFocusAccountNumber);
-    _focusUsername.addListener(_onFocusUsername);
-
+    context
+        .read<AccountDetailBloc>()
+        .add(AccountDetailInitEvent(account: account));
     super.initState();
   }
 
@@ -76,18 +80,14 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     }
   }
 
-  void _onFocusUsername() {
-    if (!_focusUsername.hasFocus) _formKeyUsername.currentState?.validate();
-  }
-
   @override
   void dispose() {
     _accountNameController.dispose();
     _accountNumberController.dispose();
     _usernameController.dispose();
+    _nicknameController.dispose();
     _focusAccountName.removeListener(_onFocusAccountName);
     _focusAccountNumber.removeListener(_onFocusAccountNumber);
-    _focusUsername.removeListener(_onFocusUsername);
     _focusAccountName.dispose();
     _focusAccountNumber.dispose();
     _focusUsername.dispose();
@@ -96,15 +96,15 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreateAccountBloc, CreateAccountState>(
+    return BlocListener<AccountDetailBloc, AccountDetailState>(
       listener: (context, state) async {
-        if (state is CreateAccountLoading) {
+        if (state.loading) {
           await LoadingUtils.show();
         } else {
           await LoadingUtils.dismiss();
         }
 
-        if (state is CreateAccountSucceeded) {
+        if (state.success == true) {
           if (mounted) {
             context.read<HomeBloc>().add(HomeInitEvent());
             ScaffoldMessenger.of(context).showSnackBar(
@@ -116,7 +116,8 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
             );
             Get.offAndToNamed(MyRouter.home);
           }
-        } else if (state is CreateAccountFailed) {
+        } else if (state.success == false &&
+            state.message?.isNotEmpty == true) {
           DialogUtils.showContinueDialog(
             type: DialogType.error,
             title: AppText.error,
@@ -127,18 +128,43 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0.0,
-          title: _AppBar(
-            onPressed: () {
-              if (_formKeyAccountName.currentState?.validate() == true &&
-                  _formKeyUsername.currentState?.validate() == true) {
-                context.read<CreateAccountBloc>().add(
-                      EditAccountButtonPressedEvent(
-                        accountName: _accountNameController.text,
-                        accountNumber: _accountNumberController.text,
-                        usernameOrEmail: _usernameController.text,
-                      ),
-                    );
-              }
+          title: BlocBuilder<AccountDetailBloc, AccountDetailState>(
+            builder: (context, state) {
+              return _AppBar(
+                onPressed: () {
+                  if (account.isRequest) {
+                    if (_validateRequestAccount()) {
+                      context.read<AccountDetailBloc>().add(
+                            RequestAccountDetailUpdateEvent(
+                              id: account.id,
+                              accountNumber: _accountNameController.text.trim(),
+                              username: _usernameController.text.trim(),
+                              nickname: _nicknameController.text.trim(),
+                            ),
+                          );
+                    }
+                  } else {
+                    if (_validateClientAccount(state.formTextFields)) {
+                      context.read<AccountDetailBloc>().add(
+                            AccountDetailUpdateEvent(
+                              clientAccount: UpdateClientAccount(
+                                id: account.id,
+                                nickname: _nicknameController.text.trim(),
+                                clientRequirements: state.formTextFields
+                                    .map(
+                                      (e) => ClientRequirementDtos(
+                                        id: e.accountRequirement.id,
+                                        value: e.controller.text.trim(),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          );
+                    }
+                  }
+                },
+              );
             },
           ),
           automaticallyImplyLeading: false,
@@ -183,26 +209,89 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                           AppText.plsEnterOneOrMore,
                           style: TextStyleUtils.regular(11),
                         ),
-                        SizedBox(height: 16.h),
-                        Form(
-                          key: _formKeyAccountNumber,
-                          child: CustomTextField(
-                            title: AppText.accountNumber,
-                            controller: _accountNumberController,
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.number,
-                          ),
+                        SizedBox(height: 20.h),
+                        CustomTextField(
+                          title: AppText.nickname,
+                          textInputAction: TextInputAction.next,
+                          controller: _nicknameController,
                         ),
-                        SizedBox(height: 16.h),
-                        Form(
-                          key: _formKeyUsername,
-                          child: CustomTextField(
-                            title: AppText.usernameOrEmail,
-                            textInputAction: TextInputAction.next,
-                            controller: _usernameController,
+                        SizedBox(height: 20.h),
+                        if (widget.argument.account.isRequest)
+                          BlocBuilder<AccountDetailBloc, AccountDetailState>(
+                            builder: (context, state) {
+                              if (state.accountDetail != null) {
+                                _accountNumberController.text = state
+                                        .accountDetail!
+                                        .clientAccount
+                                        .accountNumber ??
+                                    '';
+                                _usernameController.text = state.accountDetail!
+                                        .clientAccount.username ??
+                                    '';
+                                return Column(
+                                  children: [
+                                    Form(
+                                      key: _formKeyAccountNumber,
+                                      child: CustomTextField(
+                                        title: AppText.accountNumber,
+                                        controller: _accountNumberController,
+                                        textInputAction: TextInputAction.next,
+                                        textInputType: TextInputType.number,
+                                      ),
+                                    ),
+                                    SizedBox(height: 16.h),
+                                    CustomTextField(
+                                      title: AppText.usernameOrEmail,
+                                      textInputAction: TextInputAction.next,
+                                      controller: _usernameController,
+                                    ),
+                                    SizedBox(height: 16.h),
+                                  ],
+                                );
+                              }
+                              return SizedBox.fromSize();
+                            },
                           ),
-                        ),
-                        SizedBox(height: 16.h),
+                        if (!widget.argument.account.isRequest)
+                          BlocBuilder<AccountDetailBloc, AccountDetailState>(
+                            builder: (context, state) {
+                              if (state.formTextFields.isNotEmpty) {
+                                return Column(
+                                  children: state.formTextFields.map((e) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(bottom: 16.h),
+                                      child: Form(
+                                        key: e.formKey,
+                                        child: CustomTextField(
+                                          title: e.accountRequirement
+                                              .requirementName,
+                                          isRequired: true,
+                                          textInputAction: TextInputAction.done,
+                                          textInputType:
+                                              TextInputType.emailAddress,
+                                          controller: e.controller,
+                                          validator: (value) {
+                                            if (value?.isNotEmpty != true) {
+                                              return 'Please enter ${e.accountRequirement.requirementName}';
+                                            }
+                                            if (value?.isNotEmpty == true &&
+                                                e.accountRequirement
+                                                    .requirementName
+                                                    .contains('mail')) {
+                                              return ValidateUtils.isValidEmail(
+                                                  value!);
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              }
+                              return SizedBox.fromSize();
+                            },
+                          ),
                       ],
                     ),
                   ),
@@ -213,5 +302,19 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
         ),
       ),
     );
+  }
+
+  bool _validateRequestAccount() {
+    return _formKeyAccountNumber.currentState?.validate() == true;
+  }
+
+  bool _validateClientAccount(List<FormTextField> requirements) {
+    bool validate = true;
+    for (var requirement in requirements) {
+      if (requirement.formKey.currentState?.validate() == false) {
+        validate = false;
+      }
+    }
+    return validate;
   }
 }

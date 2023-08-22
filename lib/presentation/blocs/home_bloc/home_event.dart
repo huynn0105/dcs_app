@@ -11,7 +11,10 @@ class AccountSelectedEvent extends HomeEvent {
   const AccountSelectedEvent({required this.account});
 }
 
-class AccountDeletedEvent extends HomeEvent {}
+class AccountDeletedEvent extends HomeEvent {
+  final Account? account;
+  const AccountDeletedEvent({this.account});
+}
 
 class ClearSelectedAccountsEvent extends HomeEvent {}
 

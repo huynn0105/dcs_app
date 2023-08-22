@@ -51,7 +51,8 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<HttpResponse<void>> createAccount({AccountDto? accountDto}) async {
+  Future<HttpResponse<void>> createRequestAccount(
+      {CreateRequestAccountDto? accountDto}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -80,14 +81,44 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<HttpResponse<List<AccountResponseDto>>> getListAccounts(
+  Future<HttpResponse<void>> createClientAccount(
+      {CreateClientAccountDto? accountDto}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(accountDto?.toMap() ?? <String, dynamic>{});
+    final _result =
+        await _dio.fetch<void>(_setStreamType<HttpResponse<void>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/accounts',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final httpResponse = HttpResponse(null, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<List<ClientAccountResponseDto>>> getListClientAccounts(
       {required String token}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'token': token};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<AccountResponseDto>>>(Options(
+        _setStreamType<HttpResponse<List<ClientAccountResponseDto>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -105,28 +136,28 @@ class _RestClient implements RestClient {
             ))));
     var value = _result.data!
         .map((dynamic i) =>
-            AccountResponseDto.fromMap(i as Map<String, dynamic>))
+            ClientAccountResponseDto.fromMap(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<List<CRGResponse>>> getListCRGs(
+  Future<HttpResponse<List<AccountResponse>>> getListAccounts(
       {required String token}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'token': token};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<HttpResponse<List<CRGResponse>>>(Options(
+        _setStreamType<HttpResponse<List<AccountResponse>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/accounts/client_account_listing',
+              '/accounts/get_list_accounts',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -136,32 +167,103 @@ class _RestClient implements RestClient {
               baseUrl,
             ))));
     var value = _result.data!
-        .map((dynamic i) => CRGResponse.fromMap(i as Map<String, dynamic>))
+        .map((dynamic i) => AccountResponse.fromMap(i as Map<String, dynamic>))
         .toList();
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
   @override
-  Future<HttpResponse<void>> editAccount({
+  Future<HttpResponse<List<RequirementAccountDto>>> getRequirementByAccount({
+    required String token,
     required int id,
-    AccountDto? accountDto,
   }) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'id': id};
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{
+      r'token': token,
+      r'account_id': id,
+    };
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(accountDto?.toMap() ?? <String, dynamic>{});
-    final _result =
-        await _dio.fetch<void>(_setStreamType<HttpResponse<void>>(Options(
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<HttpResponse<List<RequirementAccountDto>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/top-headlines',
+              '/accounts/get_requirement_account',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    var value = _result.data!
+        .map((dynamic i) =>
+            RequirementAccountDto.fromMap(i as Map<String, dynamic>))
+        .toList();
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ClientAccountDetailResponseDto>> getClientAccountDetail({
+    required String token,
+    required int id,
+    required bool isRequestAccount,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'token': token,
+      r'id': id,
+      r'is_request_account': isRequestAccount,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<ClientAccountDetailResponseDto>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/accounts/client_account_detail',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ClientAccountDetailResponseDto.fromMap(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<void>> updateAccount(
+      {UpdateClientAccountDto? accountDto}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(accountDto?.toMap() ?? <String, dynamic>{});
+    final _result =
+        await _dio.fetch<void>(_setStreamType<HttpResponse<void>>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/accounts/quick_update_client_account',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -175,26 +277,23 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<HttpResponse<void>> deleteAccount({
-    required List<int> ids,
-    required String token,
-  }) async {
+  Future<HttpResponse<void>> deleteAccount(
+      {DeleteClientAccountDto? deleteClientAccountDto}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'ids': ids,
-      r'token': token,
-    };
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(deleteClientAccountDto?.toMap() ?? <String, dynamic>{});
     final _result =
         await _dio.fetch<void>(_setStreamType<HttpResponse<void>>(Options(
-      method: 'GET',
+      method: 'DELETE',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/top-headlines',
+              '/accounts/delete_client_account',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       listener: (context, state) async {
         if (state.loading && state.isDelete) {
           await LoadingUtils.show();
-        } else if(state.loading == false && state.isDelete) {
+        } else if (state.loading == false && state.isDelete) {
           await LoadingUtils.dismiss();
         }
         if (state.success == true && state.isDelete) {
@@ -89,80 +89,82 @@ class _HomeScreenState extends State<HomeScreen> {
           onRefresh: () async {
             context.read<HomeBloc>().add(HomeInitEvent());
           },
-          child: Column(
-            children: [
-              BlocBuilder<HomeBloc, HomeState>(
-                builder: (_, state) {
-                  if (state.loading == true) {
-                    return Padding(
-                      padding: EdgeInsets.only(top: 1.sh / 3),
-                      child: Center(
-                        child: LoadingAnimationWidget.fourRotatingDots(
-                          color: ColorUtils.blue,
-                          size: 60.r,
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (_, state) {
+              if (state.loading == true && !state.isDelete) {
+                return Center(
+                  child: LoadingAnimationWidget.fourRotatingDots(
+                    color: ColorUtils.blue,
+                    size: 60.r,
+                  ),
+                );
+              } else if (state.success == false && state.isDelete == false) {
+                return Padding(
+                  padding: EdgeInsets.only(top: 1.sh / 3),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          AppText.anUnexpectedError,
+                          style: TextStyleUtils.medium(14)
+                              .copyWith(color: Colors.red),
                         ),
-                      ),
-                    );
-                  } else if (state.success == false &&
-                      state.isDelete == false) {
-                    return Padding(
-                      padding: EdgeInsets.only(top: 1.sh / 3),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              AppText.anUnexpectedError,
-                              style: TextStyleUtils.medium(14)
-                                  .copyWith(color: Colors.red),
-                            ),
-                            SizedBox(height: 10.h),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 26.w),
-                              child: Text(
-                                state.message ?? '',
-                                style: TextStyleUtils.regular(12)
-                                    .copyWith(color: Colors.red),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(height: 10.h),
-                            CustomButton(
-                              child: Text(
-                                AppText.tryAgain,
-                                style: TextStyleUtils.medium(13)
-                                    .copyWith(color: Colors.white),
-                              ),
-                              onPressed: () {
-                                context.read<HomeBloc>().add(HomeInitEvent());
-                              },
-                            ),
-                          ],
+                        SizedBox(height: 10.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 26.w),
+                          child: Text(
+                            state.message ?? '',
+                            style: TextStyleUtils.regular(12)
+                                .copyWith(color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
+                        SizedBox(height: 10.h),
+                        CustomButton(
+                          child: Text(
+                            AppText.tryAgain,
+                            style: TextStyleUtils.medium(13)
+                                .copyWith(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            context.read<HomeBloc>().add(HomeInitEvent());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                final accounts = searchController.text.isNotEmpty
+                    ? state.accountsSearched
+                    : state.accounts;
+                return Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        right: 16.w,
+                        left: 16.w,
+                        bottom: 16.h,
                       ),
-                    );
-                  } else {
-                    final accounts = searchController.text.isNotEmpty
-                        ? state.accountsSearched
-                        : state.accounts;
-                    return accounts.isNotEmpty
+                      child: _Search(
+                        controller: searchController,
+                        onChanged: (value) {
+                          debouncer.debounce(
+                              const Duration(milliseconds: 300),
+                              () => context.read<HomeBloc>().add(
+                                    SearchEvent(textSearch: value),
+                                  ));
+                        },
+                      ),
+                    ),
+                    accounts.isNotEmpty
                         ? Expanded(
                             child: ListView(
                               padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              physics: const BouncingScrollPhysics(),
+                              physics: const AlwaysScrollableScrollPhysics(),
                               children: [
-                                _Search(
-                                  controller: searchController,
-                                  onChanged: (value) {
-                                    debouncer.debounce(
-                                        const Duration(milliseconds: 500),
-                                        () => context.read<HomeBloc>().add(
-                                              SearchEvent(textSearch: value),
-                                            ));
-                                  },
-                                ),
-                                SizedBox(height: 20.h),
                                 ...accounts
-                                    .map((account) => _AccountItem(
+                                    .map((account) => _ClientAccountItem(
                                           account: account,
                                         ))
                                     .toList()
@@ -177,11 +179,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyleUtils.regular(14),
                               ),
                             ),
-                          );
-                  }
-                },
-              ),
-            ],
+                          ),
+                  ],
+                );
+              }
+            },
           ),
         ),
         floatingActionButton: Column(

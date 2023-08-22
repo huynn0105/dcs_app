@@ -1,9 +1,10 @@
 import 'package:dcs_app/data/datasources/local/database_manager.dart';
+import 'package:dcs_app/presentation/blocs/account_detail_bloc/account_detail_bloc.dart';
 import 'package:dcs_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:dcs_app/presentation/blocs/create_account_bloc/create_account_bloc.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/presentation/blocs/login_bloc/login_bloc.dart';
-import 'package:dcs_app/presentation/blocs/select_crg_bloc/select_crg_bloc.dart';
+import 'package:dcs_app/presentation/blocs/select_account_bloc/select_account_bloc.dart';
 import 'package:dcs_app/presentation/screens/home_screen/home_screen.dart';
 import 'package:dcs_app/presentation/screens/login_screen/login_screen.dart';
 import 'package:dcs_app/presentation/screens/splash_screen/splash_screen.dart';
@@ -90,8 +91,11 @@ class MyApp extends StatelessWidget {
       BlocProvider<CreateAccountBloc>(
         create: (_) => CreateAccountBloc(),
       ),
-      BlocProvider<SelectCRGBloc>(
-        create: (_) => SelectCRGBloc(),
+      BlocProvider<SelectAccountBloc>(
+        create: (_) => SelectAccountBloc(),
+      ),
+      BlocProvider<AccountDetailBloc>(
+        create: (_) => AccountDetailBloc(),
       ),
     ];
   }

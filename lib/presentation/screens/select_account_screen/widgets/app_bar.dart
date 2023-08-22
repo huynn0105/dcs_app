@@ -1,4 +1,4 @@
-part of '../select_crg_screen.dart';
+part of '../select_account_screen.dart';
 
 class _AppBar extends StatelessWidget {
   const _AppBar({

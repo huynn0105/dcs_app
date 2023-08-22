@@ -2,8 +2,9 @@ part of '../add_account_screen.dart';
 class _AppBar extends StatelessWidget {
   const _AppBar({
     required this.onPressed,
+    required this.onCancel,
   });
-
+  final VoidCallback onCancel;
   final VoidCallback onPressed;
 
   @override
@@ -14,9 +15,7 @@ class _AppBar extends StatelessWidget {
         SizedBox(
           width: 80.w,
           child: CustomTextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: onCancel,
             textButton: AppText.cancel,
           ),
         ),
