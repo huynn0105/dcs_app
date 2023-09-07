@@ -144,6 +144,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                             CreateClientAccountButtonPressedEvent(
                               accountId: widget.argument.id!,
                               username: _usernameController.text.trim(),
+                              email: _emailController.text.trim(),
                               clientRequirements: state.formTextFields
                                   .map(
                                     (e) => ClientRequirementDtos(

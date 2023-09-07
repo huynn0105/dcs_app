@@ -54,6 +54,7 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
           username: event.username,
           accountId: event.accountId,
           clientRequirements: event.clientRequirements,
+          email: event.email,
         );
         final response = await accountRepository.createClientAccount(account);
 

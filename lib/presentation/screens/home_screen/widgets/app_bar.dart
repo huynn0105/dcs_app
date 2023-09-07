@@ -9,7 +9,7 @@ class _AppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 100.w,
+          width: 92.w,
           child: BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
             return state.showChecked
                 ? CustomTextButton(
@@ -47,7 +47,7 @@ class _AppBar extends StatelessWidget {
           style: TextStyleUtils.bold(16),
         ),
         SizedBox(
-          width: 90.w,
+          width: 92.w,
           child: BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
             return state.accounts.isNotEmpty
                 ? state.showChecked

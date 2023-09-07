@@ -30,9 +30,15 @@ class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
 
   @override
   User? get getUser {
-    final user = DatabaseManager.readData(DatabaseConstant.user);
-    if (user == null) return null;
-    return User(username: user);
+    try {
+      final user = DatabaseManager.readData(DatabaseConstant.user);
+      final email = DatabaseManager.readData(DatabaseConstant.email);
+      final token = DatabaseManager.readData(DatabaseConstant.token);
+      if (user == null || email == null || token == null) return null;
+      return User(username: user, email: email, token: token);
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
