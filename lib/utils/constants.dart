@@ -33,7 +33,7 @@ class AppText {
   static const String plsEnterPassword = 'Please enter password';
   static const String noData = 'No data to display';
   static const String selectAccount = 'Select Account';
-  static const String newAccount = 'New Account';
+  static const String newAccount = 'New';
   static const String next = 'NEXT';
   static const String no = 'No';
   static const String ok = 'OK';
@@ -61,6 +61,5 @@ class AppText {
   static const String anUnexpectedError = 'An unexpected error has occurred';
   static const String confirmMsg =
       "Are you sure? All information will be delete. That can't be undone";
-  static const String logoutMsg =
-      "You will be returned to the login screen";
+  static const String logoutMsg = "You will be returned to the login screen";
 }

@@ -17,12 +17,14 @@ final class CreateRequestAccountButtonPressedEvent extends CreateAccountEvent {
 final class CreateClientAccountButtonPressedEvent extends CreateAccountEvent {
   final int accountId;
   final String username;
+  final String email;
   final List<ClientRequirementDtos> clientRequirements;
 
   CreateClientAccountButtonPressedEvent({
     required this.accountId,
     required this.username,
     required this.clientRequirements,
+    required this.email,
   });
 }
 

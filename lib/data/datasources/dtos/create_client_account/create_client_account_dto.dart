@@ -4,6 +4,7 @@ class CreateClientAccountDto {
   final String username;
   final bool ppApp;
   final String submitType;
+  final String email;
   final int? accountId;
   final List<ClientRequirementDtos>? clientRequirements;
 
@@ -15,6 +16,7 @@ class CreateClientAccountDto {
     this.submitType = 'save',
     this.accountId,
     this.clientRequirements,
+    this.email = '',
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +27,7 @@ class CreateClientAccountDto {
       'username': username,
       'submit_type': submitType,
       'account_id': accountId,
+      'user_email': email,
       'client_requirements': clientRequirements?.map((x) => x.toMap()).toList(),
     };
   }

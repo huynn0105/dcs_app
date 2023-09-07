@@ -44,7 +44,7 @@ class EditAccountScreen extends StatefulWidget {
 class _EditAccountScreenState extends State<EditAccountScreen> {
   late TextEditingController _accountNameController,
       _accountNumberController,
-      _usernameController,
+      _usernameOrEmailController,
       _nicknameController;
 
   final GlobalKey<FormState> _formKeyAccountName = GlobalKey<FormState>();
@@ -59,7 +59,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     _accountNameController = TextEditingController(text: account.accountName);
     _accountNumberController = TextEditingController();
     _nicknameController = TextEditingController(text: account.username);
-    _usernameController = TextEditingController(text: account.username);
+    _usernameOrEmailController = TextEditingController();
     _focusAccountName.addListener(_onFocusAccountName);
     _focusAccountNumber.addListener(_onFocusAccountNumber);
     context
@@ -84,7 +84,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
   void dispose() {
     _accountNameController.dispose();
     _accountNumberController.dispose();
-    _usernameController.dispose();
+    _usernameOrEmailController.dispose();
     _nicknameController.dispose();
     _focusAccountName.removeListener(_onFocusAccountName);
     _focusAccountNumber.removeListener(_onFocusAccountNumber);
@@ -137,8 +137,9 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                       context.read<AccountDetailBloc>().add(
                             RequestAccountDetailUpdateEvent(
                               id: account.id,
-                              accountNumber: _accountNameController.text.trim(),
-                              username: _usernameController.text.trim(),
+                              accountNumber:
+                                  _accountNumberController.text.trim(),
+                              username: _usernameOrEmailController.text.trim(),
                               nickname: _nicknameController.text.trim(),
                             ),
                           );
@@ -225,8 +226,10 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                                         .clientAccount
                                         .accountNumber ??
                                     '';
-                                _usernameController.text = state.accountDetail!
-                                        .clientAccount.username ??
+                                _usernameOrEmailController.text = state
+                                        .accountDetail!
+                                        .clientAccount
+                                        .username ??
                                     '';
                                 return Column(
                                   children: [
@@ -243,7 +246,8 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                                     CustomTextField(
                                       title: AppText.usernameOrEmail,
                                       textInputAction: TextInputAction.next,
-                                      controller: _usernameController,
+                                      textInputType: TextInputType.emailAddress,
+                                      controller: _usernameOrEmailController,
                                     ),
                                     SizedBox(height: 16.h),
                                   ],
