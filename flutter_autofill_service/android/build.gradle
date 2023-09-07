@@ -1,0 +1,65 @@
+group 'com.keevault.flutter_autofill_service'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.8.0'
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdk 33
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    defaultConfig {
+        minSdkVersion 26
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10'
+
+
+    implementation 'androidx.autofill:autofill:1.1.0'
+    implementation "androidx.annotation:annotation:1.6.0"
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation "io.github.microutils:kotlin-logging:1.7.6"
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+
+    // json deserialize
+    implementation "com.squareup.moshi:moshi:1.14.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+}
