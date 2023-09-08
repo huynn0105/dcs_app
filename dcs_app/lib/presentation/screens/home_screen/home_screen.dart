@@ -58,16 +58,26 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
-    Future<void> _updateStatus() async {
+  Future<void> _updateStatus() async {
     _status = await AutofillService().status;
     _autofillMetadata = await AutofillService().autofillMetadata;
-    print("Du lieu: $_autofillMetadata");
-    // _saveRequested = _autofillMetadata?.saveInfo != null;
-    // _fillRequestedAutomatic = await AutofillService().fillRequestedAutomatic;
-    // _fillRequestedInteractive =
-    //     await AutofillService().fillRequestedInteractive;
-    // _preferences = await AutofillService().preferences;
-    setState(() {});
+    if (_autofillMetadata != null) {
+      Get.toNamed(
+        MyRouter.addAccount,
+        arguments: AddAccountScreenArgument(
+          accountName: _autofillMetadata?.saveInfo?.username ?? '',
+          isRequestAccount: true,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      await _updateStatus();
+    }
   }
 
   @override

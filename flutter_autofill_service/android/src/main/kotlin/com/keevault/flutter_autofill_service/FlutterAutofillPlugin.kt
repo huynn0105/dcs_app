@@ -403,7 +403,7 @@ class FlutterAutofillPluginImpl(val context: Context) : MethodCallHandler,
             }
 
         val activityName = metaData.getString("com.keevault.flutter_autofill_service.ACTIVITY_NAME")
-            ?: "com.keevault.flutter_autofill_service_example.AutofillActivity"
+            ?: "com.example.dcs_app.AutofillActivity"
         logger.debug("got activity $activityName")
         val startIntent = getStartIntent(
             activityName,

@@ -129,78 +129,83 @@ class FlutterAutofillService : AutofillService() {
             callback.onSuccess(null)
             return
         }
+        try {
 
-        logger.debug { "Trying to fetch package info." }
-        val activityName =
-            packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).run {
-                metaData.getString("com.keevault.flutter_autofill_service.ACTIVITY_NAME")
-            } ?: "com.keevault.flutter_autofill_service_example.AutofillActivity"
-        logger.debug("got activity $activityName")
+            logger.debug { "Trying to fetch package info." }
+            val activityName =
+                packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).run {
+                    metaData.getString("com.keevault.flutter_autofill_service.ACTIVITY_NAME")
+                } ?: "com.example.dcs_app.AutofillActivity"
+            logger.debug("got activity $activityName")
 
-        val startAuthIntent = IntentHelpers.getStartIntent(
-            activityName,
-            parser.packageNames,
-            parser.webDomains,
-            applicationContext,
-            "/autofill",
-            null
-        )
-        //startAuthIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) Can't start new task cos results will never be returned
-        val pendingIntent: PendingIntent
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getActivity(
-                this,
-                1230,
-                startAuthIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+            val startAuthIntent = IntentHelpers.getStartIntent(
+                activityName,
+                parser.packageNames,
+                parser.webDomains,
+                applicationContext,
+                "/autofill",
+                null
             )
-        } else {
-            @SuppressLint("UnspecifiedImmutableFlag")
-            pendingIntent = PendingIntent.getActivity(
-                this,
-                1230,
-                startAuthIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT
-            )
-        }
-        val intentSender: IntentSender = pendingIntent.intentSender
+            //startAuthIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) Can't start new task cos results will never be returned
+            val pendingIntent: PendingIntent
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                pendingIntent = PendingIntent.getActivity(
+                    this,
+                    1230,
+                    startAuthIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+                )
+            } else {
+                @SuppressLint("UnspecifiedImmutableFlag")
+                pendingIntent = PendingIntent.getActivity(
+                    this,
+                    1230,
+                    startAuthIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                )
+            }
+            val intentSender: IntentSender = pendingIntent.intentSender
 
-        logger.debug { "startIntent:$startAuthIntent (${startAuthIntent.extras}) - sender: $intentSender" }
+            logger.debug { "startIntent:$startAuthIntent (${startAuthIntent.extras}) - sender: $intentSender" }
 
-        // Build a FillResponse object that requires authentication.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val inlineRequest = request.inlineSuggestionsRequest
+            // Build a FillResponse object that requires authentication.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val inlineRequest = request.inlineSuggestionsRequest
 //TODO: Enable respond inline here if we choose to support it in future
-            val respondInline = false
+                val respondInline = false
 //        val respondInline = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 //            inlineRequest?.maxSuggestionCount ?: 0 > 0
 //        } else false
-            fillResponseBuilder.setAuthentication(
-                autoFillIds.toTypedArray(),
-                intentSender,
-                if (!respondInline) RemoteViewsHelper.simpleRemoteViews(packageName) else null,
-                //null
-                if (respondInline) InlinePresentationHelper.viewsWithAuth(
-                    useLabel,
-                    inlineRequest!!.inlinePresentationSpecs.first(),
-                    pendingIntent,
-                    this
-                ) else null
-            )
-        } else {
-            fillResponseBuilder.setAuthentication(
-                autoFillIds.toTypedArray(),
-                intentSender,
-                RemoteViewsHelper.simpleRemoteViews(packageName),
-            )
+                fillResponseBuilder.setAuthentication(
+                    autoFillIds.toTypedArray(),
+                    intentSender,
+                    if (!respondInline) RemoteViewsHelper.simpleRemoteViews(packageName) else null,
+                    //null
+                    if (respondInline) InlinePresentationHelper.viewsWithAuth(
+                        useLabel,
+                        inlineRequest!!.inlinePresentationSpecs.first(),
+                        pendingIntent,
+                        this
+                    ) else null
+                )
+            } else {
+                fillResponseBuilder.setAuthentication(
+                    autoFillIds.toTypedArray(),
+                    intentSender,
+                    RemoteViewsHelper.simpleRemoteViews(packageName),
+                )
 
+            }
+            logger.info {
+                "remoteView for packageName: $packageName -- " +
+                        "detected autofill packageNames: ${parser.packageNames} " +
+                        "webDomains: ${parser.webDomains}" +
+                        "autoFillIds: ${autoFillIds.size}"
+            }
+        } catch (e: Exception){
+            logger.warn("Exception")
         }
-        logger.info {
-            "remoteView for packageName: $packageName -- " +
-                    "detected autofill packageNames: ${parser.packageNames} " +
-                    "webDomains: ${parser.webDomains}" +
-                    "autoFillIds: ${autoFillIds.size}"
-        }
+
 
         try {
             callback.onSuccess(fillResponseBuilder.build())
@@ -220,8 +225,8 @@ class FlutterAutofillService : AutofillService() {
         val activityName =
             packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).run {
                 metaData.getString("com.keevault.flutter_autofill_service.SAVE_ACTIVITY_NAME")
-                    ?: metaData.getString("com.keevault.flutter_autofill_service.ACTIVITY_NAME")
-            } ?: "com.keevault.flutter_autofill_service_example.AutofillActivity"
+                    ?: metaData.getString("com.example.dcs_app.ACTIVITY_NAME")
+            } ?: "com.example.dcs_app.AutofillActivity"
         logger.debug("got activity $activityName")
 
         val clientState = request.clientState!!

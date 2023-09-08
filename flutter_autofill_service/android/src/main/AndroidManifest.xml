@@ -3,11 +3,6 @@
     package="com.keevault.flutter_autofill_service">
 
     <application>
-        <activity
-            android:name=".DummyTestActivity"
-            android:label="@string/title_activity_dummy_test"
-            android:taskAffinity=".DummyTestActivity">
-        </activity>
 
         <service
             android:name=".FlutterAutofillService"
