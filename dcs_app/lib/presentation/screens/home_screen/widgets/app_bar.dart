@@ -97,7 +97,7 @@ class _AppBar extends StatelessWidget {
                 arguments: AddAccountScreenArgument(
                   id: 0,
                   accountName: call.arguments['account_name'],
-                  accountType: call.arguments['account_type'],
+                  usernameOrEmail: call.arguments['account_type'],
                 ),
               );
             }

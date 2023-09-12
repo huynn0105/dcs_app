@@ -23,13 +23,13 @@ part 'widgets/app_bar.dart';
 class AddAccountScreenArgument {
   final int? id;
   final String accountName;
-  final String? accountType;
+  final String? usernameOrEmail;
   final bool isRequestAccount;
 
   const AddAccountScreenArgument({
     this.id,
     required this.accountName,
-    this.accountType,
+    this.usernameOrEmail,
     this.isRequestAccount = false,
   });
 }
@@ -64,7 +64,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
     _accountNameController =
         TextEditingController(text: widget.argument.accountName);
     _accountNumberController = TextEditingController();
-    _usernameController = TextEditingController();
+    _usernameController = TextEditingController(text: widget.argument.usernameOrEmail);
     _emailController = TextEditingController();
 
     context

@@ -31,8 +31,9 @@ object SaveHelper {
 //        }
 
         val usernameId = clientState.getParcelable("usernameId") ?: autoFillIdUsernameMatched
-        ?: autoFillIdUsernameGuessed
-       // val passwordId = autoFillIdPasswordMatched ?: autoFillIdPasswordGuessed
+        ?: autoFillIdUsernameGuessed ?: return null
+
+        // val passwordId = autoFillIdPasswordMatched ?: autoFillIdPasswordGuessed
 
 //        if (usernameId != null && passwordId != null) {
 //            clientState.putParcelable("usernameId", usernameId)

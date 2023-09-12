@@ -101,6 +101,10 @@ class FlutterAutofillService : AutofillService() {
             parser,
             ArrayList(autoFillIds)
         )
+        if(autoFillIdUsernameGuessed == null){
+            callback.onSuccess(null)
+            return
+        }
         val saveInfo = createSaveInfo(
             clientState,
             autoFillIdUsernameGuessed,

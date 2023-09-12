@@ -1,6 +1,10 @@
 import 'dart:io';
 
+import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/domain/models/account.dart';
+import 'package:dcs_app/domain/repositories/account_repository.dart';
+import 'package:dcs_app/domain/repositories/auth_repository.dart';
+import 'package:dcs_app/global/locator.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/common/custom_button.dart';
@@ -12,6 +16,7 @@ import 'package:dcs_app/utils/dialog_utils.dart';
 import 'package:dcs_app/utils/enum.dart';
 import 'package:dcs_app/utils/loading_utils.dart';
 import 'package:dcs_app/global/router.dart';
+import 'package:dcs_app/utils/resouces/data_state.dart';
 import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late TextEditingController searchController;
   final Debouncer debouncer = Debouncer();
 
-  AutofillServiceStatus? _status;
   AutofillMetadata? _autofillMetadata;
 
   @override
@@ -59,13 +63,33 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _updateStatus() async {
-    _status = await AutofillService().status;
     _autofillMetadata = await AutofillService().autofillMetadata;
+    print("_autofillMetadata: $_autofillMetadata");
+    AccountResponse? account;
     if (_autofillMetadata != null) {
+      String accountName = '';
+      if (_autofillMetadata?.webDomains.firstOrNull?.domain != null) {
+        accountName = _autofillMetadata!.webDomains.firstOrNull!.domain;
+      } else if (_autofillMetadata?.packageNames.firstOrNull != null) {
+        final packageName = _autofillMetadata!.packageNames.firstOrNull!;
+        final split = packageName.split('.');
+        if (split.length > 1) {
+          accountName = split[1];
+        }
+      }
+
+      final response = await locator<AccountRepository>()
+          .getListAccounts(locator<AuthRepository>().token);
+      if (response is DataSuccess) {
+        account = response.data!.firstWhereOrNull((x) => x.name == accountName);
+      }
+
       Get.toNamed(
         MyRouter.addAccount,
         arguments: AddAccountScreenArgument(
-          accountName: _autofillMetadata?.saveInfo?.username ?? '',
+          id: account?.id,
+          accountName: account?.name ?? accountName,
+          usernameOrEmail: _autofillMetadata?.saveInfo?.username ?? '',
           isRequestAccount: true,
         ),
       );

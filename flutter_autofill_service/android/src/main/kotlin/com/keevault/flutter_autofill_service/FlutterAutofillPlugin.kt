@@ -474,6 +474,11 @@ class FlutterAutofillPluginImpl(val context: Context) : MethodCallHandler,
                 setAuthentication(intentSender)
             }.build()
         )
+        if(autoFillIdUsernameGuessed == null){
+            result.success(false)
+            return
+        }
+
         val saveInfo = createSaveInfo(
             clientState,
             autoFillIdUsernameGuessed,
