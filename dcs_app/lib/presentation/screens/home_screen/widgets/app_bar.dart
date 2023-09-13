@@ -9,7 +9,7 @@ class _AppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 92.w,
+          width: 95.w,
           child: BlocBuilder<HomeBloc, HomeState>(builder: (_, state) {
             return state.showChecked
                 ? CustomTextButton(
@@ -23,21 +23,22 @@ class _AppBar extends StatelessWidget {
                   )
                 : Row(
                     children: [
+                      SizedBox(width: 5.w),
                       IconButton(
                           onPressed: () {
                             Scaffold.of(context).openDrawer();
                           },
                           icon: const Icon(Icons.menu)),
-                      Platform.isAndroid
-                          ? CustomTextButton(
-                              onPressed: () async {
-                                if (Platform.isAndroid) {
-                                  await _syncAllAccounts(context);
-                                }
-                              },
-                              textButton: AppText.sync,
-                            )
-                          : const SizedBox.shrink(),
+                      // Platform.isAndroid
+                      //     ? CustomTextButton(
+                      //         onPressed: () async {
+                      //           if (Platform.isAndroid) {
+                      //             await _syncAllAccounts(context);
+                      //           }
+                      //         },
+                      //         textButton: AppText.sync,
+                      //       )
+                      //     : const SizedBox.shrink(),
                     ],
                   );
           }),
@@ -84,95 +85,94 @@ class _AppBar extends StatelessWidget {
     );
   }
 
-  // ignore: unused_element
-  Future<void> _selectAccount(BuildContext context) async {
-    await LoadingUtils.show();
-    if (context.mounted) {
-      await context.read<HomeBloc>().pickAccount(
-        (call) async {
-          if (call.method == 'account') {
-            if (call.arguments != null) {
-              Get.toNamed(
-                MyRouter.addAccount,
-                arguments: AddAccountScreenArgument(
-                  id: 0,
-                  accountName: call.arguments['account_name'],
-                  usernameOrEmail: call.arguments['account_type'],
-                ),
-              );
-            }
-          }
-        },
-      );
-    }
-    await LoadingUtils.dismiss();
-  }
+  // Future<void> _selectAccount(BuildContext context) async {
+  //   await LoadingUtils.show();
+  //   if (context.mounted) {
+  //     await context.read<HomeBloc>().pickAccount(
+  //       (call) async {
+  //         if (call.method == 'account') {
+  //           if (call.arguments != null) {
+  //             Get.toNamed(
+  //               MyRouter.addAccount,
+  //               arguments: AddAccountScreenArgument(
+  //                 id: 0,
+  //                 accountName: call.arguments['account_name'],
+  //                 usernameOrEmail: call.arguments['account_type'],
+  //               ),
+  //             );
+  //           }
+  //         }
+  //       },
+  //     );
+  //   }
+  //   await LoadingUtils.dismiss();
+  // }
 
-  Future<void> _syncAllAccounts(BuildContext context) async {
-    await LoadingUtils.show();
-    if (context.mounted) {
-      final accounts = await context.read<HomeBloc>().syncAccounts();
+  // Future<void> _syncAllAccounts(BuildContext context) async {
+  //   await LoadingUtils.show();
+  //   if (context.mounted) {
+  //     final accounts = await context.read<HomeBloc>().syncAccounts();
 
-      await LoadingUtils.dismiss();
-      if (accounts.isNotEmpty) {
-        if (context.mounted) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                actions: [
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (context, state) {
-                      return ElevatedButton(
-                        onPressed: state.accountsSelected.isEmpty
-                            ? null
-                            : () {
-                                context.read<HomeBloc>().add(
-                                      AddAccountSyncToAccountsEvent(),
-                                    );
-                              },
-                        child: const Text(AppText.ok),
-                      );
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      context
-                          .read<HomeBloc>()
-                          .add(ClearSelectedAccountsEvent());
-                      Navigator.pop(context);
-                    },
-                    child: const Text(AppText.cancel),
-                  ),
-                ],
-                title: const Text(AppText.accounts),
-                content: Container(
-                  width: double.maxFinite,
-                  constraints: BoxConstraints(
-                    maxHeight: 600.h,
-                  ),
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: accounts.map((e) => _Item(account: e)).toList(),
-                  ),
-                ),
-              );
-            },
-          );
-        }
-      } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                AppText.allSync,
-              ),
-            ),
-          );
-        }
-      }
-    }
-  }
+  //     await LoadingUtils.dismiss();
+  //     if (accounts.isNotEmpty) {
+  //       if (context.mounted) {
+  //         showDialog(
+  //           context: context,
+  //           builder: (context) {
+  //             return AlertDialog(
+  //               actions: [
+  //                 BlocBuilder<HomeBloc, HomeState>(
+  //                   builder: (context, state) {
+  //                     return ElevatedButton(
+  //                       onPressed: state.accountsSelected.isEmpty
+  //                           ? null
+  //                           : () {
+  //                               context.read<HomeBloc>().add(
+  //                                     AddAccountSyncToAccountsEvent(),
+  //                                   );
+  //                             },
+  //                       child: const Text(AppText.ok),
+  //                     );
+  //                   },
+  //                 ),
+  //                 ElevatedButton(
+  //                   onPressed: () {
+  //                     context
+  //                         .read<HomeBloc>()
+  //                         .add(ClearSelectedAccountsEvent());
+  //                     Navigator.pop(context);
+  //                   },
+  //                   child: const Text(AppText.cancel),
+  //                 ),
+  //               ],
+  //               title: const Text(AppText.accounts),
+  //               content: Container(
+  //                 width: double.maxFinite,
+  //                 constraints: BoxConstraints(
+  //                   maxHeight: 600.h,
+  //                 ),
+  //                 child: ListView(
+  //                   shrinkWrap: true,
+  //                   children: accounts.map((e) => _Item(account: e)).toList(),
+  //                 ),
+  //               ),
+  //             );
+  //           },
+  //         );
+  //       }
+  //     } else {
+  //       if (context.mounted) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text(
+  //               AppText.allSync,
+  //             ),
+  //           ),
+  //         );
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 class _Item extends StatelessWidget {

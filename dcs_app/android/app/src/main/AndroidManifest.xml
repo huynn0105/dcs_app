@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,7 +7,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
-        android:label="dcs_app">
+        android:label="DCS">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -55,10 +54,10 @@
 
         <meta-data
             android:name="com.keevault.flutter_autofill_service.ACTIVITY_NAME"
-            android:value="com.example.dcs_app.AutofillActivity" />
+            android:value="com.app.DCSPortfolioPlusMobile.AutofillActivity" />
         <meta-data
             android:name="com.keevault.flutter_autofill_service.SAVE_ACTIVITY_NAME"
-            android:value="com.example.dcs_app.MainActivity" />
+            android:value="com.app.DCSPortfolioPlusMobile.MainActivity" />
         <meta-data
             android:name="com.keevault.flutter_autofill_service.match_header_drawable_name"
             android:value="ic_android_24" />
@@ -66,12 +65,24 @@
             android:name="com.keevault.flutter_autofill_service.select_another_entry"
             android:value="Pick different entry" />
 
+<!--        <service-->
+<!--            android:name="com.keevault.flutter_autofill_service.FlutterAutofillService"-->
+<!--            tools:replace="label"-->
+<!--            android:label="DSC App">-->
+<!--        </service>-->
+
         <service
             android:name="com.keevault.flutter_autofill_service.FlutterAutofillService"
-            tools:replace="label"
-            android:label="DSC App">
+            android:label="DCS App"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
 
-
+            <meta-data
+                android:name="android.autofill"
+                android:resource="@xml/service_configuration" />
         </service>
 
     </application>

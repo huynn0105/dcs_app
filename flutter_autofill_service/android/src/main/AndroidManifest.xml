@@ -4,9 +4,9 @@
 
     <application>
 
-        <service
+        <!-- <service
             android:name=".FlutterAutofillService"
-            android:label="Flutter Autofill Service"
+            android:label="DCS Service"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE"
             android:exported="true">
             <intent-filter>
@@ -16,7 +16,7 @@
             <meta-data
                 android:name="android.autofill"
                 android:resource="@xml/service_configuration" />
-        </service>
+        </service> -->
     </application>
 
 </manifest>

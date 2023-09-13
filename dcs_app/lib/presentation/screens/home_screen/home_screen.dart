@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
@@ -63,10 +61,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _updateStatus() async {
-    _autofillMetadata = await AutofillService().autofillMetadata;
-    print("_autofillMetadata: $_autofillMetadata");
+    final autofillService = AutofillService();
+    _autofillMetadata = await autofillService.autofillMetadata;
+    if (Get.currentRoute != MyRouter.home) {
+      Get.until((route) => route.isFirst);
+    }
     AccountResponse? account;
     if (_autofillMetadata != null) {
+      await LoadingUtils.show();
       String accountName = '';
       if (_autofillMetadata?.webDomains.firstOrNull?.domain != null) {
         accountName = _autofillMetadata!.webDomains.firstOrNull!.domain;
@@ -81,18 +83,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       final response = await locator<AccountRepository>()
           .getListAccounts(locator<AuthRepository>().token);
       if (response is DataSuccess) {
-        account = response.data!.firstWhereOrNull((x) => x.name == accountName);
+        account = response.data!.firstWhereOrNull(
+            (x) => x.name.toLowerCase() == accountName.toLowerCase());
       }
-
+      await LoadingUtils.dismiss();
       Get.toNamed(
         MyRouter.addAccount,
         arguments: AddAccountScreenArgument(
           id: account?.id,
           accountName: account?.name ?? accountName,
           usernameOrEmail: _autofillMetadata?.saveInfo?.username ?? '',
-          isRequestAccount: true,
+          isRequestAccount: account?.id == null,
         ),
       );
+      await autofillService.onSaveComplete();
     }
   }
 

@@ -254,7 +254,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
 
                         BlocBuilder<CreateAccountBloc, CreateAccountState>(
                             builder: (context, state) {
-                          if (state.formTextFields.isNotEmpty) {
+                          if (state.formTextFields.isNotEmpty && !widget.argument.isRequestAccount) {
                             return Column(
                               children: [
                                 // !state.formFieldNames.contains(

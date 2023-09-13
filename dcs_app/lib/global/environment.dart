@@ -2,7 +2,7 @@ import 'package:dcs_app/utils/enum.dart';
 
 class EnvironmentConfig {
   static const String _apiURL =
-      'https://dev.directivecommunications.com/api/v1';
+      'https://qa.directivecommunications.com//api/v1';
 
   static void setEnvironment(Environment env) {
     switch (env) {

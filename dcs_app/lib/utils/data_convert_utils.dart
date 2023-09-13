@@ -5,7 +5,7 @@ class DataConvertUtils {
     try {
       return exception.response?.data['message'] != null
           ? exception.response!.data['message']
-          : (exception.message ?? '');
+          : (exception.message ?? "");
     } catch (e) {
       return exception.message ?? '';
     }

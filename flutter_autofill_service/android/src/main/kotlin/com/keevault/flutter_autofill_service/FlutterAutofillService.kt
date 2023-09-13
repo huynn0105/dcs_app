@@ -139,7 +139,7 @@ class FlutterAutofillService : AutofillService() {
             val activityName =
                 packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).run {
                     metaData.getString("com.keevault.flutter_autofill_service.ACTIVITY_NAME")
-                } ?: "com.example.dcs_app.AutofillActivity"
+                } ?: "com.app.DCSPortfolioPlusMobile.AutofillActivity"
             logger.debug("got activity $activityName")
 
             val startAuthIntent = IntentHelpers.getStartIntent(
@@ -229,8 +229,8 @@ class FlutterAutofillService : AutofillService() {
         val activityName =
             packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA).run {
                 metaData.getString("com.keevault.flutter_autofill_service.SAVE_ACTIVITY_NAME")
-                    ?: metaData.getString("com.example.dcs_app.ACTIVITY_NAME")
-            } ?: "com.example.dcs_app.AutofillActivity"
+                    ?: metaData.getString("com.app.DCSPortfolioPlusMobile.ACTIVITY_NAME")
+            } ?: "com.app.DCSPortfolioPlusMobile.AutofillActivity"
         logger.debug("got activity $activityName")
 
         val clientState = request.clientState!!

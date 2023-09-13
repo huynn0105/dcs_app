@@ -76,7 +76,7 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
         state.formTextFields = [];
         return;
       }
-      emit(state.copyWith(loading: true));
+      emit(state.copyWith(loading: true, formTextFields: []));
       if (await InternetConnectionUtils.checkConnection()) {
         final response = await accountRepository.getRequirementByAccount(
             locator<AuthRepository>().token, event.id!);

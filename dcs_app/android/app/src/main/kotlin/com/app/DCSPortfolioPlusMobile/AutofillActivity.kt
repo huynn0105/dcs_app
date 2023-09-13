@@ -1,4 +1,4 @@
-package com.example.dcs_app
+package com.app.DCSPortfolioPlusMobile
 
 import io.flutter.embedding.android.FlutterActivity
 

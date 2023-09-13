@@ -97,6 +97,7 @@ class FlutterAutofillPluginImpl(val context: Context) : MethodCallHandler,
             }
             // method available while we are handling an autofill request.
             "getAutofillMetadata" -> {
+
                 val metadata = lastIntent?.getStringExtra(
                     AutofillMetadata.EXTRA_NAME
                 )?.let(AutofillMetadata.Companion::fromJsonString)
@@ -163,7 +164,7 @@ class FlutterAutofillPluginImpl(val context: Context) : MethodCallHandler,
             "onSaveComplete" -> {
                 // Clearing the lastIntent allows the consumer's code to know if a save request has already been handled.
                 lastIntent = null
-                activity?.moveTaskToBack(true)
+                //activity?.moveTaskToBack(true)
             }
 
             else -> result.notImplemented()
@@ -403,7 +404,7 @@ class FlutterAutofillPluginImpl(val context: Context) : MethodCallHandler,
             }
 
         val activityName = metaData.getString("com.keevault.flutter_autofill_service.ACTIVITY_NAME")
-            ?: "com.example.dcs_app.AutofillActivity"
+            ?: "com.app.DCSPortfolioPlusMobile.AutofillActivity"
         logger.debug("got activity $activityName")
         val startIntent = getStartIntent(
             activityName,

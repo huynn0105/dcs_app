@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:dcs_app/data/datasources/dtos/delete_client_account/delete_client_account_dto.dart';
 import 'package:dcs_app/domain/models/account.dart';
@@ -9,8 +7,6 @@ import 'package:dcs_app/utils/constants.dart';
 import 'package:dcs_app/utils/internet_connection_utils.dart';
 import 'package:dcs_app/global/locator.dart';
 import 'package:dcs_app/utils/resouces/data_state.dart';
-import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -209,44 +205,44 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<AddAccountSyncToAccountsEvent>((event, emit) {});
   }
 
-  Future<List<Account>> syncAccounts() async {
-    const channel = MethodChannel('com.example.dcs_app');
-    List<Account> accounts = [];
-    if (await Permission.contacts.request().isGranted) {
-      final result = await channel.invokeMethod('getAllAccounts');
-      for (var item in result) {
-        final account = Account(
-          username: item['account_name'],
-          id: Random(100).nextInt(1),
-          accountName: item['account_type'],
-          isRequest: true,
-        );
-        if (!_isAccountExistent(account, state.accounts)) {
-          accounts.add(account);
-        }
-      }
-    }
-    return accounts;
-  }
+  // Future<List<Account>> syncAccounts() async {
+  //   const channel = MethodChannel('com.app.DCSPortfolioPlusMobile');
+  //   List<Account> accounts = [];
+  //   if (await Permission.contacts.request().isGranted) {
+  //     final result = await channel.invokeMethod('getAllAccounts');
+  //     for (var item in result) {
+  //       final account = Account(
+  //         username: item['account_name'],
+  //         id: Random(100).nextInt(1),
+  //         accountName: item['account_type'],
+  //         isRequest: true,
+  //       );
+  //       if (!_isAccountExistent(account, state.accounts)) {
+  //         accounts.add(account);
+  //       }
+  //     }
+  //   }
+  //   return accounts;
+  // }
 
-  Future<void> pickAccount(
-      Future<dynamic> Function(MethodCall call) handleMethodCall) async {
-    const channel = MethodChannel('com.example.dcs_app');
+  // Future<void> pickAccount(
+  //     Future<dynamic> Function(MethodCall call) handleMethodCall) async {
+  //   const channel = MethodChannel('com.app.DCSPortfolioPlusMobile');
 
-    if (await Permission.contacts.request().isGranted) {
-      if (await channel.invokeMethod("pickAccount")) {
-        channel.setMethodCallHandler(handleMethodCall);
-      }
-    }
-  }
+  //   if (await Permission.contacts.request().isGranted) {
+  //     if (await channel.invokeMethod("pickAccount")) {
+  //       channel.setMethodCallHandler(handleMethodCall);
+  //     }
+  //   }
+  // }
 
-  bool _isAccountExistent(Account account, List<Account> accounts) {
-    for (var account1 in accounts) {
-      if (account1.accountName == account.accountName &&
-          account1.username == account.username) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // bool _isAccountExistent(Account account, List<Account> accounts) {
+  //   for (var account1 in accounts) {
+  //     if (account1.accountName == account.accountName &&
+  //         account1.username == account.username) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 }
