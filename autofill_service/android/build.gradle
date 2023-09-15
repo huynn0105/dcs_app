@@ -1,0 +1,79 @@
+group 'com.dcs.autofill_service'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.7.10'
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+        multiDexEnabled true // ADD THIS LINE
+    }
+
+    dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10'
+        implementation 'com.google.android.gms:play-services-basement:18.2.0'
+        implementation 'androidx.autofill:autofill:1.1.0'
+        implementation "androidx.annotation:annotation:1.6.0"
+        implementation 'androidx.appcompat:appcompat:1.6.1'
+        implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+        implementation 'com.google.android.material:material:1.8.0'
+        implementation "io.github.microutils:kotlin-logging:1.7.6"
+        implementation 'com.android.support:multidex:1.0.3'  // ADD THIS LINE
+        implementation 'androidx.core:core-ktx:1.9.0'
+
+        // json deserialize
+        implementation "com.squareup.moshi:moshi:1.14.0"
+        implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
+        kapt("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
+}

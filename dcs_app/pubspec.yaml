@@ -32,8 +32,8 @@ dependencies:
     sdk: flutter
 
 
-  flutter_autofill_service:
-    path: ../flutter_autofill_service/
+  autofill_service:
+    path: ../autofill_service
 
 
   # The following adds the Cupertino Icons font to your application.

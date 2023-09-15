@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:autofill_service/autofill_service.dart';
 import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
@@ -18,7 +21,6 @@ import 'package:dcs_app/utils/resouces/data_state.dart';
 import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_autofill_service/flutter_autofill_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_debouncer/flutter_debouncer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _updateStatus() async {
+    if (!Platform.isAndroid) return;
     final autofillService = AutofillService();
     _autofillMetadata = await autofillService.autofillMetadata;
     if (Get.currentRoute != MyRouter.home) {

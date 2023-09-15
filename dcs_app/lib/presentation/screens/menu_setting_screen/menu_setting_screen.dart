@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:autofill_service/autofill_service.dart';
 import 'package:dcs_app/domain/repositories/auth_repository.dart';
 import 'package:dcs_app/global/locator.dart';
 import 'package:dcs_app/presentation/blocs/auth_bloc/auth_bloc.dart';
@@ -6,7 +9,6 @@ import 'package:dcs_app/utils/constants.dart';
 import 'package:dcs_app/utils/dialog_utils.dart';
 import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_autofill_service/flutter_autofill_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -79,16 +81,6 @@ class MenuSettingScreen extends StatelessWidget {
                   'Manage',
                   style: TextStyleUtils.regular(13),
                 ),
-                onTap: () async {
-                  final response =
-                      await AutofillService().requestSetAutofillService();
-                  print("Du lieu response: $response");
-                  final status = await AutofillService().status;
-                  final autofillMetadata =
-                      await AutofillService().autofillMetadata;
-                  print("Du lieu: $status");
-                  print("Du lieu 123: $autofillMetadata");
-                },
               ),
               ListTile(
                 leading: SvgPicture.asset('assets/images/settings.svg'),
@@ -96,6 +88,13 @@ class MenuSettingScreen extends StatelessWidget {
                   'Setting',
                   style: TextStyleUtils.regular(13),
                 ),
+                onTap: () async {
+                  if (Platform.isAndroid) {
+                    final response =
+                        await AutofillService().requestSetAutofillService();
+                    print("Du lieu response: $response");
+                  }
+                },
               ),
               const Spacer(),
               OutlinedButton(
