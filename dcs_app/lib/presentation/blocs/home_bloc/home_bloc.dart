@@ -1,12 +1,20 @@
+import 'dart:io';
+
+import 'package:autofill_service/autofill_service.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/data/datasources/dtos/delete_client_account/delete_client_account_dto.dart';
 import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
 import 'package:dcs_app/domain/repositories/auth_repository.dart';
+import 'package:dcs_app/global/router.dart';
+import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/utils/constants.dart';
 import 'package:dcs_app/utils/internet_connection_utils.dart';
 import 'package:dcs_app/global/locator.dart';
+import 'package:dcs_app/utils/loading_utils.dart';
 import 'package:dcs_app/utils/resouces/data_state.dart';
+import 'package:get/get.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -204,6 +212,63 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
     on<AddAccountSyncToAccountsEvent>((event, emit) {});
   }
+
+      Future<void> onSaveComplete() async {
+        if (!Platform.isAndroid) return;
+      final autofillService = AutofillService();
+      final autofillMetadata = await autofillService.autofillMetadata;
+      if (autofillMetadata == null) return;
+      if (Get.currentRoute != MyRouter.home) {
+        Get.until((route) => route.isFirst);
+      }
+
+      await LoadingUtils.show();
+      String accountName = '';
+      AccountResponse? account;
+      if (autofillMetadata.webDomains.firstOrNull?.domain != null) {
+        final domain = autofillMetadata.webDomains.firstOrNull!.domain;
+        final response = await locator<AccountRepository>()
+            .getAccountByDomain(locator<AuthRepository>().token, domain);
+        if (response is DataSuccess) {
+          account = response.data;
+        }
+        await LoadingUtils.dismiss();
+        Get.toNamed(
+          MyRouter.addAccount,
+          arguments: AddAccountScreenArgument(
+            id: account?.id,
+            accountName: account?.name ?? domain,
+            usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
+            isRequestAccount: account?.id == null,
+          ),
+        );
+      } else if (autofillMetadata.packageNames.firstOrNull != null) {
+        final packageName = autofillMetadata.packageNames.firstOrNull!;
+        final split = packageName.split('.');
+        if (split.length > 1) {
+          accountName = split[1];
+        }
+
+        final response = await locator<AccountRepository>()
+            .getListAccounts(locator<AuthRepository>().token);
+        if (response is DataSuccess) {
+          account = response.data!.firstWhereOrNull(
+              (x) => x.name.toLowerCase() == accountName.toLowerCase());
+        }
+        await LoadingUtils.dismiss();
+        Get.toNamed(
+          MyRouter.addAccount,
+          arguments: AddAccountScreenArgument(
+            id: account?.id,
+            accountName: account?.name ?? accountName,
+            usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
+            isRequestAccount: account?.id == null,
+          ),
+        );
+      }
+      await autofillService.onSaveComplete();
+    }
+
 
   // Future<List<Account>> syncAccounts() async {
   //   const channel = MethodChannel('com.app.DCSPortfolioPlusMobile');

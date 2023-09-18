@@ -1,13 +1,5 @@
-import 'dart:io';
-
-import 'package:autofill_service/autofill_service.dart';
-import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/domain/models/account.dart';
-import 'package:dcs_app/domain/repositories/account_repository.dart';
-import 'package:dcs_app/domain/repositories/auth_repository.dart';
-import 'package:dcs_app/global/locator.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
-import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/common/custom_button.dart';
 import 'package:dcs_app/presentation/screens/edit_account_screen/edit_account_screen.dart';
 import 'package:dcs_app/presentation/screens/menu_setting_screen/menu_setting_screen.dart';
@@ -17,7 +9,6 @@ import 'package:dcs_app/utils/dialog_utils.dart';
 import 'package:dcs_app/utils/enum.dart';
 import 'package:dcs_app/utils/loading_utils.dart';
 import 'package:dcs_app/global/router.dart';
-import 'package:dcs_app/utils/resouces/data_state.dart';
 import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,15 +34,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late TextEditingController searchController;
   final Debouncer debouncer = Debouncer();
 
-  AutofillMetadata? _autofillMetadata;
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     searchController = TextEditingController();
     context.read<HomeBloc>().add(HomeInitEvent());
-    _updateStatus();
+    Future.delayed(Duration.zero, () async {
+      await context.read<HomeBloc>().onSaveComplete();
+    });
   }
 
   @override
@@ -62,52 +53,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  Future<void> _updateStatus() async {
-    if (!Platform.isAndroid) return;
-    final autofillService = AutofillService();
-    _autofillMetadata = await autofillService.autofillMetadata;
-    if (Get.currentRoute != MyRouter.home) {
-      Get.until((route) => route.isFirst);
-    }
-    AccountResponse? account;
-    if (_autofillMetadata != null) {
-      await LoadingUtils.show();
-      String accountName = '';
-      if (_autofillMetadata?.webDomains.firstOrNull?.domain != null) {
-        accountName = _autofillMetadata!.webDomains.firstOrNull!.domain;
-      } else if (_autofillMetadata?.packageNames.firstOrNull != null) {
-        final packageName = _autofillMetadata!.packageNames.firstOrNull!;
-        final split = packageName.split('.');
-        if (split.length > 1) {
-          accountName = split[1];
-        }
-      }
-
-      final response = await locator<AccountRepository>()
-          .getListAccounts(locator<AuthRepository>().token);
-      if (response is DataSuccess) {
-        account = response.data!.firstWhereOrNull(
-            (x) => x.name.toLowerCase() == accountName.toLowerCase());
-      }
-      await LoadingUtils.dismiss();
-      Get.toNamed(
-        MyRouter.addAccount,
-        arguments: AddAccountScreenArgument(
-          id: account?.id,
-          accountName: account?.name ?? accountName,
-          usernameOrEmail: _autofillMetadata?.saveInfo?.username ?? '',
-          isRequestAccount: account?.id == null,
-        ),
-      );
-      await autofillService.onSaveComplete();
-    }
-  }
-
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      await _updateStatus();
+      await context.read<HomeBloc>().onSaveComplete();
     }
   }
 

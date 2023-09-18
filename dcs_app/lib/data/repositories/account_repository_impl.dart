@@ -56,6 +56,12 @@ class AccountRepositoryImpl extends BaseApiRepository
     return getStateOf(
         request: () => _client.getRequirementByAccount(token: token, id: id));
   }
+  @override
+  Future<DataState<AccountResponse>> getAccountByDomain(
+      String token, String domain) {
+    return getStateOf(
+        request: () => _client.getAccountByDomain(token: token, domain: domain));
+  }
 
   @override
   Future<DataState<ClientAccountDetailResponseDto>> getClientAccountDetail(

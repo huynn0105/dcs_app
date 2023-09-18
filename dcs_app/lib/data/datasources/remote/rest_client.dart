@@ -51,6 +51,12 @@ abstract class RestClient {
     @Query("account_id") required int id,
   });
 
+  @GET('/accounts/get_requirement_account')
+  Future<HttpResponse<AccountResponse>> getAccountByDomain({
+    @Query("token") required String token,
+    @Query("account_id") required String domain,
+  });
+
   @GET('/accounts/client_account_detail')
   Future<HttpResponse<ClientAccountDetailResponseDto>> getClientAccountDetail({
     @Query("token") required String token,

@@ -19,7 +19,13 @@ abstract class AccountRepository {
   Future<DataState<List<ClientAccountResponseDto>>> getListClientAccounts(
       String token);
   Future<DataState<List<RequirementAccountDto>>> getRequirementByAccount(
-      String token, int id);
+    String token,
+    int id,
+  );
+  Future<DataState<AccountResponse>> getAccountByDomain(
+    String token,
+    String domain,
+  );
   Future<DataState<ClientAccountDetailResponseDto>> getClientAccountDetail(
     String token,
     int id,
