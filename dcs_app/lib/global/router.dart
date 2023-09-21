@@ -1,4 +1,5 @@
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
+import 'package:dcs_app/presentation/screens/auto_fill_screen/auto_fill_screen.dart';
 import 'package:dcs_app/presentation/screens/edit_account_screen/edit_account_screen.dart';
 import 'package:dcs_app/presentation/screens/menu_setting_screen/menu_setting_screen.dart';
 import 'package:dcs_app/presentation/screens/select_account_screen/select_account_screen.dart';
@@ -16,6 +17,7 @@ class MyRouter {
   static const String splash = '/splash';
   static const String selectAccount = '/selectAccount';
   static const String menuSetting = '/menuSetting';
+  static const String autoFillSetting = '/autoFillSetting';
 
   static PageRouteBuilder _buildRouteNavigationWithoutEffect(
       RouteSettings settings, Widget widget) {
@@ -85,6 +87,11 @@ class MyRouter {
         return _buildRouteNavigationWithEffect(
           settings,
           const MenuSettingScreen(),
+        );
+      case autoFillSetting:
+        return _buildRouteNavigationWithEffect(
+          settings,
+          const AutoFillScreen(),
         );
 
       default:

@@ -118,45 +118,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ));
     });
 
-    // on<CreateAccountEvent>((event, emit) async {
-    //   emit(state.copyWith(loading: true));
-    //   if (await InternetConnectionUtils.checkConnection()) {
-    //     final AccountDto account = AccountDto(
-    //       url: event.accountName,
-    //       username: event.username ?? '',
-    //       client: locator<AuthRepository>().email,
-    //       token: locator<AuthRepository>().token,
-    //     );
-    //     final response = await _accountRepository.createAccount(account);
-
-    //     if (response is DataSuccess) {
-    //       final account = Account(
-    //         id: response.data!.id,
-    //         username: event.username ?? '',
-    //         email: event.email ?? '',
-    //         accountName: event.accountName,
-    //       );
-    //       emit(
-    //         state.copyWith(
-    //           success: true,
-    //           status: Status.create,
-    //           accounts: [account, ...state.accounts],
-    //         ),
-    //       );
-    //     } else if (response is DataFailed) {
-    //       emit(state.copyWith(
-    //         success: false,
-    //         message: response.error!.message,
-    //       ));
-    //     }
-    //   } else {
-    //     emit(state.copyWith(
-    //       success: false,
-    //       message: AppText.noInternetMsg,
-    //     ));
-    //   }
-    // });
-
     on<ToggleShowCheckEvent>((event, emit) {
       emit(state.copyWith(
         showChecked: !state.showChecked,
@@ -213,101 +174,70 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<AddAccountSyncToAccountsEvent>((event, emit) {});
   }
 
-      Future<void> onSaveComplete() async {
-        if (!Platform.isAndroid) return;
-      final autofillService = AutofillService();
-      final autofillMetadata = await autofillService.autofillMetadata;
-      if (autofillMetadata == null) return;
-      if (Get.currentRoute != MyRouter.home) {
-        Get.until((route) => route.isFirst);
-      }
-
-      await LoadingUtils.show();
-      String accountName = '';
-      AccountResponse? account;
-      if (autofillMetadata.webDomains.firstOrNull?.domain != null) {
-        final domain = autofillMetadata.webDomains.firstOrNull!.domain;
-        final response = await locator<AccountRepository>()
-            .getAccountByDomain(locator<AuthRepository>().token, domain);
-        if (response is DataSuccess) {
-          account = response.data;
-        }
-        await LoadingUtils.dismiss();
-        Get.toNamed(
-          MyRouter.addAccount,
-          arguments: AddAccountScreenArgument(
-            id: account?.id,
-            accountName: account?.name ?? domain,
-            usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
-            isRequestAccount: account?.id == null,
-          ),
-        );
-      } else if (autofillMetadata.packageNames.firstOrNull != null) {
-        final packageName = autofillMetadata.packageNames.firstOrNull!;
-        final split = packageName.split('.');
-        if (split.length > 1) {
-          accountName = split[1];
-        }
-
-        final response = await locator<AccountRepository>()
-            .getListAccounts(locator<AuthRepository>().token);
-        if (response is DataSuccess) {
-          account = response.data!.firstWhereOrNull(
-              (x) => x.name.toLowerCase() == accountName.toLowerCase());
-        }
-        await LoadingUtils.dismiss();
-        Get.toNamed(
-          MyRouter.addAccount,
-          arguments: AddAccountScreenArgument(
-            id: account?.id,
-            accountName: account?.name ?? accountName,
-            usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
-            isRequestAccount: account?.id == null,
-          ),
-        );
-      }
-      await autofillService.onSaveComplete();
+  Future<void> onSaveComplete() async {
+    if (!Platform.isAndroid) return;
+    final autofillService = AutofillService();
+    final autofillMetadata = await autofillService.autofillMetadata;
+    if (autofillMetadata == null) return;
+    if (Get.currentRoute != MyRouter.home) {
+      Get.until((route) => route.isFirst);
     }
 
+    await LoadingUtils.show();
+    String accountName = '';
+    AccountResponse? account;
+    if (autofillMetadata.webDomains.firstOrNull?.domain != null) {
+      final domain = autofillMetadata.webDomains.firstOrNull!.domain;
+      final response = await locator<AccountRepository>()
+          .getAccountByDomain(locator<AuthRepository>().token, domain);
+      if (response is DataSuccess) {
+        account = response.data;
+      }
+      await LoadingUtils.dismiss();
+      Get.toNamed(
+        MyRouter.addAccount,
+        arguments: AddAccountScreenArgument(
+          id: account?.id,
+          accountName: account?.name ?? domain,
+          usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
+          isRequestAccount: account?.id == null,
+        ),
+      );
+    } else if (autofillMetadata.packageNames.firstOrNull != null) {
+      final packageName = autofillMetadata.packageNames.firstOrNull!;
+      final split = packageName.split('.');
+      if (split.length > 1) {
+        accountName = split[1];
+      }
 
-  // Future<List<Account>> syncAccounts() async {
-  //   const channel = MethodChannel('com.app.DCSPortfolioPlusMobile');
-  //   List<Account> accounts = [];
-  //   if (await Permission.contacts.request().isGranted) {
-  //     final result = await channel.invokeMethod('getAllAccounts');
-  //     for (var item in result) {
-  //       final account = Account(
-  //         username: item['account_name'],
-  //         id: Random(100).nextInt(1),
-  //         accountName: item['account_type'],
-  //         isRequest: true,
-  //       );
-  //       if (!_isAccountExistent(account, state.accounts)) {
-  //         accounts.add(account);
-  //       }
-  //     }
-  //   }
-  //   return accounts;
-  // }
+      final response = await locator<AccountRepository>()
+          .getListAccounts(locator<AuthRepository>().token);
+      if (response is DataSuccess) {
+        account = response.data!.firstWhereOrNull(
+            (x) => x.name.toLowerCase() == accountName.toLowerCase());
+      }
+      await LoadingUtils.dismiss();
+      Get.toNamed(
+        MyRouter.addAccount,
+        arguments: AddAccountScreenArgument(
+          id: account?.id,
+          accountName: account?.name ?? accountName,
+          usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
+          isRequestAccount: account?.id == null,
+        ),
+      );
+    } else {
+      await LoadingUtils.dismiss();
+      Get.toNamed(
+        MyRouter.addAccount,
+        arguments: AddAccountScreenArgument(
+          accountName: "",
+          usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
+          isRequestAccount: true,
+        ),
+      );
+    }
+    await autofillService.onSaveComplete();
+  }
 
-  // Future<void> pickAccount(
-  //     Future<dynamic> Function(MethodCall call) handleMethodCall) async {
-  //   const channel = MethodChannel('com.app.DCSPortfolioPlusMobile');
-
-  //   if (await Permission.contacts.request().isGranted) {
-  //     if (await channel.invokeMethod("pickAccount")) {
-  //       channel.setMethodCallHandler(handleMethodCall);
-  //     }
-  //   }
-  // }
-
-  // bool _isAccountExistent(Account account, List<Account> accounts) {
-  //   for (var account1 in accounts) {
-  //     if (account1.accountName == account.accountName &&
-  //         account1.username == account.username) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
 }

@@ -73,6 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
           title: AppText.error,
           body: (authBloc.state as AuthFailure).message,
         );
+        if (mounted) {
+          context.read<AuthBloc>().add(UserLoggedOut());
+        }
       }
     });
 

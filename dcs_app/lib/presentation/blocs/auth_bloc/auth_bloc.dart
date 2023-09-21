@@ -35,5 +35,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _authRepository.clearData();
       emit(AuthNotAuthenticated());
     });
+
+    on<UserTokenExpired>((event, emit) async {
+      await _authRepository.clearData();
+      emit(AuthFailure(message: event.message));
+    });
   }
 }

@@ -10,6 +10,7 @@ class AppText {
   static const String logout = 'Log out';
   static const String accountName = 'Account Name';
   static const String plsEnterAccountName = 'Please enter Account name';
+  static const String plsEnterUsername = 'Please enter Username';
   static const String plsEnterOneOrMore =
       'Please enter one or more of the following';
   static const String accountNumber = 'Account Number';

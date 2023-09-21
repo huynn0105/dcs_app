@@ -64,7 +64,8 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
     _accountNameController =
         TextEditingController(text: widget.argument.accountName);
     _accountNumberController = TextEditingController();
-    _usernameController = TextEditingController(text: widget.argument.usernameOrEmail);
+    _usernameController =
+        TextEditingController(text: widget.argument.usernameOrEmail);
     _emailController = TextEditingController();
 
     context
@@ -107,7 +108,7 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
           }
         } else if (state.success == false &&
             state.message?.isNotEmpty == true) {
-          DialogUtils.showContinueDialog(
+          await DialogUtils.showContinueDialog(
             type: DialogType.error,
             title: AppText.error,
             body: state.message,
@@ -200,14 +201,12 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                             },
                           ),
                         ),
-
                         SizedBox(height: 10.h),
                         Text(
                           AppText.plsEnterOneOrMore,
                           style: TextStyleUtils.regular(11),
                         ),
                         SizedBox(height: 16.h),
-
                         if (widget.argument.isRequestAccount) ...[
                           Padding(
                             padding: EdgeInsets.only(bottom: 16.h),
@@ -251,64 +250,29 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                             ),
                           )
                         ],
-
                         BlocBuilder<CreateAccountBloc, CreateAccountState>(
                             builder: (context, state) {
-                          if (state.formTextFields.isNotEmpty && !widget.argument.isRequestAccount) {
+                          if (state.formTextFields.isNotEmpty &&
+                              !widget.argument.isRequestAccount) {
                             return Column(
                               children: [
-                                // !state.formFieldNames.contains(
-                                //         AppText.accountNumber.toLowerCase())
-                                //     ? Padding(
-                                //         padding: EdgeInsets.only(bottom: 16.h),
-                                //         child: Form(
-                                //           key: _formKeyAccountNumber,
-                                //           child: CustomTextField(
-                                //             title: AppText.accountNumber,
-                                //             controller:
-                                //                 _accountNumberController,
-                                //             textInputAction:
-                                //                 TextInputAction.next,
-                                //             textInputType: TextInputType.number,
-                                //           ),
-                                //         ),
-                                //       )
-                                //     : const SizedBox.shrink(),
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 16.h),
                                   child: Form(
                                     key: _formKeyUsername,
                                     child: CustomTextField(
-                                      isRequired: true,
-                                      title: AppText.username1,
-                                      textInputAction: TextInputAction.next,
-                                      controller: _usernameController,
-                                    ),
+                                        isRequired: true,
+                                        title: AppText.username1,
+                                        textInputAction: TextInputAction.next,
+                                        controller: _usernameController,
+                                        validator: (value) {
+                                          if (value?.isNotEmpty != true) {
+                                            return AppText.plsEnterUsername;
+                                          }
+                                          return null;
+                                        }),
                                   ),
                                 ),
-
-                                // state.formFieldNames
-                                //         .contains(AppText.email.toLowerCase())
-                                //     ? Padding(
-                                //         padding: EdgeInsets.only(bottom: 16.h),
-                                //         child: Form(
-                                //           key: _formKeyEmail,
-                                //           child: CustomTextField(
-                                //             title: AppText.email,
-                                //             textInputAction:
-                                //                 TextInputAction.next,
-                                //             controller: _emailController,
-                                //             validator: (value) {
-                                //               if (value?.isNotEmpty == true) {
-                                //                 return ValidateUtils
-                                //                     .isValidEmail(value!);
-                                //               }
-                                //               return null;
-                                //             },
-                                //           ),
-                                //         ),
-                                //       )
-                                //     : const SizedBox.shrink(),
                                 ...state.formTextFields
                                     .where((e) =>
                                         e.accountDto.name.toLowerCase() !=
@@ -346,22 +310,6 @@ class _AddAccountScreenState extends State<AddAccountScreen> {
                           }
                           return const SizedBox.shrink();
                         }),
-
-                        // Form(
-                        //   key: _formKeyEmail,
-                        //   child: CustomTextField(
-                        //     title: 'Email',
-                        //     textInputAction: TextInputAction.done,
-                        //     textInputType: TextInputType.emailAddress,
-                        //     controller: _emailController,
-                        //     validator: (value) {
-                        //       if (value?.isNotEmpty == true) {
-                        //         return ValidateUtils.isValidEmail(value!);
-                        //       }
-                        //       return null;
-                        //     },
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

@@ -1,10 +1,13 @@
 import 'dart:io' show HttpStatus;
 
+import 'package:dcs_app/global/router.dart';
+import 'package:dcs_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:dcs_app/utils/data_convert_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../utils/resouces/data_state.dart';
 
 abstract class BaseApiRepository {
@@ -31,7 +34,17 @@ abstract class BaseApiRepository {
         );
       }
     } on DioException catch (error) {
-      return DataFailed(errorMessage: DataConvertUtils.catchMessage(error));
+      final errorMessage = DataConvertUtils.catchMessage(error);
+      if (errorMessage == 'Invalid access token') {
+        final context = Get.context;
+        if (context != null) {
+          context.read<AuthBloc>().add(UserTokenExpired(message: errorMessage));
+          if (Get.currentRoute != MyRouter.home) {
+            Get.until((route) => route.isFirst);
+          }
+        }
+      }
+      return DataFailed(errorMessage: errorMessage);
     }
   }
 }

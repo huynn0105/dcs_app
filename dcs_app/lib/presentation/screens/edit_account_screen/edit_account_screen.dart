@@ -118,7 +118,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           }
         } else if (state.success == false &&
             state.message?.isNotEmpty == true) {
-          DialogUtils.showContinueDialog(
+          await DialogUtils.showContinueDialog(
             type: DialogType.error,
             title: AppText.error,
             body: state.message,

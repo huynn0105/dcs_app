@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:autofill_service/autofill_service.dart';
 import 'package:dcs_app/domain/repositories/auth_repository.dart';
 import 'package:dcs_app/global/locator.dart';
+import 'package:dcs_app/global/router.dart';
 import 'package:dcs_app/presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:dcs_app/utils/color_utils.dart';
 import 'package:dcs_app/utils/constants.dart';
@@ -88,11 +88,9 @@ class MenuSettingScreen extends StatelessWidget {
                   'Setting',
                   style: TextStyleUtils.regular(13),
                 ),
-                onTap: () async {
+                onTap: () {
                   if (Platform.isAndroid) {
-                    final response =
-                        await AutofillService().requestSetAutofillService();
-                    print("Du lieu response: $response");
+                    Get.toNamed(MyRouter.autoFillSetting);
                   }
                 },
               ),
