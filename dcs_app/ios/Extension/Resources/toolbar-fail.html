@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="toolbar-style.css">
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src='toolbar_script_fail.js'></script>
+</head>
+<body>
+  <div class="pop-extention">
+    <div class="alert" id='error-saving'>
+      An unknown error has occured. Please try adding the account again or click “Not now” to try again later. We apologize for the inconvenience
+    </div>
+    <div class="">
+      <div class="logo-content fl">
+        <img src="dcs_logo_header.jpg" alt="">
+      </div>
+      <div class="text-content fl">
+        Would you like to add <a href="#" id='institution_name'></a> to <span id='pdc_client_first_name'></span>'s DCS portfolio?
+      </div>
+      <div class="btn-content fr">
+        <button class="btn" id='btn-save'><img src="add_icon.png" alt="">Add account</button>
+        <button class="btn btn-grey" id='btn-not-now'>Not now</button>
+        <button class="btn btn-grey" id='btn-never'>Never</button>
+        <a href="#" class="close" id='link-close-iframe'><img src="close_icon.jpg" alt=""></a>
+      </div>
+      <div style="clear: both;"></div>
+      <div class="hide existing-content">
+        <div id='existing-accounts-message'>
+        </div>
+        <div id='existing-accounts'>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

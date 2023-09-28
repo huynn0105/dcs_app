@@ -1,0 +1,247 @@
+#toolbar-content{
+  float: right;
+}
+
+.hide{
+	display: none;
+}
+
+body{
+	padding: 0px;
+	margin: 0px;
+}
+.pop-extention{
+	background: #2b2e34;
+	color: white;
+	overflow: hidden;
+	font-family: arial;
+	min-height: 50px;
+}
+
+.pop-extention .btn{
+	border-radius: 30px;
+	padding: 5px 15px;
+	background: #23acc3;
+	color: white;
+	border: none;
+	font-size: 14px;
+	line-height: 22px;
+	font-family: "Raleway",sans-serif;
+}
+
+#existing-accounts-message, #existing-accounts{
+	display: inline-block;
+}
+
+.existing-content{
+	padding-left: 61px;
+	margin-bottom: 15px;
+}
+
+.existing-content #existing-accounts{
+	padding-left: 100px;
+}
+.existing-content #existing-accounts span{
+	color: #23acc3;
+}
+
+.btn-content .btn:hover{
+	cursor: pointer;
+	opacity: 0.8
+}
+
+.btn-content .btn:active, .btn-content .btn:focus{
+	outline: none;
+}
+
+.fl{
+	float: left;
+}
+
+.fr{
+	float: right;
+}
+
+.pop-extention .btn.btn-grey{
+	background: #959595;
+	font-family: "Raleway",sans-serif;
+}
+
+.pop-extention .logo-content{
+	margin-right: 10px;
+	height: 50px;
+}
+.pop-extention .logo-content img{
+	width: 50px;
+	padding: 0px;
+	margin: 0px;
+}
+.pop-extention .text-content{
+	line-height: 50px;
+	font-size: 18px;
+	font-family: "Raleway",sans-serif;
+}
+
+.pop-extention .text-content a{
+	text-decoration: none;
+	color: #23acc3;
+}
+
+.pop-extention .btn-content {
+	padding-top: 8px;
+}
+.pop-extention .btn-content .btn{
+	margin-right: 5px;
+}
+.pop-extention .btn-content .btn img{
+	width: 18px;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+.pop-extention .btn-content .close{
+	display: block;
+	margin-right: 15px;
+	margin-left: 10px;
+	margin-top: 5px;
+	width: 24px;
+	height: 24px;
+	float: right;
+}
+
+.pop-extention .btn-content .close:hover{
+	opacity: 0.8;
+}
+
+.pop-extention .btn-content .close img{
+	width: 24px;
+	vertical-align: middle;
+}
+
+.pop-extention .alert{
+	background: #ffe5e5;
+	color: #9b0000;
+	font-size: 12px;
+	padding: 10px;
+	padding-left: 60px;
+}
+
+@media (max-width: 960px) {
+	.pop-extention .text-content{
+		font-size: 16px;
+		line-height: 48px;
+	}
+}
+
+@media (max-width: 500px) {
+	.pop-extention .text-content{
+		font-size: 16px;
+		line-height: 20px;
+		width: 70%;
+	}
+	.pop-extention .btn{
+		padding: 5px 7px;
+		font-size: 12px;
+		line-height: 21px;
+	}
+	.pop-extention .btn-content{
+		margin-bottom: 10px;
+	}
+}
+
+.custom-pop-si-extension .text-content{
+	line-height: normal;
+	padding-top: 15px;
+}
+
+.custom-pop-si-extension .form-si{
+	padding-bottom: 5px;
+}
+
+.custom-pop-si-extension .form-si input{
+	border: 1px solid #9a9b9f;
+	padding: 5px;
+}
+
+.custom-pop-si-extension .form-si input#fb-email{
+	width: 170px;
+}
+
+.custom-pop-si-extension .form-si #btn-submit-login-fb{
+	line-height: 18px;
+}
+
+.custom-pop-si-extension .form-si #link-close-iframe{
+	margin-top: 3px;
+}
+
+.custom-pop-si-extension .text-content{
+	font-size: 16px;
+}
+
+.custom-pop-si-extension .form-si .error-content{
+	width: 400px;
+  padding: 5px;
+}
+
+.custom-pop-si-extension .form-si #fb-email{
+	margin-top: 5px;
+}
+
+.text-list{
+  font-size: 12px;
+  box-sizing: border-box;
+  width: 100%;
+}
+.text-list-ct{
+  padding-right: 134px;
+  box-sizing: border-box;
+  width: 100%;
+  padding-top: 5px;
+}
+.list-ct ul{
+  list-style: none;
+  padding-left: 15px;
+}
+.list-ct ul li{
+  margin-bottom: 5px;
+}
+.list-ct{
+  position: relative;
+  width: 70%;
+}
+.list-ct .btn{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+#sgnb_ask_browser_name_content{
+	overflow: auto;
+}
+
+.sgnb-form-ask-browser-name{
+	padding-bottom: 15px;
+	max-width: 667px;
+}
+
+.sgnb-form-ask-browser-name #sgnb_browser_name{
+	line-height: 18px;
+	width: 200px;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.sgnb-form-ask-browser-name #btn-submit-browser-name-sgnb{
+	line-height: 18px;
+}
+
+#sgnb-browser-name-error{
+	padding-left: 0px;
+	margin-bottom: 5px;
+}
+
+.custom-pop-si-extension .token-expired-message{
+	width: 800px;
+	padding-top: 10px;
+}

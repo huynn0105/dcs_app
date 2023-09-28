@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Toolbar Sign In Form</title>
+<link rel="stylesheet" type="text/css" href="toolbar-style.css">
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src='toolbar_sign_in_script.js'></script>
+</head>
+<body>
+  <div class="pop-extention custom-pop-si-extension">
+    <div id="sign_in_bar_content" class="">
+      <div class="logo-content fl">
+        <img src="dcs_logo_header.jpg" alt="">
+      </div>
+      <div class="text-content fl token-expired-message hide">
+        To protect your privacy and security, your Portfolio Plus™ browser extension has expired and you will need to sign back in to authorize DCS's automatic account capture. Please login now to continue to use this feature.
+      </div>
+      <div class="text-content fl user-never-sign-in-message hide">
+        You are currently not signed in to Portfolio Plus. Sign in to add accounts to your DCS portfolio as you visit new websites
+      </div>
+      <div class="btn-content fr form-si">
+        <div class="form-signin-fb"  id="form-signin-fb">
+          <div class="alert hide error-content" id="login-form-error"></div>
+          <div class="alert hide error-content" id="login-form-error-2">To use the DCS AutoCapture Chrome extension, you must first complete your DCS web application enrollment. Please <a href="#" id="link-signin">click here</a> to go to your DCS account.</div>
+          <input type="email" name="fb-email" id="fb-email" tabindex="1" placeholder="Email">
+          <input type="password" name="fb-password" id="fb-password" tabindex="2" placeholder="Password">
+          <button class="btn" id="btn-submit-login-fb" tabindex="3">Submit</button>
+          <a href="#" class="close" id='link-close-iframe'><img src="close_icon.jpg" alt=""></a>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+    <div id="sgnb_ask_browser_name_content" class="hide">
+      <div class="logo-content fl">
+        <img src="dcs_logo_header.jpg" alt="">
+      </div>
+      <div class="text-content fl sgnb-signed-in-message">
+        DCS Portfolio Plus has signed in as
+        <span id='sgnb_first_name'></span>
+      </div>
+      <div class="btn-content fr sgnb-form-ask-browser-name">
+        <div class="alert error-content hide" id="sgnb-browser-name-error"></div>
+        <div class="form">
+          <label for="">What would like to name this browser? </label>
+          <input type="text" name="sgnb_browser_name" id="sgnb_browser_name" tabindex="1">
+          <button class="btn" id="btn-submit-browser-name-sgnb" tabindex="2">Submit</button>
+          <a href="#" class="close" id='link-close-iframe-sgnb'><img src="close_icon.jpg" alt=""></a>
+        </div>
+        <div class="text-list hide">
+          <div class="text-list-ct">
+            <p>
+              If you've installed Portfolio Plus on another computer or device that you no longer use or want to use, please deauthorize them. This will keep your portfolio accurate, safe and secure.
+            </p>
+            <div class="list-ct">
+              <button class="btn" id="btn-deauthorize-all-sgnb" tabindex="2">Deauthorize All</button>
+              <ul></ul>
+            </div>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+</body>
+</html>

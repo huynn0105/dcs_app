@@ -1,0 +1,346 @@
+body{
+	padding: 0px;
+	margin: 0px;
+	min-width: 500px;
+}
+
+.hide {
+	display: none;
+}
+
+.login-success-message{
+	margin-bottom: 0px;
+}
+
+#btn-submit-reset-password{
+	margin-bottom: 15px;
+}
+
+#reset-password-success{
+	padding-top: 0px;
+}
+
+.popup-extention{
+	color: white;
+	overflow: hidden;
+	font-family: arial;
+	min-height: 50px;
+	width: 100%;
+	font-size: 14px;
+	color: black;
+}
+.popup-extention p{
+	margin-top: 0px;
+}
+
+.popup-extention *{
+	box-sizing: border-box;
+}
+
+.popup-extention a{
+	color: #1b8192;
+	text-decoration: none;
+}
+
+.header-pop{
+	background: #2b2e34;
+	overflow: hidden;
+	padding: 0 20px;
+	color: white;
+}
+
+.header-pop a{
+	color: white;
+}
+
+.header-pop a:hover{
+	color: #23acc3 ;
+}
+
+.header-pop img{
+	height: 60px;
+  margin-bottom: 7px;
+}
+
+.header-pop p{
+	margin: 5px;
+}
+.logo-content{
+	margin-top: 10px;
+}
+
+.popup-extention .btn{
+	border-radius: 30px;
+	padding: 5px 15px;
+	background: #23acc3;
+	color: white;
+	border: none;
+	font-size: 14px;
+	line-height: 22px;
+	font-family: "Raleway",sans-serif;
+}
+.popup-extention .btn.nonebg{
+	background: none;
+	color: #23acc3;
+}
+.popup-extention .btn:hover{
+	cursor: pointer;
+	opacity: 0.8
+}
+
+.popup-extention .btn:active, .popup-extention .btn:focus{
+	outline: none;
+}
+
+.form-bg{
+	padding: 20px 20px 10px;
+	margin-bottom: 10px;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.bg-grey{
+	background: url("bg_loop.jpg") repeat-y;
+	background-size: 100%;
+}
+
+.form-login{
+	color: black;
+	padding: 30px;
+}
+
+.form-login h4{
+	font-size: 24px;
+	border-bottom: 1px solid black;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	font-family: "Raleway",sans-serif;
+}
+.form-login .login-title{
+	font-size: 24px;
+	font-weight: bold;
+	margin: 0px 0px 10px;
+	font-family: "Raleway",sans-serif;
+}
+.user-account{
+	margin-top: 18px;
+}
+.form-login .form, .form-quick-add .form{
+	margin-bottom: 10px;
+	width: 100%;
+}
+.form-login .form label, .form-quick-add .form label{
+	width: 36%;
+	float: left;
+	line-height: 30px;
+}
+
+.form-quick-add .form label{
+	text-align: right;
+	font-weight: bold;
+	padding-right: 10px;
+	line-height: 25px;
+}
+
+.form-login .form input, .form-quick-add .form input, .form-quick-add .form select{
+	width: 64%;
+	border: 1px solid #9a9b9f;
+	padding: 5px;
+}
+
+.form-quick-add .form select{
+	background: white;
+}
+
+.form-login .alert, .quick-add .alert, .form-si .alert {
+	background: #ffe5e5;
+	color: #af3333;
+	font-size: 12px;
+	padding: 20px;
+	margin-bottom: 10px;
+}
+
+.pop-extention .btn:hover, .btn:focus{
+	opacity: 0.8;
+}
+
+.fl{
+	float: left;
+}
+
+.fr{
+	float: right;
+}
+
+.quick-add-ds{
+	display: inline-block;
+	line-height: 16px;
+	padding-left: 10px;
+}
+
+.quick-add{
+	padding-left: 30px;
+	padding-bottom: 30px;
+}
+
+.quick-add.active{
+	padding-bottom: 0px;
+}
+
+.quick-add.active span{
+	display: none;
+}
+
+.quick-add.active > .btn{
+	background: transparent;
+	color: black;
+	font-size: 14px;
+}
+
+.form-quick-add{
+	padding-left: 30px;
+	padding-bottom: 30px;
+	padding-right: 30px;
+}
+
+.form-quick-add:after{
+	clear: both;
+	display: block;
+	content: "";
+}
+
+.form-quick-add .form-bg{
+	border-top: 0px;
+}
+
+.add-icon{
+	background: url("add_icon.png") no-repeat;
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	background-size: 18px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+#btn-add-account{
+	margin-right: 15px;
+}
+
+.p-error{
+	margin-left: 133px;
+	font-size: 10px;
+	color: #af3333;
+}
+
+.successful{
+	background: #61a6e0 !important;
+	font-size: 16px;
+	padding: 20px !important;
+	margin-right: 25px !important;
+}
+
+#div-add-account-error{
+	padding: 9px !important;
+}
+
+.form-quick-add.success{
+	text-align: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.form-quick-add.success img{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.form-quick-add.success p{
+	font-size: 24px;
+}
+
+.quick-add.add-more-account{
+	padding-left: 0px;
+	margin-top: 30px;
+}
+
+.quick-add.add-more-account .form-quick-add{
+	padding-bottom: 0px !important;
+}
+
+#quick-add-successfully{
+	padding-left: 0px !important;
+}
+
+#div-quick-add .btn{
+	vertical-align: top;
+}
+
+.portfolio-plus-heading{
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: -20px !important;
+	margin-bottom: 5px !important;
+}
+
+.quick-add-header{
+	margin-bottom: 0px;
+}
+
+.quick-add-message{
+	margin-right: 30px;
+}
+
+.form-login .access-token-expired-error-container{
+	margin-bottom: 30px;
+}
+
+.form-login .access-token-expired-error-container label{
+	display: inline-block;
+}
+
+.text-list{
+	font-size: 12px;
+	box-sizing: border-box;
+	width: 100%;
+	border-bottom: 1px solid black;
+	margin-bottom: 15px;
+}
+
+.text-list-ct{
+	box-sizing: border-box;
+	width: 100%;
+	padding-top: 15px;
+}
+
+.list-ct ul{
+	list-style: none;
+	padding-left: 25px;
+}
+
+.list-ct ul li{
+	margin-bottom: 5px;
+}
+
+.list-ct{
+	position: relative;
+	width: 100%;
+}
+
+.list-ct strong{
+	border-bottom: 1px solid black;
+	margin-left: 15px;
+	display: block;
+	padding-left: 10px;
+	width: 30%;
+}
+
+.list-ct .btn{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+}
+
+.bg-grey{
+	background: #e5e5e5;
+}
