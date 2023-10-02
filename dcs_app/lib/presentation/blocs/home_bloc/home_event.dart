@@ -32,7 +32,7 @@ class ClearSelectedAccountsEvent extends HomeEvent {}
 //   });
 // }
 
-class AddAccountSyncToAccountsEvent extends HomeEvent {}
+class OnSaveAccountEvent extends HomeEvent {}
 
 class ToggleShowCheckEvent extends HomeEvent {}
 

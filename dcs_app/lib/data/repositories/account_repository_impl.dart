@@ -38,8 +38,18 @@ class AccountRepositoryImpl extends BaseApiRepository
   }
 
   @override
-  Future<DataState<List<AccountResponse>>> getListAccounts(String token) {
-    return getStateOf(request: () => _client.getListAccounts(token: token));
+  Future<DataState<List<AccountResponse>>> getListAccounts({
+    required String token,
+    String? url,
+    String? name,
+  }) {
+    return getStateOf(
+      request: () => _client.getListAccounts(
+        token: token,
+        url: url,
+        name: name,
+      ),
+    );
   }
 
   @override
@@ -56,12 +66,7 @@ class AccountRepositoryImpl extends BaseApiRepository
     return getStateOf(
         request: () => _client.getRequirementByAccount(token: token, id: id));
   }
-  @override
-  Future<DataState<AccountResponse>> getAccountByDomain(
-      String token, String domain) {
-    return getStateOf(
-        request: () => _client.getAccountByDomain(token: token, domain: domain));
-  }
+
 
   @override
   Future<DataState<ClientAccountDetailResponseDto>> getClientAccountDetail(

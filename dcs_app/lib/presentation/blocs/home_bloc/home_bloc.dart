@@ -8,11 +8,9 @@ import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/domain/repositories/account_repository.dart';
 import 'package:dcs_app/domain/repositories/auth_repository.dart';
 import 'package:dcs_app/global/router.dart';
-import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/utils/constants.dart';
 import 'package:dcs_app/utils/internet_connection_utils.dart';
 import 'package:dcs_app/global/locator.dart';
-import 'package:dcs_app/utils/loading_utils.dart';
 import 'package:dcs_app/utils/resouces/data_state.dart';
 import 'package:get/get.dart';
 
@@ -171,73 +169,48 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       }
     });
-    on<AddAccountSyncToAccountsEvent>((event, emit) {});
-  }
+    on<OnSaveAccountEvent>((event, emit) async {
+      if (!Platform.isAndroid) return;
+      final autofillService = AutofillService();
+      final autofillMetadata = await autofillService.autofillMetadata;
+      if (autofillMetadata == null) return;
+      if (Get.currentRoute != MyRouter.home) {
+        Get.until((route) => route.isFirst);
+      }
+      emit(state.copyWith(loading: true, isSave: true));
+      String? url = autofillMetadata.webDomains.firstOrNull?.domain;
+      String? name;
+      if (autofillMetadata.packageNames.firstOrNull != null) {
+        String packageName = autofillMetadata.packageNames.firstOrNull!;
+        name = packageName
+            .replaceAll("com.", "")
+            .replaceAll("android.", "")
+            .replaceAll("apps.", "")
+            .replaceAll("app.", "")
+            .replaceAll("package.", "")
+            .replaceAll("example.", "")
+            .replaceAll("org.", "")
+            .replaceAll("mobile.", "");
+      }
 
-  Future<void> onSaveComplete() async {
-    if (!Platform.isAndroid) return;
-    final autofillService = AutofillService();
-    final autofillMetadata = await autofillService.autofillMetadata;
-    if (autofillMetadata == null) return;
-    if (Get.currentRoute != MyRouter.home) {
-      Get.until((route) => route.isFirst);
-    }
-
-    await LoadingUtils.show();
-    String accountName = '';
-    AccountResponse? account;
-    if (autofillMetadata.webDomains.firstOrNull?.domain != null) {
-      final domain = autofillMetadata.webDomains.firstOrNull!.domain;
-      final response = await locator<AccountRepository>()
-          .getAccountByDomain(locator<AuthRepository>().token, domain);
+      final response = await locator<AccountRepository>().getListAccounts(
+          token: locator<AuthRepository>().token, url: url, name: name);
+      emit(state.copyWith(loading: false, isSave: true));
       if (response is DataSuccess) {
-        account = response.data;
+        final data = response.data!;
+        emit(state.copyWith(
+          success: true,
+          accountsResponse: data,
+          isSave: true,
+          usernameOrEmail: autofillMetadata.saveInfo?.username,
+          domain: url ?? name,
+        ));
+      } else {
+        emit(state.copyWith(
+          success: false,
+          message: response.errorMessage,
+        ));
       }
-      await LoadingUtils.dismiss();
-      Get.toNamed(
-        MyRouter.addAccount,
-        arguments: AddAccountScreenArgument(
-          id: account?.id,
-          accountName: account?.name ?? domain,
-          usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
-          isRequestAccount: account?.id == null,
-        ),
-      );
-    } else if (autofillMetadata.packageNames.firstOrNull != null) {
-      final packageName = autofillMetadata.packageNames.firstOrNull!;
-      final split = packageName.split('.');
-      if (split.length > 1) {
-        accountName = split[1];
-      }
-
-      final response = await locator<AccountRepository>()
-          .getListAccounts(locator<AuthRepository>().token);
-      if (response is DataSuccess) {
-        account = response.data!.firstWhereOrNull(
-            (x) => x.name.toLowerCase() == accountName.toLowerCase());
-      }
-      await LoadingUtils.dismiss();
-      Get.toNamed(
-        MyRouter.addAccount,
-        arguments: AddAccountScreenArgument(
-          id: account?.id,
-          accountName: account?.name ?? accountName,
-          usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
-          isRequestAccount: account?.id == null,
-        ),
-      );
-    } else {
-      await LoadingUtils.dismiss();
-      Get.toNamed(
-        MyRouter.addAccount,
-        arguments: AddAccountScreenArgument(
-          accountName: "",
-          usernameOrEmail: autofillMetadata.saveInfo?.username ?? '',
-          isRequestAccount: true,
-        ),
-      );
-    }
-    await autofillService.onSaveComplete();
+    });
   }
-
 }

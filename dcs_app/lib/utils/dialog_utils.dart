@@ -79,12 +79,14 @@ class DialogUtils {
     String? btnNoText,
     bool barrierDismissible = false,
     DialogType type = DialogType.error,
+    String? icon,
   }) async {
     onOK = onOK ?? () => {Get.back()};
     onCancel = onCancel ?? () => {Get.back()};
     await Get.dialog(
       CustomDialogSimple(
         type: type,
+        icon: icon,
         titleText: title ?? '',
         bodyText: body ?? '',
         actionButtons: [

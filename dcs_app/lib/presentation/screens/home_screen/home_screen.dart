@@ -1,5 +1,8 @@
+import 'package:autofill_service/autofill_service.dart';
+import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
+import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/common/custom_button.dart';
 import 'package:dcs_app/presentation/screens/edit_account_screen/edit_account_screen.dart';
 import 'package:dcs_app/presentation/screens/menu_setting_screen/menu_setting_screen.dart';
@@ -22,6 +25,7 @@ import '../common/text_button.dart';
 part 'widgets/app_bar.dart';
 part 'widgets/item.dart';
 part 'widgets/search.dart';
+part 'widgets/account_response_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,8 +44,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     searchController = TextEditingController();
     context.read<HomeBloc>().add(HomeInitEvent());
+    context.read<HomeBloc>().add(OnSaveAccountEvent());
     Future.delayed(Duration.zero, () async {
-      await context.read<HomeBloc>().onSaveComplete();
+      final autofillRequest = (await AutofillService().status);
+      if (autofillRequest == AutofillServiceStatus.disabled) {
+        await DialogUtils.showOkCancelDialog(
+            icon: "assets/images/dcs_logo.png",
+            body:
+                " Please enable DCS Service to save the username and account domain to my DCS Portfolio Accounts.",
+            onOK: () async {
+              Get.back();
+              await AutofillService().requestSetAutofillService();
+            });
+      }
     });
   }
 
@@ -54,10 +69,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+  void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      await context.read<HomeBloc>().onSaveComplete();
+      context.read<HomeBloc>().add(OnSaveAccountEvent());
     }
   }
 
@@ -65,9 +80,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) async {
-        if (state.loading && state.isDelete) {
+        if (state.loading && (state.isDelete || state.isSave)) {
           await LoadingUtils.show();
-        } else if (state.loading == false && state.isDelete) {
+        } else if (state.loading == false && (state.isDelete || state.isSave)) {
           await LoadingUtils.dismiss();
         }
         if (state.success == true && state.isDelete) {
@@ -81,6 +96,77 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             );
           }
         }
+
+        if (state.success == true && state.isSave) {
+          if (mounted) {
+            if (state.accountsResponse.isNotEmpty) {
+              if (state.accountsResponse.length == 1) {
+                final account = state.accountsResponse.first;
+                Get.toNamed(
+                  MyRouter.addAccount,
+                  arguments: AddAccountScreenArgument(
+                    id: account.id,
+                    accountName: account.name,
+                    usernameOrEmail: state.usernameOrEmail ?? '',
+                    isRequestAccount: false,
+                  ),
+                );
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        backgroundColor: Colors.white,
+                        surfaceTintColor: Colors.white,
+                        scrollable: true,
+                        insetPadding: EdgeInsets.all(16.r),
+                        actionsPadding: EdgeInsets.all(16.r),
+                        title: const Text(AppText.selectAccount),
+                        content: Column(
+                          children: state.accountsResponse
+                              .map((account) => _AccountItem(
+                                    accountItem: account,
+                                    onTap: () {
+                                      Get.toNamed(
+                                        MyRouter.addAccount,
+                                        preventDuplicates: false,
+                                        arguments: AddAccountScreenArgument(
+                                          id: account.id,
+                                          accountName: account.name,
+                                          usernameOrEmail:
+                                              state.usernameOrEmail ?? '',
+                                          isRequestAccount: false,
+                                        ),
+                                      );
+                                    },
+                                  ))
+                              .toList(),
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(AppText.cancel),
+                          ),
+                        ],
+                      );
+                    });
+              }
+            } else {
+              Get.toNamed(
+                MyRouter.addAccount,
+                arguments: AddAccountScreenArgument(
+                  accountName: state.domain ?? '',
+                  usernameOrEmail: state.usernameOrEmail ?? '',
+                  isRequestAccount: true,
+                ),
+              );
+            }
+          }
+          await AutofillService().onSaveComplete();
+        }
+
         if (state.success == false) {
           DialogUtils.showContinueDialog(
             type: DialogType.error,

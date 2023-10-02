@@ -12,26 +12,33 @@ import '../../data/datasources/dtos/client_account_response/client_account_respo
 abstract class AccountRepository {
   Future<DataState<void>> createRequestAccount(
       CreateRequestAccountDto accountDto);
+
   Future<DataState<void>> createClientAccount(
       CreateClientAccountDto accountDto);
+
   Future<DataState<void>> updateClientAccount(
       UpdateClientAccountDto accountDto);
+
   Future<DataState<List<ClientAccountResponseDto>>> getListClientAccounts(
       String token);
+
   Future<DataState<List<RequirementAccountDto>>> getRequirementByAccount(
     String token,
     int id,
   );
-  Future<DataState<AccountResponse>> getAccountByDomain(
-    String token,
-    String domain,
-  );
+
   Future<DataState<ClientAccountDetailResponseDto>> getClientAccountDetail(
     String token,
     int id,
     bool isRequestAccount,
   );
-  Future<DataState<List<AccountResponse>>> getListAccounts(String token);
+
+  Future<DataState<List<AccountResponse>>> getListAccounts({
+    required String token,
+    String? url,
+    String? name,
+  });
+
   Future<DataState<void>> deleteClientAccounts(
       DeleteClientAccountDto deleteClientAccountDto);
 }

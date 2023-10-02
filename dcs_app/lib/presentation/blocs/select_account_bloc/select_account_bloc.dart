@@ -20,7 +20,7 @@ class SelectAccountBloc extends Bloc<SelectAccountEvent, SelectAccountState> {
       if (await InternetConnectionUtils.checkConnection()) {
         emit(SelectAccountLoading());
         final response = await accountRepository
-            .getListAccounts(locator<AuthRepository>().token);
+            .getListAccounts(token: locator<AuthRepository>().token);
         if (response is DataSuccess) {
           emit(SelectAccountLoaded(listAccounts: response.data!));
         } else if (response is DataFailed) {

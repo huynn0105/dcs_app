@@ -143,10 +143,18 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<HttpResponse<List<AccountResponse>>> getListAccounts(
-      {required String token}) async {
+  Future<HttpResponse<List<AccountResponse>>> getListAccounts({
+    required String token,
+    String? name,
+    String? url,
+  }) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'token': token};
+    final queryParameters = <String, dynamic>{
+      r'token': token,
+      r'name': name,
+      r'url': url,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<List<dynamic>>(
@@ -206,40 +214,6 @@ class _RestClient implements RestClient {
         .map((dynamic i) =>
             RequirementAccountDto.fromMap(i as Map<String, dynamic>))
         .toList();
-    final httpResponse = HttpResponse(value, _result);
-    return httpResponse;
-  }
-
-  @override
-  Future<HttpResponse<AccountResponse>> getAccountByDomain({
-    required String token,
-    required String domain,
-  }) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'token': token,
-      r'account_id': domain,
-    };
-    final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<AccountResponse>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/accounts/get_requirement_account',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = AccountResponse.fromMap(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

@@ -43,6 +43,8 @@ abstract class RestClient {
   @GET('/accounts/get_list_accounts')
   Future<HttpResponse<List<AccountResponse>>> getListAccounts({
     @Query("token") required String token,
+    @Query("name")  String? name,
+    @Query("url")  String? url,
   });
 
   @GET('/accounts/get_requirement_account')
@@ -51,11 +53,6 @@ abstract class RestClient {
     @Query("account_id") required int id,
   });
 
-  @GET('/accounts/get_requirement_account')
-  Future<HttpResponse<AccountResponse>> getAccountByDomain({
-    @Query("token") required String token,
-    @Query("account_id") required String domain,
-  });
 
   @GET('/accounts/client_account_detail')
   Future<HttpResponse<ClientAccountDetailResponseDto>> getClientAccountDetail({

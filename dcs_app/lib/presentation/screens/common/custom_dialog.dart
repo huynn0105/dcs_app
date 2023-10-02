@@ -26,6 +26,7 @@ class CustomDialog extends StatelessWidget {
   final Widget? content;
   final List<CustomDialogActionButton> actionButtons;
   final DialogType type;
+  final String? icon;
 
   const CustomDialog({
     Key? key,
@@ -33,6 +34,7 @@ class CustomDialog extends StatelessWidget {
     this.content,
     this.actionButtons = const [],
     this.type = DialogType.error,
+    this.icon,
   }) : super(key: key);
 
   List<Widget> _buildActionButtons() {
@@ -68,18 +70,27 @@ class CustomDialog extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(
-              type == DialogType.error
-                  ? 'assets/images/alert_icon.svg'
-                  : 'assets/images/sucess_icon.svg',
-            ),
+            icon != null
+                ? Image.asset(
+                    icon!,
+                    width: 70.w,
+                    height: 70.w,
+                  )
+                : SvgPicture.asset(
+                    type == DialogType.error
+                        ? 'assets/images/alert_icon.svg'
+                        : 'assets/images/sucess_icon.svg',
+                  ),
             SizedBox(height: 10.h),
-            Text(
-              titleText,
-              style: TextStyleUtils.medium(16).copyWith(
-                color: type == DialogType.error ? Colors.red : Colors.green,
-              ),
-            ),
+            titleText.isNotEmpty
+                ? Text(
+                    titleText,
+                    style: TextStyleUtils.medium(16).copyWith(
+                      color:
+                          type == DialogType.error ? Colors.red : Colors.green,
+                    ),
+                  )
+                : const SizedBox.shrink(),
             if (content != null) ...[
               SizedBox(height: 10.h),
               content!,
@@ -100,6 +111,7 @@ class CustomDialogSimple extends StatelessWidget {
   final String bodyText;
   final List<CustomDialogActionButton> actionButtons;
   final DialogType type;
+  final String? icon;
 
   const CustomDialogSimple({
     Key? key,
@@ -107,12 +119,14 @@ class CustomDialogSimple extends StatelessWidget {
     this.bodyText = '',
     required this.actionButtons,
     this.type = DialogType.error,
+    this.icon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       titleText: titleText,
+      icon: icon,
       type: type,
       content: Text(
         bodyText,
