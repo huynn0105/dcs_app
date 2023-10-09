@@ -13,6 +13,9 @@ var be_environments = {
   "dev_ca": "https://dev.directivecommunications.ca",
 };
 
+
+
+
 var pdc_domain = be_environments[current_environment];
 var current_browser = 'CHROME';
 var pp_version = 'DCS Portfolio Plus 1.2.45';
@@ -26,69 +29,118 @@ function cancelLogin(e) {
   });
 }
 
+  
+
 function submitLogin(e) {
-  var email = $('#wad-email').val();
-  var password = $('#wad-password').val();
-  if (email === '' || password === '')
-  {
-    $("#login-form-error").html("Missing username or password.");
-    $('#login-form-error').removeClass('hide');
-    $('#login-form-error-2').addClass('hide');
-  }else if (!validateEmail(email)){
-    $("#login-form-error").html("Email format is not valid.");
-    $('#login-form-error').removeClass('hide');
-    $('#login-form-error-2').addClass('hide');
-  }
-  else{
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", pdc_domain + "/api/v1/auth/authorize", true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        var obj = JSON.parse(xhr.responseText);
-        if (xhr.status == 200)
-        {
-          localStorage['pdc_is_authoried'] = 'true';
-          localStorage['pdc_client_token'] = obj['token'];
-          localStorage['pdc_client_first_name'] = obj['first_name'];
-          localStorage['pdc_session_name'] = obj['default_session_name'];
-          $('#link-first-name').html(localStorage['pdc_client_first_name']);
-          $('#bn-first-name').html(localStorage['pdc_client_first_name']);
-          $('#current-browser-name').html(localStorage['pdc_session_name']);
-          $('#login-form').addClass('hide');
-          $('#browser_name').val(obj['default_session_name']).prop('placeholder', obj['default_session_name']);
-          $('#enter-browser-name-form .text-list .list-ct ul').empty();
-          if(obj['browsers'] && (obj['browsers'].length > 0)){
-            $.each(obj['browsers'], function(i, v) {
-              $('#enter-browser-name-form .text-list .list-ct ul').append('<li>' + v + '</li>');
-            });
-            $('#enter-browser-name-form .text-list').removeClass('hide');
-          }
-          $('#user-account-info').removeClass('hide');
-          $('#enter-browser-name-form').removeClass('hide');
-          setTimeout(function(){
-            $('#browser_name').focus();
-          }, 300);
-        }else {
-          localStorage['pdc_is_authoried'] = 'false';
-          localStorage['pdc_client_token'] = '';
-          localStorage['pdc_session_name'] = '';
-          if (xhr.status == 406 && obj['domain'].indexOf('http') > -1)
-          {
-            $('#link-signin').attr('href', obj['domain']);
-            $('#login-form-error-2').removeClass('hide');
-            $('#login-form-error').addClass('hide');
-          }else{
-            $('#login-form-error').removeClass('hide');
-            $('#login-form-error').html(obj['message']);
-            $('#login-form-error-2').addClass('hide');
-          }
-          $('#is_authoried').addClass('hide');
-        }
-      }
-    }
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify({"email": email, "password": password, "current_browser": current_browser, "full_browser_version": full_browser_version, "pp_version": pp_version, "site": pdc_domain}));
-  }
+    
+    var responseData = {};
+    const ab =  browser.runtime.sendNativeMessage("application.id", {message: "Hello from background page"}).then((res) => {
+      console.log("Received sendNativeMessage response:");
+      console.log(res);
+      responseData = JSON.parse(res);
+
+      console.log(responseData);
+      var emailData = responseData['email'];
+      var tokenData = responseData['token'];
+      var usernameData = responseData['username'];
+      var defaultSessionName = responseData['defaultSessionName'];
+
+      console.log(emailData);
+      console.log(tokenData);
+      console.log(usernameData);
+      console.log(defaultSessionName);
+
+
+      localStorage['pdc_is_authoried'] = 'true';
+      localStorage['pdc_client_token'] = tokenData;
+      localStorage['pdc_client_first_name'] = usernameData;
+      localStorage['pdc_session_name'] = defaultSessionName;
+      $('#link-first-name').html(localStorage['pdc_client_first_name']);
+      $('#bn-first-name').html(localStorage['pdc_client_first_name']);
+      $('#current-browser-name').html(localStorage['pdc_session_name']);
+      $('#login-form').addClass('hide');
+      $('#browser_name').val(defaultSessionName).prop('placeholder', defaultSessionName);
+      $('#enter-browser-name-form .text-list .list-ct ul').empty();
+      // if(obj['browsers'] && (obj['browsers'].length > 0)){
+      //   $.each(obj['browsers'], function(i, v) {
+      //     $('#enter-browser-name-form .text-list .list-ct ul').append('<li>' + v + '</li>');
+      //   });
+      //   $('#enter-browser-name-form .text-list').removeClass('hide');
+      // }
+      $('#user-account-info').removeClass('hide');
+      $('#enter-browser-name-form').removeClass('hide');
+      setTimeout(function(){
+        $('#browser_name').focus();
+      }, 300);
+
+
+    });
+ 
+    
+
+    
+  // var email = $('#wad-email').val();
+  // var password = $('#wad-password').val();
+  // if (email === '' || password === '')
+  // {
+  //   $("#login-form-error").html("Missing username or password.");
+  //   $('#login-form-error').removeClass('hide');
+  //   $('#login-form-error-2').addClass('hide');
+  // }else if (!validateEmail(email)){
+  //   $("#login-form-error").html("Email format is not valid.");
+  //   $('#login-form-error').removeClass('hide');
+  //   $('#login-form-error-2').addClass('hide');
+  // }
+  // else{
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.open("POST", pdc_domain + "/api/v1/auth/authorize", true);
+  //   xhr.onreadystatechange = function() {
+  //     if (xhr.readyState == 4) {
+  //       var obj = JSON.parse(xhr.responseText);
+  //       if (xhr.status == 200)
+  //       {
+  //         localStorage['pdc_is_authoried'] = 'true';
+  //         localStorage['pdc_client_token'] = obj['token'];
+  //         localStorage['pdc_client_first_name'] = obj['first_name'];
+  //         localStorage['pdc_session_name'] = obj['default_session_name'];
+  //         $('#link-first-name').html(localStorage['pdc_client_first_name']);
+  //         $('#bn-first-name').html(localStorage['pdc_client_first_name']);
+  //         $('#current-browser-name').html(localStorage['pdc_session_name']);
+  //         $('#login-form').addClass('hide');
+  //         $('#browser_name').val(obj['default_session_name']).prop('placeholder', obj['default_session_name']);
+  //         $('#enter-browser-name-form .text-list .list-ct ul').empty();
+  //         if(obj['browsers'] && (obj['browsers'].length > 0)){
+  //           $.each(obj['browsers'], function(i, v) {
+  //             $('#enter-browser-name-form .text-list .list-ct ul').append('<li>' + v + '</li>');
+  //           });
+  //           $('#enter-browser-name-form .text-list').removeClass('hide');
+  //         }
+  //         $('#user-account-info').removeClass('hide');
+  //         $('#enter-browser-name-form').removeClass('hide');
+  //         setTimeout(function(){
+  //           $('#browser_name').focus();
+  //         }, 300);
+  //       }else {
+  //         localStorage['pdc_is_authoried'] = 'false';
+  //         localStorage['pdc_client_token'] = '';
+  //         localStorage['pdc_session_name'] = '';
+  //         if (xhr.status == 406 && obj['domain'].indexOf('http') > -1)
+  //         {
+  //           $('#link-signin').attr('href', obj['domain']);
+  //           $('#login-form-error-2').removeClass('hide');
+  //           $('#login-form-error').addClass('hide');
+  //         }else{
+  //           $('#login-form-error').removeClass('hide');
+  //           $('#login-form-error').html(obj['message']);
+  //           $('#login-form-error-2').addClass('hide');
+  //         }
+  //         $('#is_authoried').addClass('hide');
+  //       }
+  //     }
+  //   }
+  //   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  //   xhr.send(JSON.stringify({"email": email, "password": password, "current_browser": current_browser, "full_browser_version": full_browser_version, "pp_version": pp_version, "site": pdc_domain}));
+  // }
 }
 
 function logout (e) {

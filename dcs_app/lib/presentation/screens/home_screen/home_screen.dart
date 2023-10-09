@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:autofill_service/autofill_service.dart';
 import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
 import 'package:dcs_app/domain/models/account.dart';
+import 'package:dcs_app/domain/repositories/auth_repository.dart';
+import 'package:dcs_app/global/locator.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
 import 'package:dcs_app/presentation/screens/common/custom_button.dart';
@@ -15,6 +19,7 @@ import 'package:dcs_app/global/router.dart';
 import 'package:dcs_app/utils/text_style_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_debouncer/flutter_debouncer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     context.read<HomeBloc>().add(OnSaveAccountEvent());
     Future.delayed(Duration.zero, () async {
       final autofillRequest = (await AutofillService().status);
-      if (autofillRequest == AutofillServiceStatus.disabled) {
+      if (autofillRequest == AutofillServiceStatus.disabled &&
+          Platform.isAndroid) {
         await DialogUtils.showOkCancelDialog(
             icon: "assets/images/dcs_logo.png",
             body:
@@ -57,7 +63,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               await AutofillService().requestSetAutofillService();
             });
       }
+
+      if (Platform.isIOS) {
+        await sendDataToIOS();
+      }
     });
+  }
+
+  Future<void> sendDataToIOS() async {
+    try {
+      const platform = MethodChannel('com.app.DCSPortfolioPlus');
+      final userData = locator<AuthRepository>().getUser!.toMap();
+      await platform.invokeMethod('sendUserDataToIOS', userData);
+    } on PlatformException catch (e) {
+      print("Error: ${e.message}");
+    }
   }
 
   @override

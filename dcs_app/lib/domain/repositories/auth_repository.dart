@@ -10,6 +10,7 @@ abstract class AuthRepository {
     required String username,
     required String token,
     required String email,
+    String? defaultSessionName,
   });
   Future<void> clearData();
   String get token;

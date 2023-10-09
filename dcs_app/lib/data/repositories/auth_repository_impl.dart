@@ -34,8 +34,9 @@ class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
       final user = DatabaseManager.readData(DatabaseConstant.user);
       final email = DatabaseManager.readData(DatabaseConstant.email);
       final token = DatabaseManager.readData(DatabaseConstant.token);
+      final defaultSessionName = DatabaseManager.readData(DatabaseConstant.defaultSessionName);
       if (user == null || email == null || token == null) return null;
-      return User(username: user, email: email, token: token);
+      return User(username: user, email: email, token: token, defaultSessionName: defaultSessionName);
     } catch (e) {
       return null;
     }
@@ -46,6 +47,7 @@ class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
     await DatabaseManager.deleteData(DatabaseConstant.user);
     await DatabaseManager.deleteData(DatabaseConstant.token);
     await DatabaseManager.deleteData(DatabaseConstant.email);
+    await DatabaseManager.deleteData(DatabaseConstant.defaultSessionName);
   }
 
   @override
@@ -59,9 +61,11 @@ class AuthRepositoryImpl extends BaseApiRepository implements AuthRepository {
     required String username,
     required String token,
     required String email,
+    String? defaultSessionName,
   }) async {
     await DatabaseManager.saveData(DatabaseConstant.user, username);
     await DatabaseManager.saveData(DatabaseConstant.token, token);
     await DatabaseManager.saveData(DatabaseConstant.email, email);
+    await DatabaseManager.saveData(DatabaseConstant.defaultSessionName, defaultSessionName);
   }
 }

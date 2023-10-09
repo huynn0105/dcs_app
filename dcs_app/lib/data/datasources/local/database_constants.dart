@@ -3,4 +3,5 @@ class DatabaseConstant {
   static const token = 'token';
   static const email = 'email';
   static const autofiillRequest = "autofiillRequest";
+  static const defaultSessionName = "defaultSessionName";
 }

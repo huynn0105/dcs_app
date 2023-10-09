@@ -24,6 +24,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               username: response.data!.firstName,
               token: response.data!.token,
               email: event.email.trim(),
+              defaultSessionName: response.data?.defaultSessionName,
             );
             emit(
               state.copyWith(success: true),
