@@ -192,23 +192,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             .replaceAll("org.", "")
             .replaceAll("mobile.", "");
       }
-
-      final response = await locator<AccountRepository>().getListAccounts(
-          token: locator<AuthRepository>().token, url: url, name: name);
-      emit(state.copyWith(loading: false, isSave: true));
-      if (response is DataSuccess) {
-        final data = response.data!;
-        emit(state.copyWith(
-          success: true,
-          accountsResponse: data,
-          isSave: true,
-          usernameOrEmail: autofillMetadata.saveInfo?.username,
-          domain: url ?? name,
-        ));
+      if (url?.isNotEmpty == true || name?.isNotEmpty == true) {
+        final response = await locator<AccountRepository>().getListAccounts(
+            token: locator<AuthRepository>().token, url: url, name: name);
+        emit(state.copyWith(loading: false, isSave: true));
+        if (response is DataSuccess) {
+          final data = response.data!;
+          emit(state.copyWith(
+            success: true,
+            accountsResponse: data,
+            isSave: true,
+            usernameOrEmail: autofillMetadata.saveInfo?.username,
+            domain: url ?? name,
+          ));
+        } else {
+          emit(state.copyWith(
+            success: false,
+            message: response.errorMessage,
+          ));
+        }
       } else {
         emit(state.copyWith(
-          success: false,
-          message: response.errorMessage,
+          success: true,
+          accountsResponse: [],
+          isSave: true,
+          usernameOrEmail: autofillMetadata.saveInfo?.username,
         ));
       }
     });

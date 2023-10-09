@@ -1,5 +1,7 @@
 import 'package:autofill_service/autofill_service.dart';
 import 'package:dcs_app/data/datasources/dtos/account_response/account_response.dart';
+import 'package:dcs_app/data/datasources/local/database_constants.dart';
+import 'package:dcs_app/data/datasources/local/database_manager.dart';
 import 'package:dcs_app/domain/models/account.dart';
 import 'package:dcs_app/presentation/blocs/home_bloc/home_bloc.dart';
 import 'package:dcs_app/presentation/screens/add_account_screen/add_account_screen.dart';
@@ -47,7 +49,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     context.read<HomeBloc>().add(OnSaveAccountEvent());
     Future.delayed(Duration.zero, () async {
       final autofillRequest = (await AutofillService().status);
-      if (autofillRequest == AutofillServiceStatus.disabled) {
+      final firstAutofiillRequest =
+          DatabaseManager.readData(DatabaseConstant.autofiillRequest);
+      if (autofillRequest == AutofillServiceStatus.disabled &&
+          firstAutofiillRequest != true) {
+        await DatabaseManager.saveData(DatabaseConstant.autofiillRequest, true);
         await DialogUtils.showOkCancelDialog(
             icon: "assets/images/dcs_logo.png",
             body:
