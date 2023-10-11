@@ -9,6 +9,7 @@ class EnvironmentConfig {
         _apiURL = 'https://dev.directivecommunications.com/api/v1';
         break;
       case Environment.prod:
+        _apiURL = 'https://app.directivecommunications.com/api/v1';
         break;
       case Environment.qa:
         _apiURL = 'https://qa.directivecommunications.com/api/v1';

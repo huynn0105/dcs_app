@@ -24,7 +24,7 @@ import 'global/locator.dart';
 import 'utils/enum.dart';
 
 void main() {
-  mainDelegate(Environment.dev);
+  mainDelegate(Environment.qa);
 }
 
 Future<void> mainDelegate(Environment env) async {

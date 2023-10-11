@@ -1,5 +1,5 @@
 // Environment: 'local': Local, 'dev': Dev, 'qa': QA, 'demo': Demo, 'production': Production
-var current_environment = "dev";
+var current_environment = "qa";
 var be_environments = {
   "vagrant": "http://192.168.30.30:3000",
   "local": "http://localhost:3000",

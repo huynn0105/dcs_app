@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Logo (3).png",
+      "filename" : "DCS-Logo-Transparent-Background-980x441.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Logo (3) 1.png",
+      "filename" : "DCS-Logo-Transparent-Background-980x441 3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Logo (2).png",
+      "filename" : "DCS-Logo-Transparent-Background-980x441 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Logo (2) 1.png",
+      "filename" : "DCS-Logo-Transparent-Background-980x441 4.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Logo 1.png",
+      "filename" : "DCS-Logo-Transparent-Background-980x441 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Logo 2.png",
+      "filename" : "DCS-Logo-Transparent-Background-980x441 5.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
