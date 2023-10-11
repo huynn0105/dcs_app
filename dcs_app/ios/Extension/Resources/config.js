@@ -1,5 +1,5 @@
 // Environment: 'local': Local, 'dev': Dev, 'qa': QA, 'demo': Demo, 'production': Production
-var current_environment = "qa";
+var current_environment = "dev";
 var be_environments = {
   "vagrant": "http://192.168.30.30:3000",
   "local": "http://localhost:3000",
@@ -13,6 +13,6 @@ var be_environments = {
   "dev_ca": "https://dev.directivecommunications.ca",
 };
 
-var current_browser = 'CHROME';
+var current_browser = 'SAFARI';
 var pp_version = 'DCS Portfolio Plus 1.2.45';
 var full_browser_version = navigator.userAgent;

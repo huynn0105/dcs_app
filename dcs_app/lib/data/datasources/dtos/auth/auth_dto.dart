@@ -1,6 +1,4 @@
-
 import 'package:json_annotation/json_annotation.dart';
-
 
 @JsonSerializable(explicitToJson: true)
 class AuthDto {
@@ -8,31 +6,21 @@ class AuthDto {
   @JsonKey(name: 'first_name')
   final String firstName;
   final String? defaultSessionName;
+  final List<String> browsers;
 
   const AuthDto({
     required this.token,
     required this.firstName,
     this.defaultSessionName,
+    this.browsers = const [],
   });
-
-
-  AuthDto copyWith({
-    String? token,
-    String? firstName,
-    String? defaultSessionName,
-  }) {
-    return AuthDto(
-      token: token ?? this.token,
-      firstName: firstName ?? this.firstName,
-      defaultSessionName: defaultSessionName ?? this.defaultSessionName,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'token': token,
-      'first_name': firstName,
-      'default_session_name': defaultSessionName,
+      'firstName': firstName,
+      'defaultSessionName': defaultSessionName,
+      'browsers': browsers,
     };
   }
 
@@ -40,8 +28,10 @@ class AuthDto {
     return AuthDto(
       token: map['token'] as String,
       firstName: map['first_name'] as String,
-      defaultSessionName: map['default_session_name'] != null ? map['default_session_name'] as String : null,
+      defaultSessionName: map['default_session_name'] != null
+          ? map['default_session_name'] as String
+          : null,
+      browsers: List<String>.from((map['browsers'] as List)),
     );
   }
- 
 }

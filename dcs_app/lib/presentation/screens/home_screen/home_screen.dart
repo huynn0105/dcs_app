@@ -65,18 +65,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
 
       if (Platform.isIOS) {
-        await sendDataToIOS();
+        sendDataToIOS();
       }
     });
   }
 
-  Future<void> sendDataToIOS() async {
+  void sendDataToIOS() {
     try {
       const platform = MethodChannel('com.app.DCSPortfolioPlus');
       final userData = locator<AuthRepository>().getUser!.toMap();
-      await platform.invokeMethod('sendUserDataToIOS', userData);
+      platform.invokeMethod('sendUserDataToIOS', userData);
     } on PlatformException catch (e) {
-      print("Error: ${e.message}");
+      debugPrint("Error: ${e.message}");
     }
   }
 

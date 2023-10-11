@@ -38,7 +38,7 @@ abstract class BaseApiRepository {
       if (errorMessage == 'Invalid access token') {
         final context = Get.context;
         if (context != null) {
-          context.read<AuthBloc>().add(UserTokenExpired(message: errorMessage));
+          context.read<AuthBloc>().add(UserTokenExpired());
           if (Get.currentRoute != MyRouter.home) {
             Get.until((route) => route.isFirst);
           }

@@ -1,28 +1,5 @@
 window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 
-browser.runtime.sendNativeMessage("application.id", {message: "Hello from background page"}, function(response) {
-    console.log("Received sendNativeMessage response:");
-    console.log(response);
-});
-
-
-browser.runtime.sendNativeMessage("application.id", {message: "xin chao toi la nguyen nhat huy"});
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("Received request: ", "nguyen nhat huy");
-    if (request.type == "content") {
-        browser.runtime.sendNativeMessage("application.id", {message: "Hello"}, function(response) {
-            const obj = JSON.parse(response);
-            console.log("nhan duoc hang: ", obj);
-            if (obj.type == "native") {
-                sendResponse(obj);
-            }
-        });
-    }
-    return true;
-});
-
-
-
 var sites_need_to_show = ["yahoo", "myspace", "linkedin", "alibaba", "jpmorgan", "pinterest", "apple", "sprint", "foursquare", "glenmedeconnect",
                           "united", "tdbank", "morganstanleyclientserv", "nba",  "spotify", "paypal", "prudential", "victoriassecret", "arena", "live",
                           "tumblr", "dropbox", "ebay", "instagram", "vudu", "airbnb", "vine", "nhl", "passwordbox", "bestbuy", "tripadvisor", "easyweb.td.com",

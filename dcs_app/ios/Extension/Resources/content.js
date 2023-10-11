@@ -5,13 +5,3 @@ browser.runtime.sendMessage({ greeting: "hello" }).then((response) => {
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Received request: ", request);
 });
-
-browser.runtime.sendMessage({
-    type: "content"
-},
-    function(response) {
-  
-        console.log("Hello World! native");
-        
-    
-});

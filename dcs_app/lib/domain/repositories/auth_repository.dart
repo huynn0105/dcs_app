@@ -11,8 +11,9 @@ abstract class AuthRepository {
     required String token,
     required String email,
     String? defaultSessionName,
+    required List<String> browsers,
   });
-  Future<void> clearData();
+  void clearData();
   String get token;
   String get email;
 }

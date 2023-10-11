@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dcs_app/domain/models/user/user.dart';
 import 'package:dcs_app/utils/internet_connection_utils.dart';
+import 'package:flutter/services.dart';
 
 import '../../../domain/repositories/auth_repository.dart';
 import '../../../global/locator.dart';
@@ -31,14 +32,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<UserLoggedOut>((event, emit) async {
-      await _authRepository.clearData();
+    on<UserLoggedOut>((event, emit) {
+      _authRepository.clearData();
+      logoutSafari();
       emit(AuthNotAuthenticated());
     });
 
-    on<UserTokenExpired>((event, emit) async {
-      await _authRepository.clearData();
-      emit(AuthFailure(message: event.message));
+    on<UserTokenExpired>((event, emit) {
+      _authRepository.clearData();
+      emit(const AuthFailure());
     });
+  }
+
+  void logoutSafari() {
+    try {
+      const platform = MethodChannel('com.app.DCSPortfolioPlus');
+      platform.invokeMethod('logout', {"authoried": "false"});
+    } on PlatformException catch (e) {
+      print("Error: ${e.message}");
+    }
   }
 }
