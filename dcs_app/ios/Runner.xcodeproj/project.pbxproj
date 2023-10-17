@@ -16,53 +16,52 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		A9B52EDE2AD6ABD4004A097A /* image 2 (1).png in Resources */ = {isa = PBXBuildFile; fileRef = A9B52EDD2AD6ABD4004A097A /* image 2 (1).png */; };
+		A930C8662ADE40BF00CA6D62 /* pmp_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C83B2ADE40BD00CA6D62 /* pmp_logo.png */; };
+		A930C8672ADE40BF00CA6D62 /* toolbar_sign_in_script.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C83C2ADE40BD00CA6D62 /* toolbar_sign_in_script.js */; };
+		A930C8682ADE40BF00CA6D62 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C83D2ADE40BD00CA6D62 /* checkbox.png */; };
+		A930C8692ADE40BF00CA6D62 /* toolbar_sign_in_form.html in Resources */ = {isa = PBXBuildFile; fileRef = A930C83E2ADE40BD00CA6D62 /* toolbar_sign_in_form.html */; };
+		A930C86A2ADE40BF00CA6D62 /* dcs_icon_16.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C83F2ADE40BD00CA6D62 /* dcs_icon_16.png */; };
+		A930C86B2ADE40BF00CA6D62 /* remove_extension.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8402ADE40BD00CA6D62 /* remove_extension.js */; };
+		A930C86C2ADE40BF00CA6D62 /* special_pages_submit.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8412ADE40BD00CA6D62 /* special_pages_submit.js */; };
+		A930C86D2ADE40BF00CA6D62 /* dcs_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8422ADE40BD00CA6D62 /* dcs_logo.png */; };
+		A930C86E2ADE40BF00CA6D62 /* dcs_logo_19.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8432ADE40BD00CA6D62 /* dcs_logo_19.png */; };
+		A930C86F2ADE40BF00CA6D62 /* form_submits.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8442ADE40BD00CA6D62 /* form_submits.js */; };
+		A930C8702ADE40BF00CA6D62 /* display_sign_in_form.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8452ADE40BD00CA6D62 /* display_sign_in_form.js */; };
+		A930C8712ADE40BF00CA6D62 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = A930C8462ADE40BD00CA6D62 /* manifest.json */; };
+		A930C8722ADE40BF00CA6D62 /* dcs_logo_header.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A930C8472ADE40BD00CA6D62 /* dcs_logo_header.jpg */; };
+		A930C8732ADE40BF00CA6D62 /* jquery.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8482ADE40BD00CA6D62 /* jquery.min.js */; };
+		A930C8742ADE40BF00CA6D62 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8492ADE40BD00CA6D62 /* background.js */; };
+		A930C8752ADE40BF00CA6D62 /* pmp_icon_48.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C84A2ADE40BE00CA6D62 /* pmp_icon_48.png */; };
+		A930C8762ADE40BF00CA6D62 /* pmp_logo_38.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C84B2ADE40BE00CA6D62 /* pmp_logo_38.png */; };
+		A930C8772ADE40BF00CA6D62 /* toolbar_script_success.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C84C2ADE40BE00CA6D62 /* toolbar_script_success.js */; };
+		A930C8782ADE40BF00CA6D62 /* toolbar_script.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C84D2ADE40BE00CA6D62 /* toolbar_script.js */; };
+		A930C8792ADE40BF00CA6D62 /* inject_iframe.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C84E2ADE40BE00CA6D62 /* inject_iframe.js */; };
+		A930C87A2ADE40BF00CA6D62 /* bg_loop.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A930C84F2ADE40BE00CA6D62 /* bg_loop.jpg */; };
+		A930C87B2ADE40BF00CA6D62 /* pmp_icon_16.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8502ADE40BE00CA6D62 /* pmp_icon_16.png */; };
+		A930C87C2ADE40BF00CA6D62 /* pmp_logo_header.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8512ADE40BE00CA6D62 /* pmp_logo_header.png */; };
+		A930C87D2ADE40BF00CA6D62 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = A930C8522ADE40BE00CA6D62 /* readme.txt */; };
+		A930C87E2ADE40BF00CA6D62 /* toolbar_script_fail.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8532ADE40BE00CA6D62 /* toolbar_script_fail.js */; };
+		A930C87F2ADE40BF00CA6D62 /* close_icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A930C8542ADE40BE00CA6D62 /* close_icon.jpg */; };
+		A930C8802ADE40BF00CA6D62 /* add_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8552ADE40BE00CA6D62 /* add_icon.png */; };
+		A930C8812ADE40BF00CA6D62 /* toolbar-fail.html in Resources */ = {isa = PBXBuildFile; fileRef = A930C8562ADE40BE00CA6D62 /* toolbar-fail.html */; };
+		A930C8822ADE40BF00CA6D62 /* toolbar-success.html in Resources */ = {isa = PBXBuildFile; fileRef = A930C8572ADE40BE00CA6D62 /* toolbar-success.html */; };
+		A930C8832ADE40BF00CA6D62 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A930C8582ADE40BE00CA6D62 /* style.css */; };
+		A930C8842ADE40BF00CA6D62 /* dcs_icon_128.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8592ADE40BE00CA6D62 /* dcs_icon_128.png */; };
+		A930C8852ADE40BF00CA6D62 /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = A930C85A2ADE40BE00CA6D62 /* popup.css */; };
+		A930C8862ADE40BF00CA6D62 /* pmp_icon_128.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C85B2ADE40BE00CA6D62 /* pmp_icon_128.png */; };
+		A930C8872ADE40BF00CA6D62 /* dcs_logo_38.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C85C2ADE40BF00CA6D62 /* dcs_logo_38.png */; };
+		A930C8882ADE40BF00CA6D62 /* automatically_sign_in.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C85D2ADE40BF00CA6D62 /* automatically_sign_in.js */; };
+		A930C8892ADE40BF00CA6D62 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C85E2ADE40BF00CA6D62 /* popup.js */; };
+		A930C88A2ADE40BF00CA6D62 /* toolbar.html in Resources */ = {isa = PBXBuildFile; fileRef = A930C85F2ADE40BF00CA6D62 /* toolbar.html */; };
+		A930C88B2ADE40BF00CA6D62 /* dcs_icon_48.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8602ADE40BF00CA6D62 /* dcs_icon_48.png */; };
+		A930C88C2ADE40BF00CA6D62 /* pmp_logo_19.png in Resources */ = {isa = PBXBuildFile; fileRef = A930C8612ADE40BF00CA6D62 /* pmp_logo_19.png */; };
+		A930C88D2ADE40BF00CA6D62 /* config.js in Resources */ = {isa = PBXBuildFile; fileRef = A930C8622ADE40BF00CA6D62 /* config.js */; };
+		A930C88E2ADE40BF00CA6D62 /* automatically_sign_in.html in Resources */ = {isa = PBXBuildFile; fileRef = A930C8632ADE40BF00CA6D62 /* automatically_sign_in.html */; };
+		A930C88F2ADE40BF00CA6D62 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = A930C8642ADE40BF00CA6D62 /* popup.html */; };
+		A930C8902ADE40BF00CA6D62 /* toolbar-style.css in Resources */ = {isa = PBXBuildFile; fileRef = A930C8652ADE40BF00CA6D62 /* toolbar-style.css */; };
 		A9D00A3E2AC4139000F4321E /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D00A3D2AC4139000F4321E /* SafariWebExtensionHandler.swift */; };
-		A9D00A432AC4139000F4321E /* images in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A422AC4139000F4321E /* images */; };
 		A9D00A492AC4139000F4321E /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A482AC4139000F4321E /* content.js */; };
 		A9D00A532AC4139000F4321E /* Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9D00A3B2AC4139000F4321E /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A9D00A832AC413E300F4321E /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A592AC413E100F4321E /* style.css */; };
-		A9D00A842AC413E300F4321E /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A5A2AC413E100F4321E /* popup.html */; };
-		A9D00A852AC413E300F4321E /* close_icon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A5B2AC413E100F4321E /* close_icon.jpg */; };
-		A9D00A862AC413E300F4321E /* pmp_logo_header.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A5C2AC413E100F4321E /* pmp_logo_header.png */; };
-		A9D00A872AC413E300F4321E /* toolbar_script.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A5D2AC413E200F4321E /* toolbar_script.js */; };
-		A9D00A882AC413E300F4321E /* dcs_logo_19.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A5E2AC413E200F4321E /* dcs_logo_19.png */; };
-		A9D00A892AC413E300F4321E /* toolbar_sign_in_script.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A5F2AC413E200F4321E /* toolbar_sign_in_script.js */; };
-		A9D00A8A2AC413E300F4321E /* pmp_icon_48.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A602AC413E200F4321E /* pmp_icon_48.png */; };
-		A9D00A8B2AC413E300F4321E /* pmp_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A612AC413E200F4321E /* pmp_logo.png */; };
-		A9D00A8C2AC413E300F4321E /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A622AC413E200F4321E /* readme.txt */; };
-		A9D00A8D2AC413E300F4321E /* special_pages_submit.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A632AC413E200F4321E /* special_pages_submit.js */; };
-		A9D00A8E2AC413E300F4321E /* toolbar.html in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A642AC413E200F4321E /* toolbar.html */; };
-		A9D00A8F2AC413E300F4321E /* dcs_logo_header.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A652AC413E200F4321E /* dcs_logo_header.jpg */; };
-		A9D00A902AC413E300F4321E /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A662AC413E200F4321E /* manifest.json */; };
-		A9D00A912AC413E300F4321E /* toolbar_sign_in_form.html in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A672AC413E200F4321E /* toolbar_sign_in_form.html */; };
-		A9D00A922AC413E300F4321E /* pmp_icon_16.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A682AC413E200F4321E /* pmp_icon_16.png */; };
-		A9D00A932AC413E300F4321E /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A692AC413E200F4321E /* background.js */; };
-		A9D00A942AC413E300F4321E /* dcs_icon_48.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A6A2AC413E200F4321E /* dcs_icon_48.png */; };
-		A9D00A952AC413E300F4321E /* form_submits.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A6B2AC413E200F4321E /* form_submits.js */; };
-		A9D00A962AC413E300F4321E /* dcs_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A6C2AC413E200F4321E /* dcs_logo.png */; };
-		A9D00A972AC413E300F4321E /* pmp_logo_38.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A6D2AC413E200F4321E /* pmp_logo_38.png */; };
-		A9D00A982AC413E300F4321E /* dcs_icon_128.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A6E2AC413E200F4321E /* dcs_icon_128.png */; };
-		A9D00A992AC413E300F4321E /* toolbar_script_success.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A6F2AC413E200F4321E /* toolbar_script_success.js */; };
-		A9D00A9A2AC413E300F4321E /* inject_iframe.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A702AC413E200F4321E /* inject_iframe.js */; };
-		A9D00A9B2AC413E300F4321E /* dcs_icon_16.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A712AC413E200F4321E /* dcs_icon_16.png */; };
-		A9D00A9C2AC413E300F4321E /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A722AC413E200F4321E /* checkbox.png */; };
-		A9D00A9D2AC413E300F4321E /* pmp_logo_19.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A732AC413E200F4321E /* pmp_logo_19.png */; };
-		A9D00A9E2AC413E300F4321E /* config.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A742AC413E300F4321E /* config.js */; };
-		A9D00A9F2AC413E300F4321E /* remove_extension.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A752AC413E300F4321E /* remove_extension.js */; };
-		A9D00AA02AC413E300F4321E /* toolbar-style.css in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A762AC413E300F4321E /* toolbar-style.css */; };
-		A9D00AA12AC413E300F4321E /* toolbar-success.html in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A772AC413E300F4321E /* toolbar-success.html */; };
-		A9D00AA22AC413E300F4321E /* add_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A782AC413E300F4321E /* add_icon.png */; };
-		A9D00AA32AC413E300F4321E /* dcs_logo_38.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A792AC413E300F4321E /* dcs_logo_38.png */; };
-		A9D00AA42AC413E300F4321E /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A7A2AC413E300F4321E /* popup.js */; };
-		A9D00AA52AC413E300F4321E /* automatically_sign_in.html in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A7B2AC413E300F4321E /* automatically_sign_in.html */; };
-		A9D00AA62AC413E300F4321E /* toolbar_script_fail.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A7C2AC413E300F4321E /* toolbar_script_fail.js */; };
-		A9D00AA72AC413E300F4321E /* automatically_sign_in.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A7D2AC413E300F4321E /* automatically_sign_in.js */; };
-		A9D00AA82AC413E300F4321E /* bg_loop.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A7E2AC413E300F4321E /* bg_loop.jpg */; };
-		A9D00AA92AC413E300F4321E /* jquery.min.js in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A7F2AC413E300F4321E /* jquery.min.js */; };
-		A9D00AAA2AC413E300F4321E /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A802AC413E300F4321E /* popup.css */; };
-		A9D00AAB2AC413E300F4321E /* toolbar-fail.html in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A812AC413E300F4321E /* toolbar-fail.html */; };
-		A9D00AAC2AC413E300F4321E /* pmp_icon_128.png in Resources */ = {isa = PBXBuildFile; fileRef = A9D00A822AC413E300F4321E /* pmp_icon_128.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,56 +128,55 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0ED0A6751EEB47F4F14D2E1 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-		A9B52EDD2AD6ABD4004A097A /* image 2 (1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "image 2 (1).png"; path = "../../../../../Downloads/image 2 (1).png"; sourceTree = "<group>"; };
+		A930C83B2ADE40BD00CA6D62 /* pmp_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo.png; sourceTree = "<group>"; };
+		A930C83C2ADE40BD00CA6D62 /* toolbar_sign_in_script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_sign_in_script.js; sourceTree = "<group>"; };
+		A930C83D2ADE40BD00CA6D62 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
+		A930C83E2ADE40BD00CA6D62 /* toolbar_sign_in_form.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = toolbar_sign_in_form.html; sourceTree = "<group>"; };
+		A930C83F2ADE40BD00CA6D62 /* dcs_icon_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_icon_16.png; sourceTree = "<group>"; };
+		A930C8402ADE40BD00CA6D62 /* remove_extension.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = remove_extension.js; sourceTree = "<group>"; };
+		A930C8412ADE40BD00CA6D62 /* special_pages_submit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = special_pages_submit.js; sourceTree = "<group>"; };
+		A930C8422ADE40BD00CA6D62 /* dcs_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_logo.png; sourceTree = "<group>"; };
+		A930C8432ADE40BD00CA6D62 /* dcs_logo_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_logo_19.png; sourceTree = "<group>"; };
+		A930C8442ADE40BD00CA6D62 /* form_submits.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = form_submits.js; sourceTree = "<group>"; };
+		A930C8452ADE40BD00CA6D62 /* display_sign_in_form.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = display_sign_in_form.js; sourceTree = "<group>"; };
+		A930C8462ADE40BD00CA6D62 /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		A930C8472ADE40BD00CA6D62 /* dcs_logo_header.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dcs_logo_header.jpg; sourceTree = "<group>"; };
+		A930C8482ADE40BD00CA6D62 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
+		A930C8492ADE40BD00CA6D62 /* background.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
+		A930C84A2ADE40BE00CA6D62 /* pmp_icon_48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_icon_48.png; sourceTree = "<group>"; };
+		A930C84B2ADE40BE00CA6D62 /* pmp_logo_38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo_38.png; sourceTree = "<group>"; };
+		A930C84C2ADE40BE00CA6D62 /* toolbar_script_success.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_script_success.js; sourceTree = "<group>"; };
+		A930C84D2ADE40BE00CA6D62 /* toolbar_script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_script.js; sourceTree = "<group>"; };
+		A930C84E2ADE40BE00CA6D62 /* inject_iframe.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = inject_iframe.js; sourceTree = "<group>"; };
+		A930C84F2ADE40BE00CA6D62 /* bg_loop.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_loop.jpg; sourceTree = "<group>"; };
+		A930C8502ADE40BE00CA6D62 /* pmp_icon_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_icon_16.png; sourceTree = "<group>"; };
+		A930C8512ADE40BE00CA6D62 /* pmp_logo_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo_header.png; sourceTree = "<group>"; };
+		A930C8522ADE40BE00CA6D62 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		A930C8532ADE40BE00CA6D62 /* toolbar_script_fail.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_script_fail.js; sourceTree = "<group>"; };
+		A930C8542ADE40BE00CA6D62 /* close_icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = close_icon.jpg; sourceTree = "<group>"; };
+		A930C8552ADE40BE00CA6D62 /* add_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_icon.png; sourceTree = "<group>"; };
+		A930C8562ADE40BE00CA6D62 /* toolbar-fail.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "toolbar-fail.html"; sourceTree = "<group>"; };
+		A930C8572ADE40BE00CA6D62 /* toolbar-success.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "toolbar-success.html"; sourceTree = "<group>"; };
+		A930C8582ADE40BE00CA6D62 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
+		A930C8592ADE40BE00CA6D62 /* dcs_icon_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_icon_128.png; sourceTree = "<group>"; };
+		A930C85A2ADE40BE00CA6D62 /* popup.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = popup.css; sourceTree = "<group>"; };
+		A930C85B2ADE40BE00CA6D62 /* pmp_icon_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_icon_128.png; sourceTree = "<group>"; };
+		A930C85C2ADE40BF00CA6D62 /* dcs_logo_38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_logo_38.png; sourceTree = "<group>"; };
+		A930C85D2ADE40BF00CA6D62 /* automatically_sign_in.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = automatically_sign_in.js; sourceTree = "<group>"; };
+		A930C85E2ADE40BF00CA6D62 /* popup.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
+		A930C85F2ADE40BF00CA6D62 /* toolbar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = toolbar.html; sourceTree = "<group>"; };
+		A930C8602ADE40BF00CA6D62 /* dcs_icon_48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_icon_48.png; sourceTree = "<group>"; };
+		A930C8612ADE40BF00CA6D62 /* pmp_logo_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo_19.png; sourceTree = "<group>"; };
+		A930C8622ADE40BF00CA6D62 /* config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config.js; sourceTree = "<group>"; };
+		A930C8632ADE40BF00CA6D62 /* automatically_sign_in.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = automatically_sign_in.html; sourceTree = "<group>"; };
+		A930C8642ADE40BF00CA6D62 /* popup.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
+		A930C8652ADE40BF00CA6D62 /* toolbar-style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "toolbar-style.css"; sourceTree = "<group>"; };
 		A9CC8BC72ACE9B1A006B7736 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		A9CC8BC82ACE9B6C006B7736 /* Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Extension.entitlements; sourceTree = "<group>"; };
 		A9D00A3B2AC4139000F4321E /* Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Extension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D00A3D2AC4139000F4321E /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
-		A9D00A422AC4139000F4321E /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		A9D00A482AC4139000F4321E /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content.js; sourceTree = "<group>"; };
 		A9D00A502AC4139000F4321E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A9D00A592AC413E100F4321E /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
-		A9D00A5A2AC413E100F4321E /* popup.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
-		A9D00A5B2AC413E100F4321E /* close_icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = close_icon.jpg; sourceTree = "<group>"; };
-		A9D00A5C2AC413E100F4321E /* pmp_logo_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo_header.png; sourceTree = "<group>"; };
-		A9D00A5D2AC413E200F4321E /* toolbar_script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_script.js; sourceTree = "<group>"; };
-		A9D00A5E2AC413E200F4321E /* dcs_logo_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_logo_19.png; sourceTree = "<group>"; };
-		A9D00A5F2AC413E200F4321E /* toolbar_sign_in_script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_sign_in_script.js; sourceTree = "<group>"; };
-		A9D00A602AC413E200F4321E /* pmp_icon_48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_icon_48.png; sourceTree = "<group>"; };
-		A9D00A612AC413E200F4321E /* pmp_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo.png; sourceTree = "<group>"; };
-		A9D00A622AC413E200F4321E /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		A9D00A632AC413E200F4321E /* special_pages_submit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = special_pages_submit.js; sourceTree = "<group>"; };
-		A9D00A642AC413E200F4321E /* toolbar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = toolbar.html; sourceTree = "<group>"; };
-		A9D00A652AC413E200F4321E /* dcs_logo_header.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dcs_logo_header.jpg; sourceTree = "<group>"; };
-		A9D00A662AC413E200F4321E /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
-		A9D00A672AC413E200F4321E /* toolbar_sign_in_form.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = toolbar_sign_in_form.html; sourceTree = "<group>"; };
-		A9D00A682AC413E200F4321E /* pmp_icon_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_icon_16.png; sourceTree = "<group>"; };
-		A9D00A692AC413E200F4321E /* background.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
-		A9D00A6A2AC413E200F4321E /* dcs_icon_48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_icon_48.png; sourceTree = "<group>"; };
-		A9D00A6B2AC413E200F4321E /* form_submits.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = form_submits.js; sourceTree = "<group>"; };
-		A9D00A6C2AC413E200F4321E /* dcs_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_logo.png; sourceTree = "<group>"; };
-		A9D00A6D2AC413E200F4321E /* pmp_logo_38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo_38.png; sourceTree = "<group>"; };
-		A9D00A6E2AC413E200F4321E /* dcs_icon_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_icon_128.png; sourceTree = "<group>"; };
-		A9D00A6F2AC413E200F4321E /* toolbar_script_success.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_script_success.js; sourceTree = "<group>"; };
-		A9D00A702AC413E200F4321E /* inject_iframe.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = inject_iframe.js; sourceTree = "<group>"; };
-		A9D00A712AC413E200F4321E /* dcs_icon_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_icon_16.png; sourceTree = "<group>"; };
-		A9D00A722AC413E200F4321E /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
-		A9D00A732AC413E200F4321E /* pmp_logo_19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_logo_19.png; sourceTree = "<group>"; };
-		A9D00A742AC413E300F4321E /* config.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config.js; sourceTree = "<group>"; };
-		A9D00A752AC413E300F4321E /* remove_extension.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = remove_extension.js; sourceTree = "<group>"; };
-		A9D00A762AC413E300F4321E /* toolbar-style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "toolbar-style.css"; sourceTree = "<group>"; };
-		A9D00A772AC413E300F4321E /* toolbar-success.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "toolbar-success.html"; sourceTree = "<group>"; };
-		A9D00A782AC413E300F4321E /* add_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_icon.png; sourceTree = "<group>"; };
-		A9D00A792AC413E300F4321E /* dcs_logo_38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dcs_logo_38.png; sourceTree = "<group>"; };
-		A9D00A7A2AC413E300F4321E /* popup.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
-		A9D00A7B2AC413E300F4321E /* automatically_sign_in.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = automatically_sign_in.html; sourceTree = "<group>"; };
-		A9D00A7C2AC413E300F4321E /* toolbar_script_fail.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = toolbar_script_fail.js; sourceTree = "<group>"; };
-		A9D00A7D2AC413E300F4321E /* automatically_sign_in.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = automatically_sign_in.js; sourceTree = "<group>"; };
-		A9D00A7E2AC413E300F4321E /* bg_loop.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_loop.jpg; sourceTree = "<group>"; };
-		A9D00A7F2AC413E300F4321E /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
-		A9D00A802AC413E300F4321E /* popup.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = popup.css; sourceTree = "<group>"; };
-		A9D00A812AC413E300F4321E /* toolbar-fail.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "toolbar-fail.html"; sourceTree = "<group>"; };
-		A9D00A822AC413E300F4321E /* pmp_icon_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pmp_icon_128.png; sourceTree = "<group>"; };
 		C89AAB746B946303DD519028 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -244,7 +242,6 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-				A9B52EDD2AD6ABD4004A097A /* image 2 (1).png */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				A9D00A3C2AC4139000F4321E /* Extension */,
@@ -295,50 +292,50 @@
 		A9D00A3F2AC4139000F4321E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A9D00A782AC413E300F4321E /* add_icon.png */,
-				A9D00A7B2AC413E300F4321E /* automatically_sign_in.html */,
-				A9D00A7D2AC413E300F4321E /* automatically_sign_in.js */,
-				A9D00A692AC413E200F4321E /* background.js */,
-				A9D00A7E2AC413E300F4321E /* bg_loop.jpg */,
-				A9D00A722AC413E200F4321E /* checkbox.png */,
-				A9D00A5B2AC413E100F4321E /* close_icon.jpg */,
-				A9D00A742AC413E300F4321E /* config.js */,
-				A9D00A712AC413E200F4321E /* dcs_icon_16.png */,
-				A9D00A6A2AC413E200F4321E /* dcs_icon_48.png */,
-				A9D00A6E2AC413E200F4321E /* dcs_icon_128.png */,
-				A9D00A5E2AC413E200F4321E /* dcs_logo_19.png */,
-				A9D00A792AC413E300F4321E /* dcs_logo_38.png */,
-				A9D00A652AC413E200F4321E /* dcs_logo_header.jpg */,
-				A9D00A6C2AC413E200F4321E /* dcs_logo.png */,
-				A9D00A6B2AC413E200F4321E /* form_submits.js */,
-				A9D00A702AC413E200F4321E /* inject_iframe.js */,
-				A9D00A7F2AC413E300F4321E /* jquery.min.js */,
-				A9D00A662AC413E200F4321E /* manifest.json */,
-				A9D00A682AC413E200F4321E /* pmp_icon_16.png */,
-				A9D00A602AC413E200F4321E /* pmp_icon_48.png */,
-				A9D00A822AC413E300F4321E /* pmp_icon_128.png */,
-				A9D00A732AC413E200F4321E /* pmp_logo_19.png */,
-				A9D00A6D2AC413E200F4321E /* pmp_logo_38.png */,
-				A9D00A5C2AC413E100F4321E /* pmp_logo_header.png */,
-				A9D00A612AC413E200F4321E /* pmp_logo.png */,
-				A9D00A802AC413E300F4321E /* popup.css */,
-				A9D00A5A2AC413E100F4321E /* popup.html */,
-				A9D00A7A2AC413E300F4321E /* popup.js */,
-				A9D00A622AC413E200F4321E /* readme.txt */,
-				A9D00A752AC413E300F4321E /* remove_extension.js */,
-				A9D00A632AC413E200F4321E /* special_pages_submit.js */,
-				A9D00A592AC413E100F4321E /* style.css */,
-				A9D00A7C2AC413E300F4321E /* toolbar_script_fail.js */,
-				A9D00A6F2AC413E200F4321E /* toolbar_script_success.js */,
-				A9D00A5D2AC413E200F4321E /* toolbar_script.js */,
-				A9D00A672AC413E200F4321E /* toolbar_sign_in_form.html */,
-				A9D00A5F2AC413E200F4321E /* toolbar_sign_in_script.js */,
-				A9D00A812AC413E300F4321E /* toolbar-fail.html */,
-				A9D00A762AC413E300F4321E /* toolbar-style.css */,
-				A9D00A772AC413E300F4321E /* toolbar-success.html */,
-				A9D00A642AC413E200F4321E /* toolbar.html */,
-				A9D00A422AC4139000F4321E /* images */,
 				A9D00A482AC4139000F4321E /* content.js */,
+				A930C8552ADE40BE00CA6D62 /* add_icon.png */,
+				A930C8632ADE40BF00CA6D62 /* automatically_sign_in.html */,
+				A930C85D2ADE40BF00CA6D62 /* automatically_sign_in.js */,
+				A930C8492ADE40BD00CA6D62 /* background.js */,
+				A930C84F2ADE40BE00CA6D62 /* bg_loop.jpg */,
+				A930C83D2ADE40BD00CA6D62 /* checkbox.png */,
+				A930C8542ADE40BE00CA6D62 /* close_icon.jpg */,
+				A930C8622ADE40BF00CA6D62 /* config.js */,
+				A930C83F2ADE40BD00CA6D62 /* dcs_icon_16.png */,
+				A930C8602ADE40BF00CA6D62 /* dcs_icon_48.png */,
+				A930C8592ADE40BE00CA6D62 /* dcs_icon_128.png */,
+				A930C8432ADE40BD00CA6D62 /* dcs_logo_19.png */,
+				A930C85C2ADE40BF00CA6D62 /* dcs_logo_38.png */,
+				A930C8472ADE40BD00CA6D62 /* dcs_logo_header.jpg */,
+				A930C8422ADE40BD00CA6D62 /* dcs_logo.png */,
+				A930C8452ADE40BD00CA6D62 /* display_sign_in_form.js */,
+				A930C8442ADE40BD00CA6D62 /* form_submits.js */,
+				A930C84E2ADE40BE00CA6D62 /* inject_iframe.js */,
+				A930C8482ADE40BD00CA6D62 /* jquery.min.js */,
+				A930C8462ADE40BD00CA6D62 /* manifest.json */,
+				A930C8502ADE40BE00CA6D62 /* pmp_icon_16.png */,
+				A930C84A2ADE40BE00CA6D62 /* pmp_icon_48.png */,
+				A930C85B2ADE40BE00CA6D62 /* pmp_icon_128.png */,
+				A930C8612ADE40BF00CA6D62 /* pmp_logo_19.png */,
+				A930C84B2ADE40BE00CA6D62 /* pmp_logo_38.png */,
+				A930C8512ADE40BE00CA6D62 /* pmp_logo_header.png */,
+				A930C83B2ADE40BD00CA6D62 /* pmp_logo.png */,
+				A930C85A2ADE40BE00CA6D62 /* popup.css */,
+				A930C8642ADE40BF00CA6D62 /* popup.html */,
+				A930C85E2ADE40BF00CA6D62 /* popup.js */,
+				A930C8522ADE40BE00CA6D62 /* readme.txt */,
+				A930C8402ADE40BD00CA6D62 /* remove_extension.js */,
+				A930C8412ADE40BD00CA6D62 /* special_pages_submit.js */,
+				A930C8582ADE40BE00CA6D62 /* style.css */,
+				A930C8532ADE40BE00CA6D62 /* toolbar_script_fail.js */,
+				A930C84C2ADE40BE00CA6D62 /* toolbar_script_success.js */,
+				A930C84D2ADE40BE00CA6D62 /* toolbar_script.js */,
+				A930C83E2ADE40BD00CA6D62 /* toolbar_sign_in_form.html */,
+				A930C83C2ADE40BD00CA6D62 /* toolbar_sign_in_script.js */,
+				A930C8562ADE40BE00CA6D62 /* toolbar-fail.html */,
+				A930C8652ADE40BF00CA6D62 /* toolbar-style.css */,
+				A930C8572ADE40BE00CA6D62 /* toolbar-success.html */,
+				A930C85F2ADE40BF00CA6D62 /* toolbar.html */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -470,7 +467,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9B52EDE2AD6ABD4004A097A /* image 2 (1).png in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
@@ -482,50 +478,50 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9D00AAA2AC413E300F4321E /* popup.css in Resources */,
-				A9D00AA42AC413E300F4321E /* popup.js in Resources */,
-				A9D00A432AC4139000F4321E /* images in Resources */,
-				A9D00A842AC413E300F4321E /* popup.html in Resources */,
-				A9D00A912AC413E300F4321E /* toolbar_sign_in_form.html in Resources */,
-				A9D00A862AC413E300F4321E /* pmp_logo_header.png in Resources */,
-				A9D00A932AC413E300F4321E /* background.js in Resources */,
-				A9D00A8D2AC413E300F4321E /* special_pages_submit.js in Resources */,
-				A9D00AA82AC413E300F4321E /* bg_loop.jpg in Resources */,
-				A9D00A8F2AC413E300F4321E /* dcs_logo_header.jpg in Resources */,
-				A9D00AAC2AC413E300F4321E /* pmp_icon_128.png in Resources */,
-				A9D00A8A2AC413E300F4321E /* pmp_icon_48.png in Resources */,
-				A9D00A9F2AC413E300F4321E /* remove_extension.js in Resources */,
-				A9D00A8C2AC413E300F4321E /* readme.txt in Resources */,
-				A9D00AA12AC413E300F4321E /* toolbar-success.html in Resources */,
-				A9D00A8B2AC413E300F4321E /* pmp_logo.png in Resources */,
-				A9D00A9B2AC413E300F4321E /* dcs_icon_16.png in Resources */,
-				A9D00A872AC413E300F4321E /* toolbar_script.js in Resources */,
-				A9D00AA92AC413E300F4321E /* jquery.min.js in Resources */,
-				A9D00AA32AC413E300F4321E /* dcs_logo_38.png in Resources */,
-				A9D00A992AC413E300F4321E /* toolbar_script_success.js in Resources */,
-				A9D00AA02AC413E300F4321E /* toolbar-style.css in Resources */,
-				A9D00A9C2AC413E300F4321E /* checkbox.png in Resources */,
-				A9D00A832AC413E300F4321E /* style.css in Resources */,
-				A9D00A952AC413E300F4321E /* form_submits.js in Resources */,
-				A9D00A9E2AC413E300F4321E /* config.js in Resources */,
-				A9D00A892AC413E300F4321E /* toolbar_sign_in_script.js in Resources */,
-				A9D00A8E2AC413E300F4321E /* toolbar.html in Resources */,
-				A9D00A962AC413E300F4321E /* dcs_logo.png in Resources */,
-				A9D00A922AC413E300F4321E /* pmp_icon_16.png in Resources */,
-				A9D00A972AC413E300F4321E /* pmp_logo_38.png in Resources */,
-				A9D00A942AC413E300F4321E /* dcs_icon_48.png in Resources */,
-				A9D00A982AC413E300F4321E /* dcs_icon_128.png in Resources */,
-				A9D00AA22AC413E300F4321E /* add_icon.png in Resources */,
-				A9D00A882AC413E300F4321E /* dcs_logo_19.png in Resources */,
-				A9D00A902AC413E300F4321E /* manifest.json in Resources */,
-				A9D00A852AC413E300F4321E /* close_icon.jpg in Resources */,
-				A9D00A9D2AC413E300F4321E /* pmp_logo_19.png in Resources */,
-				A9D00AA72AC413E300F4321E /* automatically_sign_in.js in Resources */,
-				A9D00A9A2AC413E300F4321E /* inject_iframe.js in Resources */,
-				A9D00AAB2AC413E300F4321E /* toolbar-fail.html in Resources */,
-				A9D00AA52AC413E300F4321E /* automatically_sign_in.html in Resources */,
-				A9D00AA62AC413E300F4321E /* toolbar_script_fail.js in Resources */,
+				A930C8892ADE40BF00CA6D62 /* popup.js in Resources */,
+				A930C86A2ADE40BF00CA6D62 /* dcs_icon_16.png in Resources */,
+				A930C86F2ADE40BF00CA6D62 /* form_submits.js in Resources */,
+				A930C88B2ADE40BF00CA6D62 /* dcs_icon_48.png in Resources */,
+				A930C8752ADE40BF00CA6D62 /* pmp_icon_48.png in Resources */,
+				A930C8692ADE40BF00CA6D62 /* toolbar_sign_in_form.html in Resources */,
+				A930C88D2ADE40BF00CA6D62 /* config.js in Resources */,
+				A930C8712ADE40BF00CA6D62 /* manifest.json in Resources */,
+				A930C8722ADE40BF00CA6D62 /* dcs_logo_header.jpg in Resources */,
+				A930C8812ADE40BF00CA6D62 /* toolbar-fail.html in Resources */,
+				A930C8792ADE40BF00CA6D62 /* inject_iframe.js in Resources */,
+				A930C8662ADE40BF00CA6D62 /* pmp_logo.png in Resources */,
+				A930C8782ADE40BF00CA6D62 /* toolbar_script.js in Resources */,
+				A930C8772ADE40BF00CA6D62 /* toolbar_script_success.js in Resources */,
+				A930C8852ADE40BF00CA6D62 /* popup.css in Resources */,
+				A930C87D2ADE40BF00CA6D62 /* readme.txt in Resources */,
+				A930C87E2ADE40BF00CA6D62 /* toolbar_script_fail.js in Resources */,
+				A930C88C2ADE40BF00CA6D62 /* pmp_logo_19.png in Resources */,
+				A930C86E2ADE40BF00CA6D62 /* dcs_logo_19.png in Resources */,
+				A930C8732ADE40BF00CA6D62 /* jquery.min.js in Resources */,
+				A930C8742ADE40BF00CA6D62 /* background.js in Resources */,
+				A930C87B2ADE40BF00CA6D62 /* pmp_icon_16.png in Resources */,
+				A930C86D2ADE40BF00CA6D62 /* dcs_logo.png in Resources */,
+				A930C88A2ADE40BF00CA6D62 /* toolbar.html in Resources */,
+				A930C8762ADE40BF00CA6D62 /* pmp_logo_38.png in Resources */,
+				A930C8902ADE40BF00CA6D62 /* toolbar-style.css in Resources */,
+				A930C8672ADE40BF00CA6D62 /* toolbar_sign_in_script.js in Resources */,
+				A930C8822ADE40BF00CA6D62 /* toolbar-success.html in Resources */,
+				A930C86B2ADE40BF00CA6D62 /* remove_extension.js in Resources */,
+				A930C88E2ADE40BF00CA6D62 /* automatically_sign_in.html in Resources */,
+				A930C8802ADE40BF00CA6D62 /* add_icon.png in Resources */,
+				A930C86C2ADE40BF00CA6D62 /* special_pages_submit.js in Resources */,
+				A930C8872ADE40BF00CA6D62 /* dcs_logo_38.png in Resources */,
+				A930C8882ADE40BF00CA6D62 /* automatically_sign_in.js in Resources */,
+				A930C87C2ADE40BF00CA6D62 /* pmp_logo_header.png in Resources */,
+				A930C8702ADE40BF00CA6D62 /* display_sign_in_form.js in Resources */,
+				A930C8832ADE40BF00CA6D62 /* style.css in Resources */,
+				A930C8682ADE40BF00CA6D62 /* checkbox.png in Resources */,
+				A930C87F2ADE40BF00CA6D62 /* close_icon.jpg in Resources */,
+				A930C8862ADE40BF00CA6D62 /* pmp_icon_128.png in Resources */,
+				A930C87A2ADE40BF00CA6D62 /* bg_loop.jpg in Resources */,
+				A930C88F2ADE40BF00CA6D62 /* popup.html in Resources */,
 				A9D00A492AC4139000F4321E /* content.js in Resources */,
+				A930C8842ADE40BF00CA6D62 /* dcs_icon_128.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,191 +1,184 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>PDC BE</title>
-    <link rel="stylesheet" type="text/css" href="popup.css">
-    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript" src="popup.js"></script>
-  </head>
-  <body id="login-popup">
-    <div class="popup-extention">
-      <div class="header-pop">
-        <div class="logo-content fl">
-          <img src="dcs_logo.png" alt="">
-        </div>
-        <div class="user-account fr hide" id="user-account-info">
-          <p>Hello, <span id="link-first-name">Eric</span></p>
-          <p>Browser: <span id="current-browser-name"></span></p>
-          <p><a href="#" id="logout">sign out</a> | <a href="#" id="link-my-account">my account</a></p>
-        </div>
-      </div>
-      <div class="form-login hide"  id="login-form">
-        <p class="login-title">Please sign in to your DCS account</p>
-        <div class="alert hide" id="login-form-error"></div>
-        <div class="alert hide" id="login-form-error-2">To use the DCS AutoCapture Chrome extension, you must first complete your DCS web application enrollment. Please <a href="#" id="link-signin">click here</a> to go to your DCS account.</div>
-        <div class="form-bg bg-grey">
-          <div class="form">
-            <label for="">Email Address</label>
-            <input type="email" name="wad-email" id="wad-email" tabindex="1">
-          </div>
-          <div class="form">
-            <label for="">Password</label>
-            <input type="password" name="wad-password" id="wad-password" tabindex="2">
-          </div>
-        </div>
-        <a href="#" id="link-forgot-password" tabindex="4">Forgot your password?</a>
-        <button class="btn fr" id="btn-submit-login" tabindex="3">Submit</button>
-      </div>
 
-      <div class="form-login hide" id="enter-browser-name-form">
-        <p class="login-title">
-          Welcome
-          <span id="bn-first-name"></span>
-        </p>
-        <div class="alert hide" id="enter-browser-name-form-error"></div>
-        <div class="form-text">
-          <p class="enter-bn-hint">What would like to name this browser?</p>
-        </div>
-        <div class="form-bg bg-grey">
-          <div class="form">
-            <label for="">Browser Name</label>
-            <input type="text" name="browser_name" id="browser_name" tabindex="1">
-          </div>
-        </div>
-        <div class="text-list hide">
-          <div class="text-list-ct">
-            <p>
-              If you've installed Portfolio Plus on another computer or device that you no longer use or want to use, please deauthorize them. This will keep your portfolio accurate, safe and secure.
-            </p>
-            <div class="list-ct">
-              <strong>Name</strong>
-              <ul>
-              </ul>
-              <button class="btn" id="btn-deauthorize-all" tabindex="2">Deauthorize All</button>
-            </div>
-          </div>
-        </div>
-        <button class="btn fr" id="btn-submit-browser-name" tabindex="3">Submit</button>
-      </div>
+<head>
+  <meta charset="utf-8">
+  <title>PDC BE</title>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+  <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="popup.js"></script>
+</head>
 
-      <div class="form-login hide" id="login-successful">
-        <div class="form-text">
-          <p class="portfolio-plus-heading">Portfolio Plus</p>
-          <p class="login-success-message">
-            <b>Thank you for signing in to your DCS account.</b>
-          </p>
-          <p class="login-success-message">
-            When you visit your accounts or enroll in new websites,
-            they can now automatically be added to your DCS portfolio.
-          </p>
-        </div>
+<body id="login-popup">
+  <div class="popup-extention">
+    <div class="header-pop">
+      <div class="logo-content fl">
+        <img src="dcs_logo.png" alt="">
       </div>
-
-      <div class="form-login hide" id="is_authoried">
-        <div class="form-text">
-          <p class="portfolio-plus-heading">Portfolio Plus</p>
-          <p class="login-success-message">
-            <b>You are currently signed in to your DCS account.</b>
-          </p>
-          <p class="login-success-message">
-            Simply visit your accounts or enroll in new websites and
-            they can automatically be added to your DCS portfolio.
-          </p>
-        </div>
-      </div>
-
-      <div class="quick-add active hide" id="quick-add-successfully">
-        <div class="form-quick-add success">
-          <img src="checkbox.png" alt="">
-          <p>Account added to your <strong>DCS Porfolio!</strong></p>
-        </div>
-      </div>
-
-      <div class="quick-add hide" id="div-quick-add">
-        <button class="btn" id="button-quick-add">Quick Add</button>
-        <span class="quick-add-ds">You can also add the account from the site you</br>currently visiting using Quick Add.</span>
-      </div>
-
-      <div class="quick-add active hide" id="quick-add-form">
-        <p class='quick-add-header'><strong>Unrecognized Account – Quick Add</strong></p>
-        <p class="quick-add-header quick-add-message">
-          Sometimes there are accounts with special login techniques that Portfolio Plus doesn't
-          recognize. To add an unrecognized account please complete the below details.
-        </p>
-        <div class="form-quick-add">
-          <div class="form-bg">
-            <div class="alert hide" id="div-add-account-error">
-              An unknown error occurred while saving the account. We apologize for the inconvenience. Please try adding the account again or re-try again in a few minutes.
-            </div>
-            <div class="form" id="div-account-name">
-              <label for="">Account Name</label>
-              <input type="text" name="account-name" id="account-name">
-              <p class="p-error hide" id="account-name-error">Account Name is required.</p>
-            </div>
-            <div class="form hide" id="div-account-url">
-              <label for="">URL</label>
-              <input type="text" name="account-url" id="account-url">
-              <p class="p-error hide" id="account-url-error">This value is required.</p>
-            </div>
-            <p>Please enter one or more of the following</p>
-            <div class="form hide" id="div-account-number">
-              <label for="">Account Number</label>
-              <input type="text" name="account-number" id="account-number">
-            </div>
-            <div class="form hide" id="div-account-username">
-              <label for="">Username</label>
-              <input type="Text" name="account-username" id="account-username">
-            </div>
-            <div class="form hide" id="div-account-email">
-              <label for="">Email</label>
-              <select id="select-account-email">
-                <option value="" disabled="disabled">Select email address</option>
-                <option value="add-another-email-address">Add another email address</option>
-              </select>
-            </div>
-            <div class="form hide" id="div-input-account-email">
-              <label for="">Enter new email:</label>
-              <input type="email" name="account-email" id="account-email" class="hide">
-              <p class="p-error hide" id="account-email-error">Email format is invalid.</p>
-            </div>
-          </div>
-          <button class="btn fr" id="btn-add-account"><i class="add-icon"></i>Add Account</button>
-          <button class="btn nonebg fr" id="btn-cancel-quick-add">Cancel</button>
-        </div>
-      </div>
-
-      <div class="quick-add add-more-account hide" id="div-quick-add-account">
-        <div class="form-quick-add" >
-          <div class="form-bg">
-          </div>
-          <button class="btn fr" id="btn-add-account-confirm"><i class="add-icon"></i>Add Account</button>
-          <button class="btn nonebg fr" id="btn-cancel-quick-add-confirm">Cancel</button>
-        </div>
-      </div>
-
-      <div class="form-login hide"  id="reset-password-form">
-        <p class="login-title">Reset my password</p>
-        <div class="alert hide" id="reset-password-form-error"></div>
-        <div class="form-bg">
-          <div class="form">
-            <label for="">Email Address</label>
-            <input type="email" name="wad-email-reset" id="wad-email-reset">
-          </div>
-        </div>
-        <button class="btn fr" id="btn-submit-reset-password">Submit</button>
-        <button class="btn nonebg fr" id="btn-cancel-reset-password">Cancel</button>
-      </div>
-
-      <div class="form-login hide" id="reset-password-success">
-        <div class="form-text">
-          <h4>
-            Reset my password
-          </h4>
-          <p id="reset-password-success-message"></p>
-          <a href="#" id="return-to-login">Return to sign in</a>
-        </div>
+      <div class="user-account fr hide" id="user-account-info">
+        <p>Hello, <span id="link-first-name">Eric</span></p>
+        <p>Browser: <span id="current-browser-name"></span></p>
+        <!-- <p><a href="#" id="logout">sign out</a> | <a href="#" id="link-my-account">my account</a></p> -->
       </div>
     </div>
-  </body>
+    <div class="form-login hide" id="login-form">
+      <p class="login-title">Please open App to sign in to your DCS account</p>
+      <button class="btnLogin fr" id="btn-submit-login" tabindex="3">Open App</button>
+    </div>
+
+    <div class="form-login hide" id="enter-browser-name-form">
+      <p class="login-title">
+        Welcome
+        <span id="bn-first-name"></span>
+      </p>
+      <div class="alert hide" id="enter-browser-name-form-error"></div>
+      <div class="form-text">
+        <p class="enter-bn-hint">What would like to name this browser?</p>
+      </div>
+      <div class="form-bg bg-grey">
+        <div class="form">
+          <label for="">Browser Name</label>
+          <input type="text" name="browser_name" id="browser_name" tabindex="1">
+        </div>
+      </div>
+      <div class="text-list hide">
+        <div class="text-list-ct">
+          <p>
+            If you've installed Portfolio Plus on another computer or device that you no longer use or want to use,
+            please deauthorize them. This will keep your portfolio accurate, safe and secure.
+          </p>
+          <div class="list-ct">
+            <strong>Name</strong>
+            <ul>
+            </ul>
+            <button class="btn" id="btn-deauthorize-all" tabindex="2">Deauthorize All</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn fr" id="btn-submit-browser-name" tabindex="3">Submit</button>
+    </div>
+
+    <div class="form-login hide" id="login-successful">
+      <div class="form-text">
+        <p class="portfolio-plus-heading">Portfolio Plus</p>
+        <p class="login-success-message">
+          <b>Thank you for signing in to your DCS account.</b>
+        </p>
+        <p class="login-success-message">
+          When you visit your accounts or enroll in new websites,
+          they can now automatically be added to your DCS portfolio.
+        </p>
+      </div>
+    </div>
+
+    <div class="form-login hide" id="is_authoried">
+      <div class="form-text">
+        <p class="portfolio-plus-heading">Portfolio Plus</p>
+        <p class="login-success-message">
+          <b>You are currently signed in to your DCS account.</b>
+        </p>
+        <p class="login-success-message">
+          Simply visit your accounts or enroll in new websites and
+          they can automatically be added to your DCS portfolio.
+        </p>
+      </div>
+    </div>
+
+    <div class="quick-add active hide" id="quick-add-successfully">
+      <div class="form-quick-add success">
+        <img src="checkbox.png" alt="">
+        <p>Account added to your <strong>DCS Porfolio!</strong></p>
+      </div>
+    </div>
+
+    <div class="quick-add hide" id="div-quick-add">
+      <button class="btn" id="button-quick-add">Quick Add</button>
+      <span class="quick-add-ds">You can also add the account from the site you</br>currently visiting using Quick
+        Add.</span>
+    </div>
+
+    <div class="quick-add active hide" id="quick-add-form">
+      <p class='quick-add-header'><strong>Unrecognized Account – Quick Add</strong></p>
+      <p class="quick-add-header quick-add-message">
+        Sometimes there are accounts with special login techniques that Portfolio Plus doesn't
+        recognize. To add an unrecognized account please complete the below details.
+      </p>
+      <div class="form-quick-add">
+        <div class="form-bg">
+          <div class="alert hide" id="div-add-account-error">
+            An unknown error occurred while saving the account. We apologize for the inconvenience. Please try adding
+            the account again or re-try again in a few minutes.
+          </div>
+          <div class="form" id="div-account-name">
+            <label for="">Account Name</label>
+            <input type="text" name="account-name" id="account-name">
+            <p class="p-error hide" id="account-name-error">Account Name is required.</p>
+          </div>
+          <div class="form hide" id="div-account-url">
+            <label for="">URL</label>
+            <input type="text" name="account-url" id="account-url">
+            <p class="p-error hide" id="account-url-error">This value is required.</p>
+          </div>
+          <p>Please enter one or more of the following</p>
+          <div class="form hide" id="div-account-number">
+            <label for="">Account Number</label>
+            <input type="text" name="account-number" id="account-number">
+          </div>
+          <div class="form hide" id="div-account-username">
+            <label for="">Username</label>
+            <input type="Text" name="account-username" id="account-username">
+          </div>
+          <div class="form hide" id="div-account-email">
+            <label for="">Email</label>
+            <select id="select-account-email">
+              <option value="" disabled="disabled">Select email address</option>
+              <option value="add-another-email-address">Add another email address</option>
+            </select>
+          </div>
+          <div class="form hide" id="div-input-account-email">
+            <label for="">Enter new email:</label>
+            <input type="email" name="account-email" id="account-email" class="hide">
+            <p class="p-error hide" id="account-email-error">Email format is invalid.</p>
+          </div>
+        </div>
+        <button class="btn fr" id="btn-add-account"><i class="add-icon"></i>Add Account</button>
+        <button class="btn nonebg fr" id="btn-cancel-quick-add">Cancel</button>
+      </div>
+    </div>
+
+    <div class="quick-add add-more-account hide" id="div-quick-add-account">
+      <div class="form-quick-add">
+        <div class="form-bg">
+        </div>
+        <button class="btn fr" id="btn-add-account-confirm"><i class="add-icon"></i>Add Account</button>
+        <button class="btn nonebg fr" id="btn-cancel-quick-add-confirm">Cancel</button>
+      </div>
+    </div>
+
+    <div class="form-login hide" id="reset-password-form">
+      <p class="login-title">Reset my password</p>
+      <div class="alert hide" id="reset-password-form-error"></div>
+      <div class="form-bg">
+        <div class="form">
+          <label for="">Email Address</label>
+          <input type="email" name="wad-email-reset" id="wad-email-reset">
+        </div>
+      </div>
+      <button class="btn fr" id="btn-submit-reset-password">Submit</button>
+      <button class="btn nonebg fr" id="btn-cancel-reset-password">Cancel</button>
+    </div>
+
+    <div class="form-login hide" id="reset-password-success">
+      <div class="form-text">
+        <h4>
+          Reset my password
+        </h4>
+        <p id="reset-password-success-message"></p>
+        <a href="#" id="return-to-login">Return to sign in</a>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
