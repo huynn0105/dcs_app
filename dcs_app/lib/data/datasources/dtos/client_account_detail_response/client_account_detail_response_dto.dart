@@ -27,13 +27,13 @@ class ClientAccount {
   final int id;
   final int clientId;
   final String? accountNumber;
-  final String nickname;
+  final String? nickname;
   final String? username;
   ClientAccount({
     required this.id,
     required this.clientId,
     this.accountNumber,
-    required this.nickname,
+    this.nickname,
     this.username,
   });
 
@@ -44,7 +44,7 @@ class ClientAccount {
       accountNumber: map['account_number'] != null
           ? map['account_number'] as String
           : null,
-      nickname: map['nickname'] as String,
+      nickname: map['nickname'] != null ? map['nickname'] as String : null,
       username: map['username'] != null ? map['username'] as String : null,
     );
   }

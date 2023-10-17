@@ -126,7 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             autofillHints: const [AutofillHints.email],
                             title: AppText.email,
                             controller: _emailController,
-                            textInputType: TextInputType.emailAddress,
                             onFieldSubmitted: (value) {
                               _focusEmail.nextFocus();
                             },
@@ -160,7 +159,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: CustomTextField(
                           focusNode: _focusPwd,
                           title: AppText.password,
-                          autofillHints: const [AutofillHints.password],
                           controller: _passwordController,
                           isPassword: true,
                           onFieldSubmitted: (_) {
