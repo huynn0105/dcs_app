@@ -69,10 +69,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final authBloc = context.read<AuthBloc>();
     Future.delayed(Duration.zero, () async {
       if (authBloc.state is AuthFailure) {
-        await DialogUtils.showOkDialog(
-          title: AppText.error,
-          body: (authBloc.state as AuthFailure).message,
-        );
+        if ((authBloc.state as AuthFailure).message?.isNotEmpty == true) {
+          await DialogUtils.showOkDialog(
+            title: AppText.error,
+            body: (authBloc.state as AuthFailure).message,
+          );
+        }
+
         if (mounted) {
           context.read<AuthBloc>().add(UserLoggedOut());
         }

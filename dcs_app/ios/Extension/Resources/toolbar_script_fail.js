@@ -1,35 +1,31 @@
 var is_submit = false;
 
-function doNotSaveNow(){
-  chrome.runtime.sendMessage({'directive': 'hide_iframe_fail'}, function(response){});
+const doNotSaveNow = () => {
+  chrome.runtime.sendMessage({'directive': 'hide_iframe_fail'});
 }
 
-function save(){
+const save = () => {
   if (is_submit == false){
-    chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'save', 'is_from_toolbar_fail': 'true'}, function(response){
-    });
+    chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'save', 'is_from_toolbar_fail': 'true'});
     is_submit = true;
   }
-  chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'save', 'is_from_toolbar_fail': 'true'}, function(response){
-  });
+  chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'save', 'is_from_toolbar_fail': 'true'});
 }
 
-function neverSave(){
+const neverSave = () => {
   if (is_submit == false){
-    chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'ignore', 'is_from_toolbar_fail': 'true'}, function(response){
-    });
+    chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'ignore', 'is_from_toolbar_fail': 'true'});
     is_submit = true;
   }
-  chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'ignore', 'is_from_toolbar_fail': 'true'}, function(response){
-  });
+  chrome.runtime.sendMessage({'directive': 'save_account', 'submit_type': 'ignore', 'is_from_toolbar_fail': 'true'});
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-not-now').addEventListener('click', doNotSaveNow);
   document.getElementById('btn-save').addEventListener('click', save);
   document.getElementById('btn-never').addEventListener('click', neverSave);
   document.getElementById('link-close-iframe').addEventListener('click', doNotSaveNow);
-  chrome.runtime.sendMessage({"directive": "get_institution"}, function(response){
+  chrome.runtime.sendMessage({"directive": "get_institution"}, (response) => {
     $('#institution_name').html(response.pdc_institution_name);
     $('#pdc_client_first_name').html(response.pdc_client_first_name);
     let account_size = response.existing_accounts.length;

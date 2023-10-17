@@ -1,57 +1,129 @@
 {
-  "name": "DCS Portfolio Plus (Mobile Extension)",
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "name": "DCS Portfolio Plus",
   "description": "Automatically add your accounts from any website directly into your DCS portfolio.",
-  "version": "1.2.45",
+  "version": "1.2.48",
   "permissions": [
-    "activeTab", "tabs", "http://*/*", "https://*/*", "background", "webNavigation", "unlimitedStorage", "nativeMessaging"
+    "activeTab",
+    "tabs",
+    "background",
+    "storage",
+    "unlimitedStorage",
+    "scripting",
+    "nativeMessaging"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "optional_host_permissions": [
+    "*://*/*"
   ],
   "background": {
-    "scripts": ["jquery.min.js", "config.js", "background.js"],
-    "persistent": false
+    "service_worker": "background.js",
+    "type": "module"
   },
-  "browser_action": {
-    "default_title": "DCS Portfolio Plus (Mobile Extension)",
+  "action": {
+    "default_title": "DCS Portfolio Plus",
     "default_popup": "popup.html",
     "default_icon": {
       "19": "dcs_logo_19.png",
       "38": "dcs_logo_38.png"
     }
   },
-  "icons": { "16": "dcs_icon_16.png",
-          "48": "dcs_icon_48.png",
-          "128": "dcs_icon_128.png" },
+  "icons": {
+    "16": "dcs_icon_16.png",
+    "48": "dcs_icon_48.png",
+    "128": "dcs_icon_128.png"
+  },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "exclude_matches": ["*://*.directivecommunications.com/", "*://*.directivecommunications.ca/", "*://*.protectmyplans.com/", "*://*.protectmyplans.ca/", "*://vine.co/*", "*://*.tripadvisor.com/", "*://*.hulu.com/"],
-      "js": ["jquery.min.js", "form_submits.js"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "exclude_matches": [
+        "*://*.directivecommunications.com/",
+        "*://*.protectmyplans.com/",
+        "*://*.directivecommunications.ca/",
+        "*://*.protectmyplans.ca/",
+        "*://vine.co/*",
+        "*://*.tripadvisor.com/",
+        "*://*.hulu.com/"
+      ],
+      "js": [
+        "jquery.min.js",
+        "form_submits.js"
+      ],
       "all_frames": true,
       "run_at": "document_end"
     },
     {
-      "matches": ["*://*.dropbox.com/", "*://vine.co/*", "*://*.tripadvisor.com/", "*://*.hulu.com/"],
-      "js": ["jquery.min.js", "special_pages_submit.js"],
+      "matches": [
+        "*://*.dropbox.com/",
+        "*://vine.co/*",
+        "*://*.tripadvisor.com/",
+        "*://*.hulu.com/"
+      ],
+      "js": [
+        "jquery.min.js",
+        "special_pages_submit.js"
+      ],
       "all_frames": true
     },
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["jquery.min.js", "inject_iframe.js"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "jquery.min.js",
+        "inject_iframe.js"
+      ],
       "all_frames": true,
       "run_at": "document_end"
     },
     {
-      "matches": ["*://*.directivecommunications.com/", "*://*.directivecommunications.ca/", "*://*.protectmyplans.com/", "*://*.protectmyplans.ca/"],
-      "js": ["jquery.min.js", "form_submits.js"],
+      "matches": [
+        "*://*.directivecommunications.com/",
+        "*://*.directivecommunications.ca/",
+        "*://*.protectmyplans.com/"
+      ],
+      "js": [
+        "jquery.min.js",
+        "form_submits.js"
+      ],
       "all_frames": true,
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources": ["toolbar.html", "toolbar-success.html", "toolbar-fail.html", "toolbar-style.css", "http://fonts.googleapis.com/css?family=Raleway", "automatically_sign_in.html", "toolbar_sign_in_form.html"],
-  "content_security_policy": "script-src 'self'; object-src 'self'",
-  "externally_connectable" : {
-    "matches" : [
-      "*://*.directivecommunications.com/*", "*://*.protectmyplans.com/"
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "toolbar.html",
+        "toolbar-success.html",
+        "toolbar-fail.html",
+        "toolbar-style.css",
+        "http://fonts.googleapis.com/css?family=Raleway",
+        "automatically_sign_in.html",
+        "toolbar_sign_in_form.html"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "script-src": "self",
+    "object-src": "self"
+  },
+  "externally_connectable": {
+    "matches": [
+      "*://*.directivecommunications.com/*",
+      "*://*.directivecommunications.ca/*",
+      "*://*.protectmyplans.com/"
     ]
   },
-  "manifest_version": 2
+  "manifest_version": 3
 }

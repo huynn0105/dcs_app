@@ -14,6 +14,5 @@ class GetUserByTokenEvent extends AuthEvent {
 class UserLoggedOut extends AuthEvent {}
 
 class UserTokenExpired extends AuthEvent {
-  final String message;
-  const UserTokenExpired({required this.message});
+  const UserTokenExpired();
 }

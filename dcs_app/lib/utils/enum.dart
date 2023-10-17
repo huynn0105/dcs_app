@@ -6,4 +6,6 @@ enum DialogType {
 enum Environment {
   dev,
   prod,
+  qa,
+  demo,
 }

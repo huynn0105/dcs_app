@@ -6,9 +6,11 @@ part 'login_dto.g.dart';
 class LoginDto {
   final String email;
   final String password;
+  final String currentBrowser;
   LoginDto({
     required this.email,
     required this.password,
+    required this.currentBrowser,
   });
 
   factory LoginDto.fromMap(Map<String, dynamic> json) =>
